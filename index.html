@@ -3,42 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administración - Servidor Exámenes</title>
+    <title>Panel de Administración // Terminal</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #050505;
+            color: #d1d5db;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        }
+    </style>
 </head>
-<body class="bg-gray-100 min-h-screen p-6">
+<body class="min-h-screen p-6 selection:bg-zinc-800 selection:text-white">
     <div class="max-w-4xl mx-auto">
         <!-- Encabezado -->
-        <header class="bg-white shadow rounded-lg p-6 mb-6 flex justify-between items-center">
+        <header class="bg-zinc-900 border border-zinc-800 shadow-2xl rounded-xl p-6 mb-6 flex justify-between items-center">
             <div>
-                <h1 class="text-2xl font-bold text-gray-800">Panel de Control</h1>
-                <p class="text-sm text-gray-500">Gestión de usuarios y estado del servidor</p>
+                <h1 class="text-xl font-bold tracking-wider text-zinc-100 flex items-center gap-2">
+                    <span class="inline-block w-2.5 h-2.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                    PANEL_DE_CONTROL
+                </h1>
+                <p class="text-xs text-zinc-500 mt-1">Gestión de usuarios y estado del servidor</p>
             </div>
-            <button onclick="verificarEstado()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg shadow hover:bg-indigo-700 transition">
+            <button onclick="verificarEstado()" class="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 border border-zinc-700 text-xs px-4 py-2 rounded-lg shadow transition tracking-wide uppercase">
                 Actualizar Estado
             </button>
         </header>
 
         <!-- Estado del Servidor -->
-        <div id="caja-estado" class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 rounded-r-lg text-yellow-700">
+        <div id="caja-estado" class="bg-zinc-900 border border-zinc-800 p-4 mb-6 rounded-xl text-zinc-400 text-sm flex items-center gap-3">
+            <span class="w-2 h-2 rounded-full bg-yellow-500 animate-ping"></span>
             Comprobando conexión con el servidor...
         </div>
 
         <!-- Sección de Gestión de Usuarios -->
-        <div class="bg-white p-6 rounded-lg shadow mb-6">
-            <h2 class="text-lg font-semibold text-gray-700 mb-4">Usuarios Registrados</h2>
+        <div class="bg-zinc-900 border border-zinc-800 p-6 rounded-xl shadow-2xl mb-6">
+            <h2 class="text-sm uppercase tracking-widest text-zinc-400 font-semibold mb-4 border-b border-zinc-800 pb-2">
+                Usuarios Registrados
+            </h2>
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="bg-gray-50 border-b">
-                            <th class="p-3 text-sm font-semibold text-gray-600">Usuario / ID</th>
-                            <th class="p-3 text-sm font-semibold text-gray-600">Estado de Acceso</th>
-                            <th class="p-3 text-sm font-semibold text-gray-600 text-right">Acción</th>
+                        <tr class="border-b border-zinc-800 text-zinc-500 text-xs uppercase tracking-wider">
+                            <th class="py-3 px-2">Usuario / ID</th>
+                            <th class="py-3 px-2">Estado de Acceso</th>
+                            <th class="py-3 px-2 text-right">Acción</th>
                         </tr>
                     </thead>
-                    <tbody id="tabla-usuarios">
-                        <tr class="border-b">
-                            <td class="p-3 text-gray-500" colspan="3">Cargando lista de usuarios...</td>
+                    <tbody id="tabla-usuarios" class="divide-y divide-zinc-800/50 text-sm">
+                        <tr>
+                            <td class="py-4 px-2 text-zinc-600" colspan="3">Cargando registros...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -53,7 +66,7 @@
         window.onload = function() {
             verificarEstado();
             cargarUsuarios();
-            notificarServidorPanel(); // <--- Envía la señal al servidor al abrir la página
+            notificarServidorPanel(); // Envía la señal al servidor al abrir la página
         };
 
         // Función para notificar al servidor que el panel se abrió
@@ -71,25 +84,25 @@
 
         async function verificarEstado() {
             const caja = document.getElementById('caja-estado');
-            caja.className = "bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 rounded-r-lg text-yellow-700";
-            caja.innerHTML = "Comprobando servidor (si está inactivo, puede tardar unos segundos)...";
+            caja.className = "bg-zinc-900 border border-zinc-800 p-4 mb-6 rounded-xl text-zinc-400 text-sm flex items-center gap-3";
+            caja.innerHTML = `<span class="w-2 h-2 rounded-full bg-yellow-500 animate-ping"></span> Comprobando servidor (si está inactivo, puede tardar unos segundos)...`;
 
             try {
-                // Modificado para usar la nueva ruta de estado específica para el panel
+                // Consulta la ruta de estado específica del panel para imprimir el log correcto
                 const res = await fetch(`${URL_SERVIDOR}/api/admin/status`, {
                     method: 'GET',
                     headers: { 'Content-Type': 'application/json' }
                 });
 
                 if (res.ok) {
-                    caja.className = "bg-green-50 border-l-4 border-green-400 p-4 mb-6 rounded-r-lg text-green-700";
-                    caja.innerHTML = "<strong>Servidor en línea:</strong> Operando y conectado correctamente.";
+                    caja.className = "bg-zinc-900 border border-emerald-900/50 p-4 mb-6 rounded-xl text-emerald-400 text-sm flex items-center gap-3 shadow-[0_0_15px_rgba(16,185,129,0.05)]";
+                    caja.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"></span> <strong>Servidor en línea:</strong> Operando y conectado correctamente.`;
                 } else {
                     throw new Error();
                 }
             } catch (e) {
-                caja.className = "bg-red-50 border-l-4 border-red-400 p-4 mb-6 rounded-r-lg text-red-700";
-                caja.innerHTML = "<strong>Servidor durmiendo o desconectado:</strong> Espera unos segundos a que despierte la instancia gratuita de Render.";
+                caja.className = "bg-zinc-900 border border-rose-900/50 p-4 mb-6 rounded-xl text-rose-400 text-sm flex items-center gap-3 shadow-[0_0_15px_rgba(244,63,94,0.05)]";
+                caja.innerHTML = `<span class="w-2 h-2 rounded-full bg-rose-500"></span> <strong>Servidor durmiendo o desconectado:</strong> Espera unos segundos a que despierte la instancia gratuita de Render.`;
             }
         }
 
@@ -103,15 +116,16 @@
             tabla.innerHTML = "";
             usuarios.forEach(u => {
                 tabla.innerHTML += `
-                    <tr class="border-b">
-                        <td class="p-3 font-medium text-gray-800">${u.id}</td>
-                        <td class="p-3">
-                            <span class="px-2 py-1 rounded text-xs ${u.activo ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
-                                ${u.activo ? 'Activo' : 'Desactivado'}
+                    <tr class="hover:bg-zinc-800/40 transition">
+                        <td class="py-4 px-2 font-mono text-zinc-200">${u.id}</td>
+                        <td class="py-4 px-2">
+                            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-mono ${u.activo ? 'bg-emerald-950/60 text-emerald-400 border border-emerald-800/50' : 'bg-rose-950/60 text-rose-400 border border-rose-800/50'}">
+                                <span class="w-1.5 h-1.5 rounded-full ${u.activo ? 'bg-emerald-400' : 'bg-rose-400'}"></span>
+                                ${u.activo ? 'ACTIVO' : 'INACTIVO'}
                             </span>
                         </td>
-                        <td class="p-3 text-right">
-                            <button onclick="alert('Para modificar este usuario de forma permanente, actualiza el objeto USERS_DB en tu servidor de GitHub.')" class="px-3 py-1 rounded text-white text-sm bg-gray-600 hover:bg-gray-700">
+                        <td class="py-4 px-2 text-right">
+                            <button onclick="alert('Para modificar este usuario de forma permanente, actualiza el objeto USERS_DB en tu servidor de GitHub.')" class="px-3 py-1.5 rounded-lg text-xs font-mono text-zinc-300 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 transition">
                                 Gestionar
                             </button>
                         </td>
