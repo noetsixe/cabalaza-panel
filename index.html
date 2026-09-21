@@ -71,10 +71,55 @@
             transform: translateX(22px);
             background-color: #ef4444;
         }
+
+        /* FILTROS Y EFECTOS NUEVOS */
+        .filtro-gris {
+            filter: grayscale(100%) brightness(70%);
+            transition: filter 0.4s ease;
+        }
+        .motor-afectado {
+            transition: filter 0.4s ease;
+        }
+
+        #pixel-flash-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0;
+        }
+
+        @keyframes flashAmarillo {
+            0% { opacity: 0; }
+            10% { opacity: 1; background: repeating-conic-gradient(rgba(234, 179, 8, 0.6) 0% 25%, transparent 0% 50%) 50% / 40px 40px; }
+            20% { opacity: 1; background: repeating-conic-gradient(rgba(234, 179, 8, 0.85) 0% 25%, rgba(0,0,0,0.5) 0% 50%) 50% / 20px 20px; }
+            80% { opacity: 1; background: repeating-conic-gradient(rgba(234, 179, 8, 0.85) 0% 25%, rgba(0,0,0,0.5) 0% 50%) 50% / 20px 20px; }
+            90% { opacity: 1; background: repeating-conic-gradient(rgba(234, 179, 8, 0.6) 0% 25%, transparent 0% 50%) 50% / 40px 40px; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes flashRojo {
+            0% { opacity: 0; }
+            10% { opacity: 1; background: repeating-conic-gradient(rgba(220, 38, 38, 0.6) 0% 25%, transparent 0% 50%) 50% / 40px 40px; }
+            20% { opacity: 1; background: repeating-conic-gradient(rgba(220, 38, 38, 0.85) 0% 25%, rgba(0,0,0,0.5) 0% 50%) 50% / 20px 20px; }
+            80% { opacity: 1; background: repeating-conic-gradient(rgba(220, 38, 38, 0.85) 0% 25%, rgba(0,0,0,0.5) 0% 50%) 50% / 20px 20px; }
+            90% { opacity: 1; background: repeating-conic-gradient(rgba(220, 38, 38, 0.6) 0% 25%, transparent 0% 50%) 50% / 40px 40px; }
+            100% { opacity: 0; }
+        }
+
+        .flash-anim-on {
+            animation: flashAmarillo 1s steps(6, end) forwards;
+        }
+        .flash-anim-off {
+            animation: flashRojo 1s steps(6, end) forwards;
+        }
     </style>
 </head>
 <body class="min-h-screen p-4 md:p-8 selection:bg-red-950 selection:text-red-300" onclick="cerrarTodosLosMenus(event)">
     
+    <!-- OVERLAY PARA EFECTO PIXELEADO -->
+    <div id="pixel-flash-overlay"></div>
+
     <!-- CONTENEDOR FLOTANTE PARA PEDIR CONTRASEÑA -->
     <div id="modal-password" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-black border-2 border-red-600 p-6 max-w-sm w-full shadow-[6px_6px_0px_0px_#dc2626] space-y-4">
@@ -101,7 +146,7 @@
     <div class="max-w-4xl mx-auto space-y-6">
         
         <!-- INTERRUPTOR GENERAL EN LA ESQUINA SUPERIOR IZQUIERDA -->
-        <div class="flex items-center justify-between bg-black border border-neutral-800 px-4 py-2.5 shadow-[2px_2px_0px_0px_#171717]">
+        <div class="flex items-center justify-between bg-black border border-neutral-800 px-4 py-2.5 shadow-[2px_2px_0px_0px_#171717] motor-afectado">
             <div class="flex items-center gap-3">
                 <label class="switch">
                     <input type="checkbox" id="main-server-switch" onclick="intentarCambiarEstado(event)">
@@ -117,11 +162,11 @@
             </div>
         </div>
 
-        <div class="flex justify-center mb-2">
+        <div class="flex justify-center mb-2 motor-afectado">
             <img src="cabalaza-logo.png" alt="Logo Cabalaza" class="w-40 h-40 md:w-48 md:h-48 object-contain filter drop-shadow-[0_0_15px_rgba(234,179,8,0.7)]">
         </div>
 
-        <header class="bg-black border-2 border-red-600 p-6 shadow-[4px_4px_0px_0px_#dc2626] flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <header class="bg-black border-2 border-red-600 p-6 shadow-[4px_4px_0px_0px_#dc2626] flex flex-col md:flex-row justify-between items-start md:items-center gap-4 motor-afectado">
             <div>
                 <h1 class="text-xl md:text-2xl font-bold tracking-widest text-red-600 uppercase flex items-center gap-2">
                     <span class="inline-block w-3 h-3 bg-red-600 animate-pulse"></span>
@@ -134,13 +179,13 @@
             </button>
         </header>
 
-        <div id="caja-estado" class="bg-black border-2 border-neutral-700 p-4 text-neutral-300 text-xs flex items-center gap-3">
+        <div id="caja-estado" class="bg-black border-2 border-neutral-700 p-4 text-neutral-300 text-xs flex items-center gap-3 motor-afectado">
             <span class="w-2.5 h-2.5 bg-yellow-500 animate-ping"></span>
             Comprobando conexión con el servidor...
         </div>
 
         <!-- SECCIÓN DE PREGUNTAS EN TIEMPO REAL -->
-        <div class="bg-black border-2 border-red-600 p-6 shadow-[4px_4px_0px_0px_#dc2626]">
+        <div class="bg-black border-2 border-red-600 p-6 shadow-[4px_4px_0px_0px_#dc2626] motor-afectado">
             <div class="flex justify-between items-center mb-4 border-b border-red-900 pb-2">
                 <h2 class="text-[10px] font-bold uppercase tracking-widest text-red-500">
                     &gt;&gt; MONITOR DE PREGUNTAS Y RESPUESTAS [LIVE_FEED]
@@ -152,7 +197,7 @@
             </div>
         </div>
 
-        <!-- SECCIÓN DE GESTIÓN DE USUARIOS -->
+        <!-- SECCIÓN DE GESTIÓN DE USUARIOS (NO AFECTADA POR EL FILTRO GRIS) -->
         <div class="bg-black border-2 border-neutral-700 p-6 shadow-[4px_4px_0px_0px_#262626] space-y-6">
             <h2 class="text-[10px] font-bold uppercase tracking-widest text-red-500 border-b border-neutral-800 pb-2">
                 &gt;&gt; ADMINISTRACIÓN DE USUARIOS [DATABASE]
@@ -208,6 +253,29 @@
             setInterval(verificarEstadoServidorSwitch, 10000); 
         };
 
+        function actualizarEfectosVisuales(activo, reproducirAnimacion = false) {
+            const elementosAfectados = document.querySelectorAll('.motor-afectado');
+            const overlay = document.getElementById('pixel-flash-overlay');
+
+            if (reproducirAnimacion) {
+                overlay.classList.remove('flash-anim-on', 'flash-anim-off');
+                void overlay.offsetWidth; // Forzar reinicio de animación
+                if (activo) {
+                    overlay.classList.add('flash-anim-on');
+                } else {
+                    overlay.classList.add('flash-anim-off');
+                }
+            }
+
+            elementosAfectados.forEach(el => {
+                if (activo) {
+                    el.classList.remove('filtro-gris');
+                } else {
+                    el.classList.add('filtro-gris');
+                }
+            });
+        }
+
         function actualizarTodo() {
             verificarEstado();
             verificarEstadoServidorSwitch();
@@ -236,6 +304,10 @@
                     const labelTexto = document.getElementById('label-estado-texto');
                     
                     checkbox.checked = data.active;
+                    
+                    // Aplicar efectos visuales sin disparar la animación durante el polling/carga inicial
+                    actualizarEfectosVisuales(data.active, false);
+
                     if (data.active) {
                         labelTexto.innerText = "ENCENDIDO 🟢";
                         labelTexto.className = "text-[10px] font-bold text-green-400 uppercase tracking-widest animate-pulse";
@@ -286,6 +358,10 @@
                     const labelTexto = document.getElementById('label-estado-texto');
                     
                     checkbox.checked = data.active;
+
+                    // Reproducir animación y cambiar filtros visuales
+                    actualizarEfectosVisuales(data.active, true);
+
                     if (data.active) {
                         labelTexto.innerText = "ENCENDIDO 🟢";
                         labelTexto.className = "text-[10px] font-bold text-green-400 uppercase tracking-widest animate-pulse";
@@ -305,7 +381,10 @@
 
         async function verificarEstado() {
             const caja = document.getElementById('caja-estado');
-            caja.className = "bg-black border-2 border-neutral-700 p-4 text-neutral-300 text-xs flex items-center gap-3";
+            // Preservar la clases de efectos (motor-afectado / filtro-gris) y actualizar el resto
+            let clasesBase = "motor-afectado " + (caja.classList.contains('filtro-gris') ? 'filtro-gris ' : '');
+            
+            caja.className = clasesBase + "bg-black border-2 border-neutral-700 p-4 text-neutral-300 text-xs flex items-center gap-3";
             caja.innerHTML = `<span class="w-2.5 h-2.5 bg-yellow-500 animate-ping"></span> Comprobando servidor...`;
 
             try {
@@ -315,13 +394,13 @@
                 });
 
                 if (res.ok) {
-                    caja.className = "bg-black border-2 border-red-600 p-4 text-red-500 text-xs flex items-center gap-3";
+                    caja.className = clasesBase + "bg-black border-2 border-red-600 p-4 text-red-500 text-xs flex items-center gap-3";
                     caja.innerHTML = `<span class="w-2.5 h-2.5 bg-red-600"></span> <strong class="text-cyan-400">SISTEMA ONLINE:</strong> <span class="text-green-400">Servidor operando correctamente.</span>`;
                 } else {
                     throw new Error();
                 }
             } catch (e) {
-                caja.className = "bg-black border-2 border-neutral-800 p-4 text-neutral-500 text-xs flex items-center gap-3";
+                caja.className = clasesBase + "bg-black border-2 border-neutral-800 p-4 text-neutral-500 text-xs flex items-center gap-3";
                 caja.innerHTML = `<span class="w-2.5 h-2.5 bg-neutral-600"></span> <strong>SISTEMA OFFLINE:</strong> Esperando respuesta del servidor...`;
             }
         }
