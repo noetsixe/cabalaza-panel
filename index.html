@@ -252,6 +252,8 @@
         function intentarCambiarEstado(event) {
             event.preventDefault(); 
             const checkbox = document.getElementById('main-server-switch');
+            
+            // Calculamos el estado opuesto al actual visual
             estadoDeseadoSwitch = !checkbox.checked; 
 
             document.getElementById('modal-password').classList.remove('hidden');
@@ -282,12 +284,26 @@
 
                 if (res.ok && data.success) {
                     cerrarModalPassword();
-                    verificarEstadoServidorSwitch();
+                    
+                    // Actualización inmediata visual del switch y texto
+                    const checkbox = document.getElementById('main-server-switch');
+                    const labelTexto = document.getElementById('label-estado-texto');
+                    
+                    checkbox.checked = data.active;
+                    if (data.active) {
+                        labelTexto.innerText = "ENCENDIDO 🟢";
+                        labelTexto.className = "text-[10px] font-bold text-green-400 uppercase tracking-widest animate-pulse";
+                    } else {
+                        labelTexto.innerText = "APAGADO 🔴";
+                        labelTexto.className = "text-[10px] font-bold text-red-500 uppercase tracking-widest";
+                    }
                 } else {
                     alert(data.error || "Contraseña incorrecta o error de autorización.");
+                    verificarEstadoServidorSwitch();
                 }
             } catch (e) {
                 alert("Error de conexión al intentar cambiar el estado del servidor.");
+                verificarEstadoServidorSwitch();
             }
         }
 
