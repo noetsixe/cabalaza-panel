@@ -175,31 +175,36 @@
                                 listaOpcionesHTML += `</div>`;
                             }
 
+                            // Convertir todo el objeto del log a texto plano (incluyendo propiedades anidadas)
                             let rawDataString = JSON.stringify(log);
+
                             let intentosHTML = "";
                             let consensoResumen = "";
 
-                            // Capturar líneas exactas de intentos con formato "--> Intento 1 (OpenAI, Gemini, Groq): [ '2', '2', '2' ]"
-                            let matchesIntentos = rawDataString.match(/Intento\s*\d+\s*\(.*?\):\s*\[.*?\]/g);
+                            // Capturar líneas de intentos de IAs de manera flexible (incluso con saltos de línea escapados \n)
+                            let matchesIntentos = rawDataString.match(/Intento\s*\\?d+\s*\(.*?\):\s*\[.*?\]/gi) || 
+                                                  rawDataString.match(/Intento\s*\d+\s*\(.*?\):\s*\[.*?\]/g);
+                            
                             let intentosUnicos = [];
                             if (matchesIntentos) {
                                 matchesIntentos.forEach(m => {
-                                    if (!intentosUnicos.includes(m)) intentosUnicos.push(m);
+                                    let limpio = m.replace(/\\n/g, '').replace(/\\\\/g, '\\');
+                                    if (!intentosUnicos.includes(limpio)) intentosUnicos.push(limpio);
                                 });
                             }
 
                             if (intentosUnicos.length > 0) {
                                 intentosHTML = `<div class="mt-2 space-y-1 border-t border-neutral-900 pt-2"><div class="text-xs text-yellow-600 font-terminal">// REGISTRO DE INTENTOS DE IAs:</div>`;
                                 intentosUnicos.forEach(intentoTxt => {
-                                    intentosHTML += `<div class="text-neutral-300 font-terminal text-xs">--> ${intentoTxt.replace(/\\n/g, '')}</div>`;
+                                    intentosHTML += `<div class="text-neutral-300 font-terminal text-xs">--> ${intentoTxt}</div>`;
                                 });
                                 intentosHTML += `</div>`;
                             }
 
-                            // Capturar línea exacta de consenso "Consenso alcanzado en Intento 1: 2 (3/3 votos)"
-                            let matchConsensoExacto = rawDataString.match(/Consenso\s*alcanzado\s*en\s*Intento\s*\d+:\s*[^\\]*/i);
+                            // Capturar línea exacta de consenso
+                            let matchConsensoExacto = rawDataString.match(/Consenso\s*alcanzado\s*en\s*Intento\s*\d+:[^"']*/i);
                             if (matchConsensoExacto) {
-                                consensoResumen = matchConsensoExacto[0].replace(/\\n/g, '');
+                                consensoResumen = matchConsensoExacto[0].replace(/\\n/g, '').trim();
                             } else {
                                 let matchVotos = rawDataString.match(/\[\s*['"]?\d['"]?,\s*['"]?\d['"]?,\s*['"]?\d['"]?\s*\]/);
                                 if (matchVotos) {
