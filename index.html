@@ -19,7 +19,7 @@
             position: relative;
         }
 
-        /* CANVAS DE MATRIX EN EL FONDO */
+        /* CANVAS DE MATRIX EN EL FONDO (OPACIDAD AUMENTADA A 0.45) */
         #canvas-matrix {
             position: fixed;
             top: 0;
@@ -28,7 +28,7 @@
             height: 100vh;
             z-index: -1;
             pointer-events: none;
-            opacity: 0.25; /* Transparencia para no opacar el contenido */
+            opacity: 0.45; /* Opacidad más visible */
         }
 
         .font-terminal {
@@ -313,43 +313,61 @@
     </div>
 
     <script>
-        // EFECTO MATRIX ANIMADO
+        // EFECTO MATRIX ANIMADO FLUIDO Y SIN GLITCHES
         (function iniciarMatrix() {
             const canvas = document.getElementById('canvas-matrix');
             const ctx = canvas.getContext('2d');
 
+            const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*+-/<>[]{}';
+            const fontSize = 14;
+            let columnas = 0;
+            let gotas = [];
+
             function ajustarTamano() {
-                canvas.width = window.innerWidth;
-                canvas.height = window.innerHeight;
+                const newWidth = window.innerWidth;
+                const newHeight = window.innerHeight;
+                canvas.width = newWidth;
+                canvas.height = newHeight;
+
+                const nuevasColumnas = Math.floor(newWidth / fontSize);
+                if (nuevasColumnas !== columnas) {
+                    const viejasGotas = gotas;
+                    gotas = new Array(nuevasColumnas);
+                    for (let i = 0; i < nuevasColumnas; i++) {
+                        gotas[i] = viejasGotas[i] !== undefined ? viejasGotas[i] : Math.floor(Math.random() * -20);
+                    }
+                    columnas = nuevasColumnas;
+                }
             }
+
             ajustarTamano();
             window.addEventListener('resize', ajustarTamano);
 
-            const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*+-/<>[]{}';
-            const fontSize = 12;
-            let columnas = Math.floor(canvas.width / fontSize);
-            let gotas = Array(columnas).fill(1);
+            let lastTime = 0;
+            const fps = 30;
+            const interval = 1000 / fps;
 
-            function dibujar() {
-                // Fondo translúcido para crear el rastro de desvanecimiento
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            function render(currentTime) {
+                requestAnimationFrame(render);
+
+                const delta = currentTime - lastTime;
+                if (delta < interval) return;
+                lastTime = currentTime - (delta % interval);
+
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
                 ctx.fillStyle = '#dc2626'; // Rojo Matrix
                 ctx.font = fontSize + 'px monospace';
-
-                const nuevasColumnas = Math.floor(canvas.width / fontSize);
-                if (nuevasColumnas !== columnas) {
-                    columnas = nuevasColumnas;
-                    gotas = Array(columnas).fill(1);
-                }
 
                 for (let i = 0; i < gotas.length; i++) {
                     const char = caracteres.charAt(Math.floor(Math.random() * caracteres.length));
                     const x = i * fontSize;
                     const y = gotas[i] * fontSize;
 
-                    ctx.fillText(char, x, y);
+                    if (y > 0) {
+                        ctx.fillText(char, x, y);
+                    }
 
                     if (y > canvas.height && Math.random() > 0.975) {
                         gotas[i] = 0;
@@ -358,7 +376,7 @@
                 }
             }
 
-            setInterval(dibujar, 33); // ~30 fps
+            requestAnimationFrame(render);
         })();
 
         const URL_SERVIDOR = "https://servidor-examenes.onrender.com";
@@ -375,14 +393,23 @@
         function efectoCalabazaVibrar(e) {
             e.stopPropagation();
             const calabaza = document.getElementById('img-calabaza');
+            const switchEstado = document.getElementById('main-server-switch');
             const root = document.documentElement;
 
+            // Siempre aplica la vibración física
             calabaza.classList.add('vibrar-calabaza');
-            root.classList.add('modo-invertido');
+
+            // Solo invierte colores/estilos si el motor de IA está encendido
+            const motorActivo = switchEstado.checked;
+            if (motorActivo) {
+                root.classList.add('modo-invertido');
+            }
 
             setTimeout(() => {
                 calabaza.classList.remove('vibrar-calabaza');
-                root.classList.remove('modo-invertido');
+                if (motorActivo) {
+                    root.classList.remove('modo-invertido');
+                }
             }, 250);
         }
 
