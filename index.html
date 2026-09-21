@@ -47,9 +47,9 @@
             <div>
                 <h1 class="text-xl md:text-2xl font-bold tracking-widest text-red-600 uppercase flex items-center gap-2">
                     <span class="inline-block w-3 h-3 bg-red-600 animate-pulse"></span>
-                    PANEL_DE_CONTROL
+                    CABALAZA
                 </h1>
-                <p class="text-[10px] text-red-500 font-terminal tracking-wider mt-1">// GESTIÓN DE ACCESOS Y REGISTRO EN VIVO</p>
+                <p class="text-[10px] text-pink-400 font-terminal tracking-wider mt-1">// GESTIÓN DE ACCESOS Y REGISTRO EN VIVO</p>
             </div>
             <button onclick="actualizarTodo()" class="bg-red-600 hover:bg-red-700 text-black font-bold text-[10px] px-4 py-2 border border-red-500 shadow-[2px_2px_0px_0px_#ffffff] transition uppercase tracking-widest cursor-pointer">
                 Sincronizar Todo
@@ -137,7 +137,7 @@
 
                 if (res.ok) {
                     caja.className = "bg-black border-2 border-red-600 p-4 text-red-500 text-xs flex items-center gap-3";
-                    caja.innerHTML = `<span class="w-2.5 h-2.5 bg-red-600"></span> <strong>SISTEMA ONLINE:</strong> Servidor operando correctamente.`;
+                    caja.innerHTML = `<span class="w-2.5 h-2.5 bg-red-600"></span> <strong class="text-cyan-400">SISTEMA ONLINE:</strong> <span class="text-green-400">Servidor operando correctamente.</span>`;
                 } else {
                     throw new Error();
                 }
