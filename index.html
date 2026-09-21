@@ -239,30 +239,57 @@
 
         async function cargarUsuarios() {
             const tabla = document.getElementById('tabla-usuarios');
-            const usuarios = [
-                { id: "nonetsixe", activo: true },
-                { id: "lu", activo: true }
-            ];
+            try {
+                const res = await fetch(`${URL_SERVIDOR}/api/admin/users`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                });
 
-            tabla.innerHTML = "";
-            usuarios.forEach(u => {
-                tabla.innerHTML += `
-                    <tr class="hover:bg-neutral-900 transition">
-                        <td class="py-4 px-2 font-terminal text-xs tracking-wider text-pink-400">${u.id}</td>
-                        <td class="py-4 px-2">
-                            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-terminal tracking-wider ${u.activo ? 'text-red-500 bg-red-950 border border-red-800' : 'text-neutral-500 bg-black border border-neutral-800'}">
-                                <span class="w-1.5 h-1.5 ${u.activo ? 'bg-red-600 animate-pulse' : 'bg-neutral-600'}"></span>
-                                ${u.activo ? 'ACTIVO (🩸)' : 'INACTIVO'}
-                            </span>
-                        </td>
-                        <td class="py-4 px-2 text-right">
-                            <button onclick="alert('Para modificar este usuario, actualiza el objeto USERS_DB en tu repositorio de GitHub.')" class="px-3 py-1 text-[10px] font-terminal tracking-wider text-neutral-300 bg-black hover:bg-red-600 hover:text-black border border-neutral-700 transition uppercase cursor-pointer">
-                                Gestionar
-                            </button>
-                        </td>
-                    </tr>
-                `;
-            });
+                if (res.ok) {
+                    const usuarios = await res.json();
+                    tabla.innerHTML = "";
+                    usuarios.forEach(u => {
+                        tabla.innerHTML += `
+                            <tr class="hover:bg-neutral-900 transition">
+                                <td class="py-4 px-2 font-terminal text-xs tracking-wider text-pink-400">${u.id}</td>
+                                <td class="py-4 px-2">
+                                    <span class="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-terminal tracking-wider ${u.activo ? 'text-red-500 bg-red-950 border border-red-800' : 'text-neutral-500 bg-black border border-neutral-800'}">
+                                        <span class="w-1.5 h-1.5 ${u.activo ? 'bg-red-600 animate-pulse' : 'bg-neutral-600'}"></span>
+                                        ${u.activo ? 'ACTIVO (🩸)' : 'INACTIVO'}
+                                    </span>
+                                </td>
+                                <td class="py-4 px-2 text-right">
+                                    <button onclick="toggleUsuario('${u.id}')" class="px-3 py-1 text-[10px] font-terminal tracking-wider ${u.activo ? 'text-neutral-300 bg-black hover:bg-red-600 hover:text-black border border-neutral-700' : 'text-red-500 bg-red-950 hover:bg-red-600 hover:text-black border border-red-800'} transition uppercase cursor-pointer">
+                                        ${u.activo ? 'Desactivar' : 'Activar'}
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                } else {
+                    throw new Error();
+                }
+            } catch (e) {
+                tabla.innerHTML = `<tr><td class="py-4 px-2 text-red-500 font-terminal text-xs" colspan="3">&gt; Error al cargar usuarios desde el servidor.</td></tr>`;
+            }
+        }
+
+        async function toggleUsuario(usuarioId) {
+            try {
+                const res = await fetch(`${URL_SERVIDOR}/api/admin/user/toggle`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ usuario: usuarioId })
+                });
+
+                if (res.ok) {
+                    cargarUsuarios();
+                } else {
+                    alert("No se pudo cambiar el estado del usuario.");
+                }
+            } catch (e) {
+                alert("Error de conexión al intentar modificar el usuario.");
+            }
         }
     </script>
 </body>
