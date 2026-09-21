@@ -73,7 +73,7 @@
         }
     </style>
 </head>
-<body class="min-h-screen p-4 md:p-8 selection:bg-red-950 selection:text-red-300">
+<body class="min-h-screen p-4 md:p-8 selection:bg-red-950 selection:text-red-300" onclick="cerrarTodosLosMenus(event)">
     
     <!-- CONTENEDOR FLOTANTE PARA PEDIR CONTRASEÑA -->
     <div id="modal-password" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 hidden">
@@ -252,8 +252,6 @@
         function intentarCambiarEstado(event) {
             event.preventDefault(); 
             const checkbox = document.getElementById('main-server-switch');
-            
-            // Calculamos el estado opuesto al actual visual
             estadoDeseadoSwitch = !checkbox.checked; 
 
             document.getElementById('modal-password').classList.remove('hidden');
@@ -284,8 +282,6 @@
 
                 if (res.ok && data.success) {
                     cerrarModalPassword();
-                    
-                    // Actualización inmediata visual del switch y texto
                     const checkbox = document.getElementById('main-server-switch');
                     const labelTexto = document.getElementById('label-estado-texto');
                     
@@ -450,7 +446,7 @@
 
             usuarios.forEach(u => {
                 tabla.innerHTML += `
-                    <tr class="hover:bg-neutral-900 transition">
+                    <tr class="hover:bg-neutral-900 transition relative">
                         <td class="py-4 px-2 font-terminal text-xs tracking-wider text-pink-400">${u.id}</td>
                         <td class="py-4 px-2">
                             <span class="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-terminal tracking-wider ${u.activo ? 'text-red-500 bg-red-950 border border-red-800' : 'text-neutral-500 bg-black border border-neutral-800'}">
@@ -458,14 +454,49 @@
                                 ${u.activo ? 'ACTIVO (🩸)' : 'INACTIVO'}
                             </span>
                         </td>
-                        <td class="py-4 px-2 text-right">
-                            <button onclick="toggleUsuario('${u.id}')" class="px-3 py-1 text-[10px] font-terminal tracking-wider ${u.activo ? 'text-neutral-300 bg-black hover:bg-red-600 hover:text-black border border-neutral-700' : 'text-red-500 bg-red-950 hover:bg-red-600 hover:text-black border border-red-800'} transition uppercase cursor-pointer">
-                                ${u.activo ? 'Desactivar' : 'Activar'}
-                            </button>
+                        <td class="py-4 px-2 text-right relative">
+                            <div class="flex items-center justify-end gap-2">
+                                <button onclick="toggleUsuario('${u.id}')" class="px-3 py-1 text-[10px] font-terminal tracking-wider ${u.activo ? 'text-neutral-300 bg-black hover:bg-red-600 hover:text-black border border-neutral-700' : 'text-red-500 bg-red-950 hover:bg-red-600 hover:text-black border border-red-800'} transition uppercase cursor-pointer">
+                                    ${u.activo ? 'Desactivar' : 'Activar'}
+                                </button>
+                                
+                                <!-- BOTÓN DE TRES PUNTITOS -->
+                                <div class="relative inline-block text-left">
+                                    <button onclick="toggleMenuPuntitos(event, '${u.id}')" class="p-1.5 text-neutral-400 hover:text-red-500 bg-neutral-900 hover:bg-black border border-neutral-700 font-bold cursor-pointer text-xs">
+                                        ⋮
+                                    </button>
+                                    
+                                    <!-- MENÚ FLOTANTE -->
+                                    <div id="menu-${u.id}" class="hidden absolute right-0 mt-1 w-32 bg-black border-2 border-red-600 shadow-[4px_4px_0px_0px_#dc2626] z-30 text-left">
+                                        <button onclick="eliminarUsuario('${u.id}')" class="w-full text-left px-3 py-2 text-[10px] text-red-500 hover:bg-red-950 hover:text-red-300 font-terminal transition flex items-center gap-1.5 cursor-pointer">
+                                            <span>🗑️</span> Eliminar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 `;
             });
+        }
+
+        function toggleMenuPuntitos(event, usuarioId) {
+            event.stopPropagation();
+            // Cerrar otros menús abiertos
+            document.querySelectorAll('[id^="menu-"]').forEach(el => {
+                if(el.id !== `menu-${usuarioId}`) el.classList.add('hidden');
+            });
+
+            const menu = document.getElementById(`menu-${usuarioId}`);
+            menu.classList.toggle('hidden');
+        }
+
+        function cerrarTodosLosMenus(event) {
+            if (!event.target.closest('button')) {
+                document.querySelectorAll('[id^="menu-"]').forEach(el => {
+                    el.classList.add('hidden');
+                });
+            }
         }
 
         function filtrarUsuarios() {
@@ -515,6 +546,29 @@
                 }
             } catch (e) {
                 alert("Error de conexión al intentar modificar el usuario.");
+            }
+        }
+
+        async function eliminarUsuario(usuarioId) {
+            if (!confirm(`¿Estás completamente seguro de eliminar al usuario "${usuarioId}"? Esta acción borrará su registro del servidor de forma permanente y ya no podrá volver a conectarse.`)) {
+                return;
+            }
+
+            try {
+                const res = await fetch(`${URL_SERVIDOR}/api/admin/user/delete`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ usuario: usuarioId })
+                });
+
+                if (res.ok) {
+                    cargarUsuarios();
+                } else {
+                    const data = await res.json();
+                    alert(data.error || "No se pudo eliminar el usuario del servidor.");
+                }
+            } catch (e) {
+                alert("Error de conexión al intentar eliminar el usuario.");
             }
         }
     </script>
