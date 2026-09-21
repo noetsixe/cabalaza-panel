@@ -27,10 +27,10 @@
                     <span class="inline-block w-3 h-3 bg-red-600 animate-pulse"></span>
                     PANEL_DE_CONTROL
                 </h1>
-                <p class="text-xs text-neutral-500 font-terminal tracking-wider mt-1">// GESTIÓN DE ACCESOS Y ESTADO DEL SISTEMA</p>
+                <p class="text-xs text-neutral-500 font-terminal tracking-wider mt-1">// GESTIÓN DE ACCESOS Y REGISTRO EN VIVO</p>
             </div>
-            <button onclick="verificarEstado()" class="bg-red-600 hover:bg-red-700 text-black font-bold text-xs px-4 py-2 border border-red-500 shadow-[2px_2px_0px_0px_#ffffff] transition uppercase tracking-widest cursor-pointer">
-                Actualizar Estado
+            <button onclick="actualizarTodo()" class="bg-red-600 hover:bg-red-700 text-black font-bold text-xs px-4 py-2 border border-red-500 shadow-[2px_2px_0px_0px_#ffffff] transition uppercase tracking-widest cursor-pointer">
+                Sincronizar Todo
             </button>
         </header>
 
@@ -38,6 +38,19 @@
         <div id="caja-estado" class="bg-black border-2 border-neutral-800 p-4 text-neutral-400 text-sm flex items-center gap-3">
             <span class="w-2.5 h-2.5 bg-yellow-500 animate-ping"></span>
             Comprobando conexión con el servidor...
+        </div>
+
+        <!-- SECCIÓN NUEVA: Monitor de Preguntas y Respuestas en Vivo -->
+        <div class="bg-black border-2 border-red-900/50 p-6 shadow-[4px_4px_0px_0px_#7f1d1d]">
+            <div class="flex justify-between items-center mb-4 border-b border-neutral-800 pb-2">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-red-500">
+                    &gt;&gt; MONITOR DE PREGUNTAS Y RESPUESTAS [LIVE_FEED]
+                </h2>
+                <span class="text-xs font-terminal text-red-600 animate-pulse">● RECIBIendo TRAFICO</span>
+            </div>
+            <div id="contenedor-logs" class="space-y-3 max-h-96 overflow-y-auto pr-2">
+                <div class="text-neutral-700 font-terminal text-lg">&gt; Esperando actividad de los usuarios...</div>
+            </div>
         </div>
 
         <!-- Sección de Gestión de Usuarios -->
@@ -69,10 +82,17 @@
         const URL_SERVIDOR = "https://servidor-examenes.onrender.com";
 
         window.onload = function() {
+            actualizarTodo();
+            notificarServidorPanel(); 
+            // Auto-refrescar los logs de preguntas cada 5 segundos en tiempo real
+            setInterval(cargarLogsPreguntas, 5000);
+        };
+
+        function actualizarTodo() {
             verificarEstado();
             cargarUsuarios();
-            notificarServidorPanel(); 
-        };
+            cargarLogsPreguntas();
+        }
 
         async function notificarServidorPanel() {
             try {
@@ -106,6 +126,46 @@
             } catch (e) {
                 caja.className = "bg-black border-2 border-neutral-800 p-4 text-neutral-600 text-sm flex items-center gap-3";
                 caja.innerHTML = `<span class="w-2.5 h-2.5 bg-neutral-700"></span> <strong>SISTEMA OFFLINE:</strong> Esperando respuesta del servidor gratuito...`;
+            }
+        }
+
+        // Función para capturar y mostrar las preguntas y respuestas enviadas al servidor
+        async function cargarLogsPreguntas() {
+            const contenedor = document.getElementById('contenedor-logs');
+            try {
+                const res = await fetch(`${URL_SERVIDOR}/api/admin/logs`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                if (res.ok) {
+                    const logs = await res.json(); // Espera un array de objetos tipo: [{usuario: "...", pregunta: "...", respuesta: "...", fecha: "..."}]
+                    
+                    if (logs && logs.length > 0) {
+                        contenedor.innerHTML = "";
+                        logs.reverse().forEach(log => {
+                            contenedor.innerHTML += `
+                                <div class="bg-neutral-950 border border-neutral-800 p-3 text-xs space-y-1">
+                                    <div class="flex justify-between text-neutral-500 font-terminal">
+                                        <span>USER: <strong class="text-red-400">${log.usuario || 'Anónimo'}</strong></span>
+                                        <span>[${log.fecha || 'Justo ahora'}]</span>
+                                    </div>
+                                    <div class="text-neutral-300 font-terminal text-sm">
+                                        <strong class="text-red-600">Q:</strong> ${log.pregunta}
+                                    </div>
+                                    <div class="text-neutral-400 font-terminal text-sm border-t border-neutral-900 pt-1">
+                                        <strong class="text-zinc-500">A:</strong> ${log.respuesta}
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        contenedor.innerHTML = `<div class="text-neutral-600 font-terminal text-lg">&gt; No hay preguntas registradas todavía en esta sesión.</div>`;
+                    }
+                }
+            } catch (e) {
+                // Si la ruta /api/admin/logs aún no está programada en Node.js, muestra este aviso estético
+                contenedor.innerHTML = `<div class="text-neutral-600 font-terminal text-lg">&gt; [Aviso]: Falta configurar la ruta <code class="text-red-500">/api/admin/logs</code> en tu backend para capturar el flujo.</div>`;
             }
         }
 
