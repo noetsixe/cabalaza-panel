@@ -629,9 +629,7 @@
         }
 
         async function eliminarUsuario(usuarioId) {
-            if (!confirm(`¿Estás completamente seguro de eliminar al usuario "${usuarioId}"? Esta acción borrará su registro del servidor de forma permanente y ya no podrá volver a conectarse.`)) {
-                return;
-            }
+            if (!confirm(`¿Estás seguro de que deseas eliminar al usuario "${usuarioId}"?`)) return;
 
             try {
                 const res = await fetch(`${URL_SERVIDOR}/api/admin/user/delete`, {
@@ -643,8 +641,7 @@
                 if (res.ok) {
                     cargarUsuarios();
                 } else {
-                    const data = await res.json();
-                    alert(data.error || "No se pudo eliminar el usuario del servidor.");
+                    alert("No se pudo eliminar el usuario.");
                 }
             } catch (e) {
                 alert("Error de conexión al intentar eliminar el usuario.");
