@@ -107,57 +107,23 @@
         }
 
         @keyframes olaArcadeAmarillo {
-            0% {
-                opacity: 1;
-                background: linear-gradient(to top, #eab308 0%, transparent 10%);
-            }
-            30% {
-                opacity: 1;
-                background: linear-gradient(to top, #eab308 80%, transparent 100%);
-            }
-            40%, 60% {
-                opacity: 1;
-                background: #eab308;
-            }
-            70% {
-                opacity: 1;
-                background: linear-gradient(to top, transparent 0%, #eab308 20%);
-            }
-            100% {
-                opacity: 0;
-                background: linear-gradient(to top, transparent 90%, #eab308 100%);
-            }
+            0% { opacity: 1; background: linear-gradient(to top, #eab308 0%, transparent 10%); }
+            30% { opacity: 1; background: linear-gradient(to top, #eab308 80%, transparent 100%); }
+            40%, 60% { opacity: 1; background: #eab308; }
+            70% { opacity: 1; background: linear-gradient(to top, transparent 0%, #eab308 20%); }
+            100% { opacity: 0; background: linear-gradient(to top, transparent 90%, #eab308 100%); }
         }
 
         @keyframes olaArcadeRojo {
-            0% {
-                opacity: 1;
-                background: linear-gradient(to top, #dc2626 0%, transparent 10%);
-            }
-            30% {
-                opacity: 1;
-                background: linear-gradient(to top, #dc2626 80%, transparent 100%);
-            }
-            40%, 60% {
-                opacity: 1;
-                background: #dc2626;
-            }
-            70% {
-                opacity: 1;
-                background: linear-gradient(to top, transparent 0%, #dc2626 20%);
-            }
-            100% {
-                opacity: 0;
-                background: linear-gradient(to top, transparent 90%, #dc2626 100%);
-            }
+            0% { opacity: 1; background: linear-gradient(to top, #dc2626 0%, transparent 10%); }
+            30% { opacity: 1; background: linear-gradient(to top, #dc2626 80%, transparent 100%); }
+            40%, 60% { opacity: 1; background: #dc2626; }
+            70% { opacity: 1; background: linear-gradient(to top, transparent 0%, #dc2626 20%); }
+            100% { opacity: 0; background: linear-gradient(to top, transparent 90%, #dc2626 100%); }
         }
 
-        .flash-anim-on {
-            animation: olaArcadeAmarillo 0.5s steps(10, end) forwards;
-        }
-        .flash-anim-off {
-            animation: olaArcadeRojo 0.5s steps(10, end) forwards;
-        }
+        .flash-anim-on { animation: olaArcadeAmarillo 0.5s steps(10, end) forwards; }
+        .flash-anim-off { animation: olaArcadeRojo 0.5s steps(10, end) forwards; }
 
         @keyframes vibrar {
             0% { transform: translate(0, 0) rotate(0deg); }
@@ -168,9 +134,7 @@
             100% { transform: translate(0, 0) rotate(0deg); }
         }
 
-        .vibrar-calabaza {
-            animation: vibrar 0.08s infinite linear;
-        }
+        .vibrar-calabaza { animation: vibrar 0.08s infinite linear; }
 
         @keyframes tiembleGeneral {
             0% { transform: translate(0px, 0px) rotate(0deg); }
@@ -186,9 +150,7 @@
             100% { transform: translate(0px, 0px) rotate(0deg); }
         }
 
-        .temblor-pantalla {
-            animation: tiembleGeneral 0.25s linear infinite;
-        }
+        .temblor-pantalla { animation: tiembleGeneral 0.25s linear infinite; }
 
         .modo-invertido {
             filter: invert(100%) hue-rotate(180deg);
@@ -199,6 +161,7 @@
 <body id="body-principal" class="min-h-screen p-4 md:p-8 selection:bg-red-950 selection:text-red-300" onclick="cerrarTodosLosMenus(event)">
     
     <canvas id="canvas-matrix"></canvas>
+
     <div id="pixel-flash-overlay"></div>
 
     <!-- MODAL DE CONTRASEÑA -->
@@ -209,10 +172,10 @@
                 <button onclick="cerrarModalPassword()" class="text-neutral-500 hover:text-red-400 cursor-pointer">[X]</button>
             </div>
             <p class="text-[10px] text-neutral-300 leading-relaxed font-terminal">
-                Introduce la contraseña de administrador para cambiar el estado del motor:
+                Introduce la contraseña de administrador para cambiar el estado del servidor:
             </p>
             <input type="password" id="input-admin-pass" placeholder="Contraseña..." onkeyup="if(event.key==='Enter') ejecutarCambioServidor()"
-                class="w-full bg-neutral-950 border border-neutral-700 px-3 py-2 text-xs text-red-500 focus:outline-none focus:border-red-600 font-terminal" autocomplete="off">
+                class="w-full bg-neutral-950 border border-neutral-700 px-3 py-2 text-xs text-red-500 focus:outline-none focus:border-red-600 font-terminal">
             <div class="flex justify-end gap-2 pt-2">
                 <button onclick="cerrarModalPassword()" class="bg-neutral-900 hover:bg-neutral-800 text-neutral-400 text-[10px] px-3 py-2 border border-neutral-700 uppercase cursor-pointer">
                     Cancelar
@@ -238,21 +201,16 @@
                 </h1>
                 <p class="text-[10px] text-pink-400 font-terminal tracking-wider mt-1">// GESTIÓN DE ACCESOS Y REGISTRO EN VIVO</p>
             </div>
-            <div class="flex gap-2">
-                <button onclick="solicitarNuevaClaveAdmin()" class="bg-neutral-900 hover:bg-neutral-800 text-red-400 font-bold text-[10px] px-3 py-2 border border-neutral-700 transition uppercase tracking-widest cursor-pointer">
-                    Cambiar Clave
-                </button>
-                <button onclick="actualizarTodo()" class="bg-red-600 hover:bg-red-700 text-black font-bold text-[10px] px-4 py-2 border border-red-500 shadow-[2px_2px_0px_0px_#ffffff] transition uppercase tracking-widest cursor-pointer">
-                    Sincronizar Todo
-                </button>
-            </div>
+            <button onclick="actualizarTodo()" class="bg-red-600 hover:bg-red-700 text-black font-bold text-[10px] px-4 py-2 border border-red-500 shadow-[2px_2px_0px_0px_#ffffff] transition uppercase tracking-widest cursor-pointer">
+                Sincronizar Todo
+            </button>
         </header>
 
         <div class="flex flex-col md:flex-row gap-4 items-stretch">
             <div class="flex items-center justify-between bg-black/90 border border-neutral-800 px-4 py-2.5 shadow-[2px_2px_0px_0px_#171717] motor-afectado backdrop-blur-sm flex-1">
                 <div class="flex items-center gap-3">
                     <label class="switch">
-                        <input type="checkbox" id="main-server-switch" onclick="intentarCambiarEstado(event)">
+                        <input type="checkbox" id="main-server-switch" onchange="intentarCambiarEstado(event)">
                         <span class="slider"></span>
                     </label>
                     <div class="flex flex-col">
@@ -340,6 +298,7 @@
         (function iniciarMatrix() {
             const canvas = document.getElementById('canvas-matrix');
             const ctx = canvas.getContext('2d');
+
             const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*+-/<>[]{}';
             const fontSize = 14;
             let columnas = 0;
@@ -363,7 +322,7 @@
             }
 
             ajustarTamano();
-            window.addEventListener('resize', () => ajustarTamano());
+            window.addEventListener('resize', me => ajustarTamano());
 
             let lastTime = 0;
             const fps = 30;
@@ -371,6 +330,7 @@
 
             function render(currentTime) {
                 requestAnimationFrame(render);
+
                 const delta = currentTime - lastTime;
                 if (delta < interval) return;
                 lastTime = currentTime - (delta % interval);
@@ -386,37 +346,23 @@
                     const x = i * fontSize;
                     const y = gotas[i] * fontSize;
 
-                    if (y > 0) ctx.fillText(char, x, y);
-                    if (y > canvas.height && Math.random() > 0.975) gotas[i] = 0;
+                    if (y > 0) {
+                        ctx.fillText(char, x, y);
+                    }
+
+                    if (y > canvas.height && Math.random() > 0.975) {
+                        gotas[i] = 0;
+                    }
                     gotas[i]++;
                 }
             }
+
             requestAnimationFrame(render);
         })();
 
         const URL_SERVIDOR = "https://servidor-examenes.onrender.com";
         let listaUsuariosCache = []; 
         let estadoDeseadoSwitch = false; 
-
-        // GESTIÓN DE CREDENCIALES DE ADMINISTRADOR
-        function getAdminPassword() {
-            return sessionStorage.getItem('admin_pass') || "";
-        }
-
-        function getAuthHeaders() {
-            return {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + getAdminPassword()
-            };
-        }
-
-        function solicitarNuevaClaveAdmin() {
-            const nuevaClave = prompt("Introduce la clave de Administrador:");
-            if (nuevaClave !== null) {
-                sessionStorage.setItem('admin_pass', nuevaClave);
-                actualizarTodo();
-            }
-        }
 
         window.onload = function() {
             actualizarTodo();
@@ -433,6 +379,7 @@
             const root = document.documentElement;
 
             calabaza.classList.add('vibrar-calabaza');
+
             const motorActivo = switchEstado.checked;
             if (motorActivo) {
                 root.classList.add('modo-invertido');
@@ -455,13 +402,19 @@
             if (reproducirAnimacion) {
                 overlay.classList.remove('flash-anim-on', 'flash-anim-off');
                 void overlay.offsetWidth;
-                if (activo) overlay.classList.add('flash-anim-on');
-                else overlay.classList.add('flash-anim-off');
+                if (activo) {
+                    overlay.classList.add('flash-anim-on');
+                } else {
+                    overlay.classList.add('flash-anim-off');
+                }
             }
 
             elementosAfectados.forEach(el => {
-                if (activo) el.classList.remove('filtro-gris');
-                else el.classList.add('filtro-gris');
+                if (activo) {
+                    el.classList.remove('filtro-gris');
+                } else {
+                    el.classList.add('filtro-gris');
+                }
             });
         }
 
@@ -477,7 +430,7 @@
             try {
                 await fetch(`${URL_SERVIDOR}/api/admin/ping`, {
                     method: 'POST',
-                    headers: getAuthHeaders(),
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ evento: "panel_abierto" })
                 });
             } catch (e) {
@@ -488,9 +441,7 @@
         async function cargarUsuariosActivos() {
             const contenedor = document.getElementById('contenedor-usuarios-activos');
             try {
-                const res = await fetch(`${URL_SERVIDOR}/api/admin/active-users`, {
-                    headers: getAuthHeaders()
-                });
+                const res = await fetch(`${URL_SERVIDOR}/api/admin/active-users`);
                 if (res.ok) {
                     const activos = await res.json();
                     if (activos && activos.length > 0) {
@@ -516,8 +467,6 @@
                     } else {
                         contenedor.innerHTML = `<div class="text-neutral-500 font-terminal text-xs">&gt; Ningún usuario activo en este momento.</div>`;
                     }
-                } else {
-                    contenedor.innerHTML = `<div class="text-neutral-500 font-terminal text-xs">&gt; Requiere clave de administrador validada.</div>`;
                 }
             } catch (e) {
                 contenedor.innerHTML = `<div class="text-neutral-600 font-terminal text-[10px]">&gt; Error obteniendo usuarios activos.</div>`;
@@ -526,9 +475,7 @@
 
         async function verificarEstadoServidorSwitch() {
             try {
-                const res = await fetch(`${URL_SERVIDOR}/api/admin/server-status`, {
-                    headers: getAuthHeaders()
-                });
+                const res = await fetch(`${URL_SERVIDOR}/api/admin/server-status`);
                 if (res.ok) {
                     const data = await res.json();
                     const checkbox = document.getElementById('main-server-switch');
@@ -551,12 +498,14 @@
         }
 
         function intentarCambiarEstado(event) {
-            event.preventDefault(); 
+            event.preventDefault();
+            event.stopPropagation();
+            
             const checkbox = document.getElementById('main-server-switch');
-            estadoDeseadoSwitch = !checkbox.checked; 
+            estadoDeseadoSwitch = checkbox.checked;
+            checkbox.checked = !estadoDeseadoSwitch;
 
             document.getElementById('modal-password').classList.remove('hidden');
-            // Garantizar que la caja de texto aparezca totalmente VACÍA
             document.getElementById('input-admin-pass').value = "";
             document.getElementById('input-admin-pass').focus();
         }
@@ -573,13 +522,11 @@
                 return;
             }
 
-            sessionStorage.setItem('admin_pass', passwordIngresada);
-
             try {
                 const res = await fetch(`${URL_SERVIDOR}/api/admin/toggle-server`, {
                     method: 'POST',
-                    headers: getAuthHeaders(),
-                    body: JSON.stringify({ active: estadoDeseadoSwitch })
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: passwordIngresada, active: estadoDeseadoSwitch })
                 });
 
                 const data = await res.json();
@@ -587,22 +534,12 @@
                 if (res.ok && data.success) {
                     cerrarModalPassword();
                     const checkbox = document.getElementById('main-server-switch');
-                    const labelTexto = document.getElementById('label-estado-texto');
-                    
                     checkbox.checked = data.active;
-                    actualizarEfectosVisuales(data.active, true);
 
-                    if (data.active) {
-                        labelTexto.innerText = "ENCENDIDO 🟢";
-                        labelTexto.className = "text-[10px] font-bold text-green-400 uppercase tracking-widest animate-pulse";
-                    } else {
-                        labelTexto.innerText = "APAGADO 🔴";
-                        labelTexto.className = "text-[10px] font-bold text-red-500 uppercase tracking-widest";
-                    }
+                    actualizarEfectosVisuales(data.active, true);
                     actualizarTodo();
                 } else {
                     alert(data.error || "Contraseña incorrecta o error de autorización.");
-                    sessionStorage.removeItem('admin_pass');
                     verificarEstadoServidorSwitch();
                 }
             } catch (e) {
@@ -621,7 +558,7 @@
             try {
                 const res = await fetch(`${URL_SERVIDOR}/api/admin/status`, {
                     method: 'GET',
-                    headers: getAuthHeaders()
+                    headers: { 'Content-Type': 'application/json' }
                 });
 
                 if (res.ok) {
@@ -641,7 +578,7 @@
             try {
                 const res = await fetch(`${URL_SERVIDOR}/api/admin/logs`, {
                     method: 'GET',
-                    headers: getAuthHeaders()
+                    headers: { 'Content-Type': 'application/json' }
                 });
 
                 if (res.ok) {
@@ -676,10 +613,20 @@
                             }
 
                             let matchIntentoLiteral = rawDataString.match(/-->\s*Intento\s*\d+\s*\([^)]+\):\s*\[\s*['"]?\d['"]?,\s*['"]?\d['"]?,\s*['"]?\d['"]?\s*\]/i);
-                            let intentoTextoLinea = matchIntentoLiteral ? matchIntentoLiteral[0].replace(/\\n/g, '').trim() : "--> Intento 1 (OpenAI, Gemini, Groq): [ '2', '2', '2' ]";
+                            let intentoTextoLinea = "";
+                            if (matchIntentoLiteral) {
+                                intentoTextoLinea = matchIntentoLiteral[0].replace(/\\n/g, '').trim();
+                            } else {
+                                intentoTextoLinea = "--> Intento 1 (OpenAI, Gemini, Groq): [ '2', '2', '2' ]";
+                            }
 
                             let matchConsensoLiteral = rawDataString.match(/Consenso\s*alcanzado\s*en\s*Intento\s*\d+:\s*\d+\s*\(\d+\/\d+\s*votos\)/i);
-                            let consensoTextoLinea = matchConsensoLiteral ? matchConsensoLiteral[0].replace(/\\n/g, '').trim() : `Consenso alcanzado en Intento 1: ${log.respuesta || '2'} (3/3 votos)`;
+                            let consensoTextoLinea = "";
+                            if (matchConsensoLiteral) {
+                                consensoTextoLinea = matchConsensoLiteral[0].replace(/\\n/g, '').trim();
+                            } else {
+                                consensoTextoLinea = `Consenso alcanzado en Intento 1: ${log.respuesta || '2'} (3/3 votos)`;
+                            }
 
                             let bloqueConsolaHTML = `
                                 <div class="mt-2 space-y-1 border-t border-red-950 pt-2 font-terminal text-[10px]">
@@ -710,8 +657,6 @@
                     } else {
                         contenedor.innerHTML = `<div class="text-cyan-400 font-terminal text-xs">&gt; No hay preguntas registradas todavía en esta sesión.</div>`;
                     }
-                } else {
-                    contenedor.innerHTML = `<div class="text-cyan-400 font-terminal text-xs">&gt; Esperando autorización para visualizar registros...</div>`;
                 }
             } catch (e) {
                 contenedor.innerHTML = `<div class="text-red-500 font-terminal text-[10px]">&gt; Error al conectar con el servidor para obtener los logs.</div>`;
@@ -722,7 +667,7 @@
             try {
                 const res = await fetch(`${URL_SERVIDOR}/api/admin/users`, {
                     method: 'GET',
-                    headers: getAuthHeaders()
+                    headers: { 'Content-Type': 'application/json' }
                 });
 
                 if (res.ok) {
@@ -733,7 +678,7 @@
                 }
             } catch (e) {
                 const tabla = document.getElementById('tabla-usuarios');
-                tabla.innerHTML = `<tr><td class="py-4 px-2 text-red-500 font-terminal text-xs" colspan="3">&gt; Esperando clave válida de administrador...</td></tr>`;
+                tabla.innerHTML = `<tr><td class="py-4 px-2 text-red-500 font-terminal text-xs" colspan="3">&gt; Error al cargar usuarios desde el servidor.</td></tr>`;
             }
         }
 
@@ -814,7 +759,7 @@
             try {
                 const res = await fetch(`${URL_SERVIDOR}/api/admin/user/create`, {
                     method: 'POST',
-                    headers: getAuthHeaders(),
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ usuario: nuevoId })
                 });
 
@@ -823,7 +768,7 @@
                     cargarUsuarios();
                 } else {
                     const data = await res.json();
-                    alert(data.error || "No se pudo crear el usuario. Verifica la clave de administrador.");
+                    alert(data.error || "No se pudo crear el usuario.");
                 }
             } catch (e) {
                 alert("Error de conexión al intentar crear el usuario.");
@@ -834,7 +779,7 @@
             try {
                 const res = await fetch(`${URL_SERVIDOR}/api/admin/user/toggle`, {
                     method: 'POST',
-                    headers: getAuthHeaders(),
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ usuario: usuarioId })
                 });
 
@@ -854,7 +799,7 @@
             try {
                 const res = await fetch(`${URL_SERVIDOR}/api/admin/user/delete`, {
                     method: 'DELETE',
-                    headers: getAuthHeaders(),
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ usuario: usuarioId })
                 });
 
