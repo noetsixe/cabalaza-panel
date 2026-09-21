@@ -107,7 +107,6 @@
                 opacity: 1;
                 background: linear-gradient(to top, #eab308 80%, transparent 100%);
             }
-            /* CUBRE TODA LA PANTALLA DE UN SOLO COLOR SÓLIDO POR UNOS MILISEGUNDOS */
             40%, 60% {
                 opacity: 1;
                 background: #eab308;
@@ -131,7 +130,6 @@
                 opacity: 1;
                 background: linear-gradient(to top, #dc2626 80%, transparent 100%);
             }
-            /* CUBRE TODA LA PANTALLA DE UN SOLO COLOR SÓLIDO POR UNOS MILISEGUNDOS */
             40%, 60% {
                 opacity: 1;
                 background: #dc2626;
@@ -153,23 +151,23 @@
             animation: olaArcadeRojo 0.5s steps(10, end) forwards;
         }
 
-        /* EFECTO DE VIBRACIÓN PARA LA CALABAZA */
-        @keyframes vibrar {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            20% { transform: translate(-6px, 4px) rotate(-4deg); }
-            40% { transform: translate(6px, -4px) rotate(4deg); }
-            60% { transform: translate(-4px, -2px) rotate(-2deg); }
-            80% { transform: translate(4px, 2px) rotate(2deg); }
-            100% { transform: translate(0, 0) rotate(0deg); }
+        /* EFECTO DE TEMBLOR RÁPIDO PARA TODA LA PÁGINA (SIN ROTACIÓN) */
+        @keyframes temblorPagina {
+            0% { transform: translate(0, 0); }
+            20% { transform: translate(-3px, 2px); }
+            40% { transform: translate(3px, -2px); }
+            60% { transform: translate(-2px, -1px); }
+            80% { transform: translate(2px, 1px); }
+            100% { transform: translate(0, 0); }
         }
 
-        .vibrar-calabaza {
-            animation: vibrar 0.08s infinite linear;
+        .vibrar-pantalla {
+            animation: temblorPagina 0.04s infinite linear;
         }
 
-        /* FLASH ROJO TEMPORAL EN EL FONDO */
-        .bg-flash-rojo {
-            background-color: #dc2626 !important;
+        /* FLASH BLANCO EN EL FONDO */
+        .bg-flash-blanco {
+            background-color: #ffffff !important;
         }
     </style>
 </head>
@@ -311,16 +309,15 @@
 
         function efectoCalabazaVibrar(e) {
             e.stopPropagation();
-            const calabaza = document.getElementById('img-calabaza');
             const body = document.getElementById('body-principal');
 
-            calabaza.classList.add('vibrar-calabaza');
-            body.classList.add('bg-flash-rojo');
+            // Aplica la vibración a TODA la página y el destello blanco
+            body.classList.add('vibrar-pantalla', 'bg-flash-blanco');
 
+            // Duración más corta (120ms)
             setTimeout(() => {
-                calabaza.classList.remove('vibrar-calabaza');
-                body.classList.remove('bg-flash-rojo');
-            }, 250);
+                body.classList.remove('vibrar-pantalla', 'bg-flash-blanco');
+            }, 120);
         }
 
         function actualizarEfectosVisuales(activo, reproducirAnimacion = false) {
@@ -329,7 +326,7 @@
 
             if (reproducirAnimacion) {
                 overlay.classList.remove('flash-anim-on', 'flash-anim-off');
-                void overlay.offsetWidth; // Forzar reinicio de animación
+                void overlay.offsetWidth;
                 if (activo) {
                     overlay.classList.add('flash-anim-on');
                 } else {
@@ -427,7 +424,6 @@
                     
                     checkbox.checked = data.active;
 
-                    // Reproducir animación en ola completa arcade (0.5s)
                     actualizarEfectosVisuales(data.active, true);
 
                     if (data.active) {
