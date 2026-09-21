@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PANEL // EXAM</title>
-    <!-- Favicon con la imagen de la calabaza incrustada en Base64 -->
-    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAPmSURBVHgB7Zt5bFRlGMd/Z1Z2ZtnOHra03G3bFjC3rRBCRFRBC1jEAAKJJgiiUvHCLu6CgshGjAsKIi4Y3BAvKCLqLqK7a7Wl1HbpLqUt1JbO7czsM3PfH53sZJtC7ez8JjPzfZ7v+d7zPe933vv73r0A9V04F8gL5xK3EwA5bM9rC0A5FOBq3K4D8E0A9B935H8aQO7X4b6N2fX3LwQAH0RUA4AAABzL28fSdwB41zS4k/Bv13N07zUaX2fLADw18L8bQO/X4a37f5/p5fTffA8A2H8aQN7D17fCq9gJ8B4Ar4F6W2N+r4H7Hl+/9TqG9qM8vJd7f5n217u7u7H1N19b4X7Hl//2b0B8H6I3g4Af5X6a39u8H5T4H4qfBqIHgDQ76C29V1X7f24wP1UAPqj7g4A60Gqj7j6+n9v0O8PQL0h4D+hZ9v38v3v1sF9NqD24+Z/n4D1Z26t7v8cAFh/f50APv1rA5oH7F0K4O+/a4f5A29PqT96L4u3v8sAMAX5O+H+F9gL4e9hF4tW/t9f/v/227578N6H1X1F9B7v84uN99uE8LhY+D4J8J3t8AAB0c8XbO7QBA+7r0f54E+N/v/uJ724v5HwK8fwP6h5q4A6P9ZANgAAAPwL77E9oV3wE8vL6P+2A4d2/4M4N2AABX8r698A4O7X6P4gAf99v89fA4APgC27y8v8F1+jQdO4H4u8A/C23/m4LwD9v3gPgC21yvL7hY9vX8v4/8eP9cAPh/1bEfxP1gA==">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=VT323&display=swap" rel="stylesheet">
     <style>
@@ -22,11 +20,11 @@
 <body class="min-h-screen p-4 md:p-8 selection:bg-red-950 selection:text-red-300">
     <div class="max-w-4xl mx-auto space-y-6">
         
-        <!-- Logo de la calabaza usando la imagen proporcionada -->
+        <!-- Imagen de la calabaza roja estilo Helloween en la parte superior -->
         <div class="flex justify-center mb-2">
-            <div class="p-2 bg-black border border-red-900/50 shadow-[0_0_15px_rgba(220,38,38,0.2)] rounded">
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAPmSURBVHgB7Zt5bFRlGMd/Z1Z2ZtnOHra03G3bFjC3rRBCRFRBC1jEAAKJJgiiUvHCLu6CgshGjAsKIi4Y3BAvKCLqLqK7a7Wl1HbpLqUt1JbO7czsM3PfH53sZJtC7ez8JjPzfZ7v+d7zPe933vv73r0A9V04F8gL5xK3EwA5bM9rC0A5FOBq3K4D8E0A9B935H8aQO7X4b6N2fX3LwQAH0RUA4AAABzL28fSdwB41zS4k/Bv13N07zUaX2fLADw18L8bQO/X4a37f5/p5fTffA8A2H8aQN7D17fCq9gJ8B4Ar4F6W2N+r4H7Hl+/9TqG9qM8vJd7f5n217u7u7H1N19b4X7Hl//2b0B8H6I3g4Af5X6a39u8H5T4H4qfBqIHgDQ76C29V1X7f24wP1UAPqj7g4A60Gqj7j6+n9v0O8PQL0h4D+hZ9v38v3v1sF9NqD24+Z/n4D1Z26t7v8cAFh/f50APv1rA5oH7F0K4O+/a4f5A29PqT96L4u3v8sAMAX5O+H+F9gL4e9hF4tW/t9f/v/227578N6H1X1F9B7v84uN99uE8LhY+D4J8J3t8AAB0c8XbO7QBA+7r0f54E+N/v/uJ724v5HwK8fwP6h5q4A6P9ZANgAAAPwL77E9oV3wE8vL6P+2A4d2/4M4N2AABX8r698A4O7X6P4gAf99v89fA4APgC27y8v8F1+jQdO4H4u8A/C23/m4LwD9v3gPgC21yvL7hY9vX8v4/8eP9cAPh/1bEfxP1gA==" alt="Logo Calabaza" class="w-28 h-28 object-contain drop-shadow-[0_0_10px_#ea580c]">
-            </div>
+            <svg class="w-20 h-20 text-red-600 drop-shadow-[0_0_10px_#dc2626]" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V20h4v1.8c4.56-.93 8-4.96 8-9.8 0-5.52-4.48-10-10-10zm0 3c3.87 0 7 3.13 7 7 0 1.66-.59 3.18-1.57 4.38C16.48 15.5 14.37 15 12 15s-4.48.5-2.43 1.38C8.59 15.18 8 13.66 8 12c0-3.87 3.13-7 7-7zm-4.5 5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm9 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm-4.5 3c-1.1 0-2 .9-2 2h4c0-1.1-.9-2-2-2z"/>
+            </svg>
         </div>
 
         <!-- Cabecera estilo Blog/Zine -->
@@ -49,7 +47,7 @@
             Comprobando conexión con el servidor...
         </div>
 
-        <!-- Monitor de Preguntas y Respuestas en Vivo -->
+        <!-- SECCIÓN NUEVA: Monitor de Preguntas y Respuestas en Vivo -->
         <div class="bg-black border-2 border-red-900/50 p-6 shadow-[4px_4px_0px_0px_#7f1d1d]">
             <div class="flex justify-between items-center mb-4 border-b border-neutral-800 pb-2">
                 <h2 class="text-xs font-bold uppercase tracking-widest text-red-500">
@@ -87,6 +85,7 @@
     </div>
 
     <script>
+        // URL exacta de tu servidor backend en Render
         const URL_SERVIDOR = "https://servidor-examenes.onrender.com";
 
         window.onload = function() {
@@ -136,6 +135,7 @@
             }
         }
 
+        // Función para procesar y formatear preguntas, alternativas invertidas y consenso de IA
         async function cargarLogsPreguntas() {
             const contenedor = document.getElementById('contenedor-logs');
             try {
@@ -150,6 +150,7 @@
                     if (logs && logs.length > 0) {
                         contenedor.innerHTML = "";
                         logs.reverse().forEach(log => {
+                            // Separar pregunta y opciones si vienen juntas en el texto
                             let textoPregunta = log.pregunta || "";
                             let listaOpcionesHTML = "";
 
@@ -158,7 +159,10 @@
                                 textoPregunta = partes[0].trim();
                                 let opcionesTexto = partes[1].trim();
                                 
+                                // Dividir opciones (ej: "1. Opción A 2. Opción B...")
                                 let opcionesMatch = opcionesTexto.split(/(?=\d+\.-|\d+\.\s)/g).map(o => o.trim()).filter(o => o.length > 0);
+                                
+                                // Invertir orden de abajo hacia arriba
                                 opcionesMatch.reverse();
 
                                 listaOpcionesHTML = `<div class="mt-2 space-y-1 pl-2 border-l border-red-900/40">
@@ -169,8 +173,67 @@
                                 listaOpcionesHTML += `</div>`;
                             }
 
+                            // Simulación o lectura del consenso de las 3 IAs (ej: OpenAI / Gemini / Groq)
                             let consensoVotos = log.consenso || log.votos || "3/3/3"; 
 
                             contenedor.innerHTML += `
                                 <div class="bg-neutral-950 border border-neutral-800 p-3 text-xs space-y-2">
-                                    <div class="flex justify-between text-neutral-500 font-terminal
+                                    <div class="flex justify-between text-neutral-500 font-terminal">
+                                        <span>USER: <strong class="text-[#fb923c]">${log.usuario || 'Anónimo'}</strong></span>
+                                        <span>[${log.fecha || 'Justo ahora'}]</span>
+                                    </div>
+                                    <div class="text-neutral-300 font-terminal text-sm">
+                                        <strong class="text-red-600">Q:</strong> ${textoPregunta}
+                                    </div>
+                                    ${listaOpcionesHTML}
+                                    <div class="text-neutral-400 font-terminal text-sm border-t border-neutral-900 pt-2 flex items-center justify-between">
+                                        <div>
+                                            <span class="text-yellow-500 font-bold">[CONSENSO IAs: ${consensoVotos}]</span>
+                                        </div>
+                                        <div>
+                                            <strong class="text-zinc-400">RESPUESTA:</strong> <span class="text-red-500 font-bold text-base">${log.respuesta}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            `;
+                        });
+                    } else {
+                        contenedor.innerHTML = `<div class="text-neutral-600 font-terminal text-lg">&gt; No hay preguntas registradas todavía en esta sesión.</div>`;
+                    }
+                }
+            } catch (e) {
+                contenedor.innerHTML = `<div class="text-neutral-600 font-terminal text-lg">&gt; [Aviso]: Configura la ruta <code class="text-red-500">/api/admin/logs</code> en tu backend para capturar el flujo.</div>`;
+            }
+        }
+
+        async function cargarUsuarios() {
+            const tabla = document.getElementById('tabla-usuarios');
+            const usuarios = [
+                { id: "nonetsixe", activo: true },
+                { id: "lu", activo: true }
+            ];
+
+            tabla.innerHTML = "";
+            usuarios.forEach(u => {
+                tabla.innerHTML += `
+                    <tr class="hover:bg-neutral-950 transition">
+                        <!-- Nombre de usuario con color amarillo naranjoso -->
+                        <td class="py-4 px-2 font-terminal text-lg tracking-wider text-[#fb923c]">${u.id}</td>
+                        <td class="py-4 px-2">
+                            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 text-xs font-terminal tracking-wider ${u.activo ? 'text-red-500 bg-red-950/40 border border-red-900/40' : 'text-neutral-600 bg-neutral-900 border border-neutral-800'}">
+                                <span class="w-1.5 h-1.5 ${u.activo ? 'bg-red-600 animate-pulse' : 'bg-neutral-700'}"></span>
+                                ${u.activo ? 'ACTIVO (🩸)' : 'INACTIVO'}
+                            </span>
+                        </td>
+                        <td class="py-4 px-2 text-right">
+                            <button onclick="alert('Para modificar este usuario, actualiza el objeto USERS_DB en tu repositorio de GitHub.')" class="px-3 py-1 text-xs font-terminal tracking-wider text-neutral-400 bg-neutral-900 hover:bg-red-600 hover:text-black border border-neutral-700 transition uppercase">
+                                Gestionar
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+    </script>
+</body>
+</html>
