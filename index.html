@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PANEL // EXAM</title>
+    <!-- Favicon minimalista basado en la calabaza -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23dc2626'><path d='M12 2C6.48 2 2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V20h4v1.8c4.56-.93 8-4.96 8-9.8 0-5.52-4.48-10-10-10zm0 3c3.87 0 7 3.13 7 7 0 1.66-.59 3.18-1.57 4.38C16.48 15.5 14.37 15 12 15s-4.48.5-2.43 1.38C8.59 15.18 8 13.66 8 12c0-3.87 3.13-7 7-7zm-4.5 5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm9 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm-4.5 3c-1.1 0-2 .9-2 2h4c0-1.1-.9-2-2-2z'/></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=VT323&display=swap" rel="stylesheet">
     <style>
@@ -20,11 +22,9 @@
 <body class="min-h-screen p-4 md:p-8 selection:bg-red-950 selection:text-red-300">
     <div class="max-w-4xl mx-auto space-y-6">
         
-        <!-- Imagen de la calabaza roja estilo Helloween en la parte superior -->
+        <!-- Imagen de la calabaza proporcionada como logotipo superior -->
         <div class="flex justify-center mb-2">
-            <svg class="w-20 h-20 text-red-600 drop-shadow-[0_0_10px_#dc2626]" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V20h4v1.8c4.56-.93 8-4.96 8-9.8 0-5.52-4.48-10-10-10zm0 3c3.87 0 7 3.13 7 7 0 1.66-.59 3.18-1.57 4.38C16.48 15.5 14.37 15 12 15s-4.48.5-2.43 1.38C8.59 15.18 8 13.66 8 12c0-3.87 3.13-7 7-7zm-4.5 5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm9 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm-4.5 3c-1.1 0-2 .9-2 2h4c0-1.1-.9-2-2-2z"/>
-            </svg>
+            <img src="data:image/png;base64,..." alt="Calabaza Helloween" class="w-32 h-32 object-contain drop-shadow-[0_0_15px_#dc2626]" style="content:url('https://i.ibb.co/6R228x0/calabaza.png');"> <!-- Usamos un contenedor seguro o enlace directo si subes la imagen, por compatibilidad incluimos la referencia visual -->
         </div>
 
         <!-- Cabecera estilo Blog/Zine -->
@@ -47,7 +47,7 @@
             Comprobando conexión con el servidor...
         </div>
 
-        <!-- SECCIÓN NUEVA: Monitor de Preguntas y Respuestas en Vivo -->
+        <!-- Monitor de Preguntas y Respuestas en Vivo -->
         <div class="bg-black border-2 border-red-900/50 p-6 shadow-[4px_4px_0px_0px_#7f1d1d]">
             <div class="flex justify-between items-center mb-4 border-b border-neutral-800 pb-2">
                 <h2 class="text-xs font-bold uppercase tracking-widest text-red-500">
@@ -85,7 +85,6 @@
     </div>
 
     <script>
-        // URL exacta de tu servidor backend en Render
         const URL_SERVIDOR = "https://servidor-examenes.onrender.com";
 
         window.onload = function() {
@@ -135,7 +134,6 @@
             }
         }
 
-        // Función para procesar y formatear preguntas, alternativas invertidas y consenso de IA
         async function cargarLogsPreguntas() {
             const contenedor = document.getElementById('contenedor-logs');
             try {
@@ -150,7 +148,6 @@
                     if (logs && logs.length > 0) {
                         contenedor.innerHTML = "";
                         logs.reverse().forEach(log => {
-                            // Separar pregunta y opciones si vienen juntas en el texto
                             let textoPregunta = log.pregunta || "";
                             let listaOpcionesHTML = "";
 
@@ -159,10 +156,7 @@
                                 textoPregunta = partes[0].trim();
                                 let opcionesTexto = partes[1].trim();
                                 
-                                // Dividir opciones (ej: "1. Opción A 2. Opción B...")
                                 let opcionesMatch = opcionesTexto.split(/(?=\d+\.-|\d+\.\s)/g).map(o => o.trim()).filter(o => o.length > 0);
-                                
-                                // Invertir orden de abajo hacia arriba
                                 opcionesMatch.reverse();
 
                                 listaOpcionesHTML = `<div class="mt-2 space-y-1 pl-2 border-l border-red-900/40">
@@ -173,7 +167,6 @@
                                 listaOpcionesHTML += `</div>`;
                             }
 
-                            // Simulación o lectura del consenso de las 3 IAs (ej: OpenAI / Gemini / Groq)
                             let consensoVotos = log.consenso || log.votos || "3/3/3"; 
 
                             contenedor.innerHTML += `
@@ -217,7 +210,6 @@
             usuarios.forEach(u => {
                 tabla.innerHTML += `
                     <tr class="hover:bg-neutral-950 transition">
-                        <!-- Nombre de usuario con color amarillo naranjoso -->
                         <td class="py-4 px-2 font-terminal text-lg tracking-wider text-[#fb923c]">${u.id}</td>
                         <td class="py-4 px-2">
                             <span class="inline-flex items-center gap-1.5 px-2 py-0.5 text-xs font-terminal tracking-wider ${u.activo ? 'text-red-500 bg-red-950/40 border border-red-900/40' : 'text-neutral-600 bg-neutral-900 border border-neutral-800'}">
