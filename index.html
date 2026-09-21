@@ -42,13 +42,13 @@
     </div>
 
     <script>
-        // ⚠️ CAMBIA ESTA URL POR LA DE TU SERVIDOR ACTUAL EN RENDER (la que sale en tu primer captura)
+        // URL de tu servidor en Render
         const URL_SERVIDOR = "https://servidor-examenes.onrender.com";
 
         async function probarConexion() {
             const cajaEstado = document.getElementById('estado-conexion');
             cajaEstado.className = "bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 rounded-r-lg text-yellow-700";
-            cajaEstado.innerHTML = "Conectando con el servidor...";
+            cajaEstado.innerHTML = "Conectando con el servidor (recuerda que puede tardar unos segundos si está inactivo)...";
 
             try {
                 // Hacemos una petición de prueba a tu servidor
@@ -62,7 +62,7 @@
                 }
             } catch (error) {
                 cajaEstado.className = "bg-red-50 border-l-4 border-red-400 p-4 mb-6 rounded-r-lg text-red-700";
-                cajaEstado.innerHTML = "<strong>Error de conexión:</strong> No se pudo contactar con el servidor. (Recuerda que las instancias gratuitas de Render pueden tardar unos segundos en despertar).";
+                cajaEstado.innerHTML = "<strong>Error de conexión:</strong> No se pudo contactar con el servidor. (Dale unos segundos más para que despierte la instancia gratuita de Render y vuelve a hacer clic).";
             }
         }
     </script>
