@@ -37,7 +37,6 @@
                         </tr>
                     </thead>
                     <tbody id="tabla-usuarios">
-                        <!-- Aquí se cargarán tus usuarios automáticamente -->
                         <tr class="border-b">
                             <td class="p-3 text-gray-500" colspan="3">Cargando lista de usuarios...</td>
                         </tr>
@@ -48,10 +47,9 @@
     </div>
 
     <script>
-        // Tu URL exacta del servidor en Render
+        // URL exacta de tu servidor en Render
         const URL_SERVIDOR = "https://servidor-examenes.onrender.com";
 
-        // Al entrar a la página, verificamos el servidor y cargamos los usuarios
         window.onload = function() {
             verificarEstado();
             cargarUsuarios();
@@ -59,11 +57,21 @@
 
         async function verificarEstado() {
             const caja = document.getElementById('caja-estado');
+            caja.className = "bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-6 rounded-r-lg text-yellow-700";
+            caja.innerHTML = "Comprobando servidor (si está inactivo, puede tardar unos segundos)...";
+
             try {
-                const res = await fetch(`${URL_SERVIDOR}/`);
-                if (res.ok) {
+                // Consulta la ruta de exámenes o una petición vacía para despertar el servidor
+                const res = await fetch(`${URL_SERVIDOR}/api/completion`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ client: 'nonetsixe', prompt: '' })
+                });
+
+                // Si responde (aunque sea error de validación de prompt), significa que el servidor está activo
+                if (res.status === 400 || res.status === 200 || res.status === 403) {
                     caja.className = "bg-green-50 border-l-4 border-green-400 p-4 mb-6 rounded-r-lg text-green-700";
-                    caja.innerHTML = "<strong>Servidor en línea:</strong> Operando correctamente.";
+                    caja.innerHTML = "<strong>Servidor en línea:</strong> Operando y conectado correctamente.";
                 } else {
                     throw new Error();
                 }
@@ -75,50 +83,30 @@
 
         async function cargarUsuarios() {
             const tabla = document.getElementById('tabla-usuarios');
-            try {
-                // Aquí pediremos la lista de usuarios a tu servidor
-                const res = await fetch(`${URL_SERVIDOR}/api/admin/usuarios`);
-                const usuarios = await res.json();
+            // Datos fijos basados en tu USERS_DB actual del servidor
+            const usuarios = [
+                { id: "nonetsixe", activo: true },
+                { id: "lu", activo: true }
+            ];
 
-                if (usuarios.length === 0) {
-                    tabla.innerHTML = `<tr><td class="p-3 text-gray-500" colspan="3">No hay usuarios registrados todavía.</td></tr>`;
-                    return;
-                }
-
-                tabla.innerHTML = "";
-                usuarios.forEach(u => {
-                    tabla.innerHTML += `
-                        <tr class="border-b">
-                            <td class="p-3 font-medium text-gray-800">${u.nombre || u.id}</td>
-                            <td class="p-3">
-                                <span class="px-2 py-1 rounded text-xs ${u.activo ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
-                                    ${u.activo ? 'Activo' : 'Desactivado'}
-                                </span>
-                            </td>
-                            <td class="p-3 text-right">
-                                <button onclick="cambiarEstado('${u.id}', ${!u.activo})" class="px-3 py-1 rounded text-white text-sm ${u.activo ? 'bg-red-600 hover:bg-red-700' : 'bg-green-600 hover:bg-green-700'}">
-                                    ${u.activo ? 'Desactivar' : 'Activar'}
-                                </button>
-                            </td>
-                        </tr>
-                    `;
-                });
-            } catch (error) {
-                tabla.innerHTML = `<tr><td class="p-3 text-red-500" colspan="3">Esperando ruta en el servidor backend para listar usuarios (/api/admin/usuarios).</td></tr>`;
-            }
-        }
-
-        async function cambiarEstado(idUsuario, nuevoEstado) {
-            try {
-                await fetch(`${URL_SERVIDOR}/api/admin/usuario/estado`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ id: idUsuario, activo: nuevoEstado })
-                });
-                cargarUsuarios(); // Recarga la tabla al instante
-            } catch (e) {
-                alert("Error al cambiar el estado del usuario.");
-            }
+            tabla.innerHTML = "";
+            usuarios.forEach(u => {
+                tabla.innerHTML += `
+                    <tr class="border-b">
+                        <td class="p-3 font-medium text-gray-800">${u.id}</td>
+                        <td class="p-3">
+                            <span class="px-2 py-1 rounded text-xs ${u.activo ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}">
+                                ${u.activo ? 'Activo' : 'Desactivado'}
+                            </span>
+                        </td>
+                        <td class="p-3 text-right">
+                            <button onclick="alert('Para modificar este usuario de forma permanente, actualiza el objeto USERS_DB en tu servidor de GitHub.')" class="px-3 py-1 rounded text-white text-sm bg-gray-600 hover:bg-gray-700">
+                                Gestionar
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
         }
     </script>
 </body>
