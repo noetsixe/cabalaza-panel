@@ -40,7 +40,7 @@
     <div class="max-w-4xl mx-auto space-y-6">
         
         <div class="flex justify-center mb-2">
-            <img src="cabalaza-logo.png" alt="Logo Cabalaza" class="w-40 h-40 md:w-48 md:h-48 object-contain">
+            <img src="cabalaza-logo.png" alt="Logo Cabalaza" class="w-40 h-40 md:w-48 md:h-48 object-contain filter drop-shadow-[0_0_15px_rgba(234,179,8,0.7)]">
         </div>
 
         <header class="bg-black border-2 border-red-600 p-6 shadow-[4px_4px_0px_0px_#dc2626] flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -61,7 +61,7 @@
             Comprobando conexión con el servidor...
         </div>
 
-        <!-- SECCIÓN DE PREGUNTAS EN TIEMPO REAL (CAMBIADA A ROJO) -->
+        <!-- SECCIÓN DE PREGUNTAS EN TIEMPO REAL -->
         <div class="bg-black border-2 border-red-600 p-6 shadow-[4px_4px_0px_0px_#dc2626]">
             <div class="flex justify-between items-center mb-4 border-b border-red-900 pb-2">
                 <h2 class="text-[10px] font-bold uppercase tracking-widest text-red-500">
@@ -204,7 +204,7 @@
 
                             let bloqueConsolaHTML = `
                                 <div class="mt-2 space-y-1 border-t border-red-950 pt-2 font-terminal text-[10px]">
-                                    <div class="text-red-400 font-bold">${consensoTextoLinea}</div>
+                                    <div class="text-pink-400 font-bold">${consensoTextoLinea}</div>
                                     <div class="text-cyan-300">${intentoTextoLinea}</div>
                                 </div>
                             `;
@@ -212,7 +212,7 @@
                             contenedor.innerHTML += `
                                 <div class="bg-black border border-red-800 p-3 text-[10px] space-y-2">
                                     <div class="flex justify-between text-neutral-300 font-terminal">
-                                        <span>USER: <strong class="text-red-500">${log.usuario || 'Anónimo'}</strong></span>
+                                        <span>USER: <strong class="text-pink-400">${log.usuario || 'Anónimo'}</strong></span>
                                         <span class="text-cyan-400">[${log.fecha || 'Justo ahora'}]</span>
                                     </div>
                                     <div class="text-green-400 font-terminal text-xs">
@@ -248,7 +248,7 @@
             usuarios.forEach(u => {
                 tabla.innerHTML += `
                     <tr class="hover:bg-neutral-900 transition">
-                        <td class="py-4 px-2 font-terminal text-xs tracking-wider text-orange-400">${u.id}</td>
+                        <td class="py-4 px-2 font-terminal text-xs tracking-wider text-pink-400">${u.id}</td>
                         <td class="py-4 px-2">
                             <span class="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-terminal tracking-wider ${u.activo ? 'text-red-500 bg-red-950 border border-red-800' : 'text-neutral-500 bg-black border border-neutral-800'}">
                                 <span class="w-1.5 h-1.5 ${u.activo ? 'bg-red-600 animate-pulse' : 'bg-neutral-600'}"></span>
