@@ -82,61 +82,80 @@
             transition: filter 0.4s ease;
         }
 
-        /* OVERLAY OLA MYSTIQUE / ARCADE */
+        /* OVERLAY OLA MYSTIQUE / ARCADE COMPLETO */
         #pixel-flash-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
             pointer-events: none;
             z-index: 9999;
             opacity: 0;
+            /* Cuadrícula tupida estilo retro/arcade de 6px */
             mask-image: repeating-conic-gradient(#000 0% 25%, transparent 0% 50%);
-            mask-size: 8px 8px; /* Píxeles más pequeños y sin espacios */
+            mask-size: 6px 6px;
             -webkit-mask-image: repeating-conic-gradient(#000 0% 25%, transparent 0% 50%);
-            -webkit-mask-size: 8px 8px;
+            -webkit-mask-size: 6px 6px;
         }
 
-        /* ANIMACIÓN EN OLA DE ABAJO HACIA ARRIBA (0.5s) */
-        @keyframes olaMystiqueAmarillo {
+        /* ANIMACIÓN EN OLA DE ABAJO HACIA ARRIBA CON COBERTURA TOTAL TEMPORAL (0.5s) */
+        @keyframes olaArcadeAmarillo {
             0% {
-                opacity: 0;
-                background: linear-gradient(to top, rgba(234, 179, 8, 1) 0%, rgba(254, 240, 138, 0.8) 10%, transparent 20%);
+                opacity: 1;
+                background: linear-gradient(to top, #eab308 0%, transparent 5%);
             }
+            35% {
+                opacity: 1;
+                background: linear-gradient(to top, #eab308 0%, #fef08a 80%, transparent 100%);
+            }
+            /* CUBRE TODA LA PANTALLA POR UNOS MILISEGUNDOS */
             50% {
                 opacity: 1;
-                background: linear-gradient(to top, transparent 20%, rgba(234, 179, 8, 1) 50%, rgba(254, 240, 138, 0.9) 60%, transparent 80%);
+                background: #eab308;
+            }
+            65% {
+                opacity: 1;
+                background: linear-gradient(to top, transparent 0%, #fef08a 20%, #eab308 100%);
             }
             100% {
                 opacity: 0;
-                background: linear-gradient(to top, transparent 80%, rgba(234, 179, 8, 1) 90%, rgba(254, 240, 138, 0.8) 100%);
+                background: linear-gradient(to top, transparent 95%, #eab308 100%);
             }
         }
 
-        @keyframes olaMystiqueRojo {
+        @keyframes olaArcadeRojo {
             0% {
-                opacity: 0;
-                background: linear-gradient(to top, rgba(220, 38, 38, 1) 0%, rgba(252, 165, 165, 0.8) 10%, transparent 20%);
+                opacity: 1;
+                background: linear-gradient(to top, #dc2626 0%, transparent 5%);
             }
+            35% {
+                opacity: 1;
+                background: linear-gradient(to top, #dc2626 0%, #fca5a5 80%, transparent 100%);
+            }
+            /* CUBRE TODA LA PANTALLA POR UNOS MILISEGUNDOS */
             50% {
                 opacity: 1;
-                background: linear-gradient(to top, transparent 20%, rgba(220, 38, 38, 1) 50%, rgba(252, 165, 165, 0.9) 60%, transparent 80%);
+                background: #dc2626;
+            }
+            65% {
+                opacity: 1;
+                background: linear-gradient(to top, transparent 0%, #fca5a5 20%, #dc2626 100%);
             }
             100% {
                 opacity: 0;
-                background: linear-gradient(to top, transparent 80%, rgba(220, 38, 38, 1) 90%, rgba(252, 165, 165, 0.8) 100%);
+                background: linear-gradient(to top, transparent 95%, #dc2626 100%);
             }
         }
 
         .flash-anim-on {
-            animation: olaMystiqueAmarillo 0.5s steps(10, end) forwards;
+            animation: olaArcadeAmarillo 0.5s steps(12, end) forwards;
         }
         .flash-anim-off {
-            animation: olaMystiqueRojo 0.5s steps(10, end) forwards;
+            animation: olaArcadeRojo 0.5s steps(12, end) forwards;
         }
     </style>
 </head>
 <body class="min-h-screen p-4 md:p-8 selection:bg-red-950 selection:text-red-300" onclick="cerrarTodosLosMenus(event)">
     
-    <!-- OVERLAY PARA EFECTO PIXELEADO EN OLA -->
+    <!-- OVERLAY PARA EFECTO PIXELEADO EN OLA COMPLETA -->
     <div id="pixel-flash-overlay"></div>
 
     <!-- CONTENEDOR FLOTANTE PARA PEDIR CONTRASEÑA -->
@@ -222,7 +241,6 @@
                 &gt;&gt; ADMINISTRACIÓN DE USUARIOS [DATABASE]
             </h2>
 
-            <!-- Formulario para agregar usuario nuevo directamente -->
             <div class="bg-neutral-950 border border-neutral-800 p-4 space-y-3">
                 <div class="text-[10px] text-cyan-400 font-terminal">// REGISTRAR NUEVO USUARIO</div>
                 <form id="form-crear-usuario" onsubmit="crearUsuario(event)" class="flex flex-col md:flex-row gap-3">
@@ -234,7 +252,6 @@
                 </form>
             </div>
 
-            <!-- Buscador en tiempo real de usuarios -->
             <div class="flex items-center gap-2 bg-black border border-neutral-800 px-3 py-2">
                 <span class="text-neutral-500 text-[10px]">&gt; FILTRAR:</span>
                 <input type="text" id="buscador-usuarios" onkeyup="filtrarUsuarios()" placeholder="Buscar usuario por ID..." 
@@ -376,7 +393,7 @@
                     
                     checkbox.checked = data.active;
 
-                    // Reproducir animación en ola estilo Mystique (0.5s)
+                    // Reproducir animación en ola completa arcade (0.5s)
                     actualizarEfectosVisuales(data.active, true);
 
                     if (data.active) {
