@@ -179,7 +179,8 @@
                             let intentosHTML = "";
                             let consensoResumen = "";
 
-                            let matchesIntentos = rawDataString.match(/Intento\s*\d+[^"\\]*/g);
+                            // Capturar líneas exactas de intentos con formato "--> Intento 1 (OpenAI, Gemini, Groq): [ '2', '2', '2' ]"
+                            let matchesIntentos = rawDataString.match(/Intento\s*\d+\s*\(.*?\):\s*\[.*?\]/g);
                             let intentosUnicos = [];
                             if (matchesIntentos) {
                                 matchesIntentos.forEach(m => {
@@ -190,12 +191,13 @@
                             if (intentosUnicos.length > 0) {
                                 intentosHTML = `<div class="mt-2 space-y-1 border-t border-neutral-900 pt-2"><div class="text-xs text-yellow-600 font-terminal">// REGISTRO DE INTENTOS DE IAs:</div>`;
                                 intentosUnicos.forEach(intentoTxt => {
-                                    intentosHTML += `<div class="text-neutral-300 font-terminal text-xs">↳ ${intentoTxt.replace(/\\n/g, '')}</div>`;
+                                    intentosHTML += `<div class="text-neutral-300 font-terminal text-xs">--> ${intentoTxt.replace(/\\n/g, '')}</div>`;
                                 });
                                 intentosHTML += `</div>`;
                             }
 
-                            let matchConsensoExacto = rawDataString.match(/Consenso\s*alcanzado[^"\\]*/i);
+                            // Capturar línea exacta de consenso "Consenso alcanzado en Intento 1: 2 (3/3 votos)"
+                            let matchConsensoExacto = rawDataString.match(/Consenso\s*alcanzado\s*en\s*Intento\s*\d+:\s*[^\\]*/i);
                             if (matchConsensoExacto) {
                                 consensoResumen = matchConsensoExacto[0].replace(/\\n/g, '');
                             } else {
@@ -220,7 +222,7 @@
                                     ${intentosHTML}
                                     <div class="text-neutral-400 font-terminal text-sm border-t border-neutral-900 pt-2 flex flex-col md:flex-row items-start md:items-center justify-between gap-1">
                                         <div>
-                                            <span class="text-yellow-500 font-bold">[CONSENSO IAs: ${consensoResumen}]</span>
+                                            <span class="text-yellow-500 font-bold">[${consensoResumen}]</span>
                                         </div>
                                         <div>
                                             <strong class="text-zinc-400">RESPUESTA:</strong> <span class="text-red-500 font-bold text-base">${log.respuesta || 'N/A'}</span>
