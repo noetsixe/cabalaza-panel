@@ -130,7 +130,7 @@
             <p class="text-[10px] text-neutral-300 leading-relaxed font-terminal">
                 Introduce la contraseña de administrador para cambiar el estado del servidor:
             </p>
-            <input type="password" id="input-admin-pass" placeholder="Contraseña..." 
+            <input type="password" id="input-admin-pass" placeholder="Contraseña..." onkeyup="if(event.key==='Enter') ejecutarCambioServidor()"
                 class="w-full bg-neutral-950 border border-neutral-700 px-3 py-2 text-xs text-red-500 focus:outline-none focus:border-red-600 font-terminal">
             <div class="flex justify-end gap-2 pt-2">
                 <button onclick="cerrarModalPassword()" class="bg-neutral-900 hover:bg-neutral-800 text-neutral-400 text-[10px] px-3 py-2 border border-neutral-700 uppercase cursor-pointer">
@@ -633,7 +633,7 @@
 
             try {
                 const res = await fetch(`${URL_SERVIDOR}/api/admin/user/delete`, {
-                    method: 'POST',
+                    method: 'DELETE',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ usuario: usuarioId })
                 });
@@ -641,7 +641,8 @@
                 if (res.ok) {
                     cargarUsuarios();
                 } else {
-                    alert("No se pudo eliminar el usuario.");
+                    const data = await res.json();
+                    alert(data.error || "No se pudo eliminar el usuario.");
                 }
             } catch (e) {
                 alert("Error de conexión al intentar eliminar el usuario.");
