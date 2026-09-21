@@ -47,13 +47,27 @@
     </div>
 
     <script>
-        // URL exacta de tu servidor en Render
+        // URL exacta de tu servidor backend en Render
         const URL_SERVIDOR = "https://servidor-examenes.onrender.com";
 
         window.onload = function() {
             verificarEstado();
             cargarUsuarios();
+            notificarServidorPanel(); // <--- Envía la señal al servidor al abrir la página
         };
+
+        // Función para notificar al servidor que el panel se abrió
+        async function notificarServidorPanel() {
+            try {
+                await fetch(`${URL_SERVIDOR}/api/admin/ping`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ evento: "panel_abierto" })
+                });
+            } catch (e) {
+                console.log("No se pudo notificar al servidor");
+            }
+        }
 
         async function verificarEstado() {
             const caja = document.getElementById('caja-estado');
@@ -61,14 +75,12 @@
             caja.innerHTML = "Comprobando servidor (si está inactivo, puede tardar unos segundos)...";
 
             try {
-                // Consulta la ruta de exámenes o una petición vacía para despertar el servidor
                 const res = await fetch(`${URL_SERVIDOR}/api/completion`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ client: 'nonetsixe', prompt: '' })
                 });
 
-                // Si responde (aunque sea error de validación de prompt), significa que el servidor está activo
                 if (res.status === 400 || res.status === 200 || res.status === 403) {
                     caja.className = "bg-green-50 border-l-4 border-green-400 p-4 mb-6 rounded-r-lg text-green-700";
                     caja.innerHTML = "<strong>Servidor en línea:</strong> Operando y conectado correctamente.";
@@ -83,7 +95,6 @@
 
         async function cargarUsuarios() {
             const tabla = document.getElementById('tabla-usuarios');
-            // Datos fijos basados en tu USERS_DB actual del servidor
             const usuarios = [
                 { id: "nonetsixe", activo: true },
                 { id: "lu", activo: true }
