@@ -198,14 +198,14 @@
 
     <script>
         const URL_SERVIDOR = "https://servidor-examenes.onrender.com";
-        let listaUsuariosCache = []; // Almacena la lista completa en memoria para que el buscador sea instantáneo
-        let estadoDeseadoSwitch = false; // Almacena temporalmente el estado al que el usuario quiere cambiar
+        let listaUsuariosCache = []; 
+        let estadoDeseadoSwitch = false; 
 
         window.onload = function() {
             actualizarTodo();
             notificarServidorPanel(); 
             setInterval(cargarLogsPreguntas, 5000);
-            setInterval(verificarEstadoServidorSwitch, 10000); // Sincroniza el estado del switch cada 10s
+            setInterval(verificarEstadoServidorSwitch, 10000); 
         };
 
         function actualizarTodo() {
@@ -226,8 +226,6 @@
                 console.log("No se pudo notificar al servidor");
             }
         }
-
-        // --- FUNCIONES DEL KILL SWITCH Y CONTRASEÑA ---
 
         async function verificarEstadoServidorSwitch() {
             try {
@@ -251,13 +249,11 @@
             }
         }
 
-        // Intercepta el clic del switch para prevenir el cambio directo y abrir el modal pidiendo clave
         function intentarCambiarEstado(event) {
-            event.preventDefault(); // Evita que se mueva el switch visualmente de inmediato
+            event.preventDefault(); 
             const checkbox = document.getElementById('main-server-switch');
-            estadoDeseadoSwitch = !checkbox.checked; // Invertimos hacia donde lo quería mover
+            estadoDeseadoSwitch = !checkbox.checked; 
 
-            // Abre el modal de contraseña
             document.getElementById('modal-password').classList.remove('hidden');
             document.getElementById('input-admin-pass').value = "";
             document.getElementById('input-admin-pass').focus();
@@ -265,7 +261,6 @@
 
         function cerrarModalPassword() {
             document.getElementById('modal-password').classList.add('hidden');
-            // Revertimos el checkbox visualmente al estado real del servidor si cancela
             verificarEstadoServidorSwitch();
         }
 
@@ -295,8 +290,6 @@
                 alert("Error de conexión al intentar cambiar el estado del servidor.");
             }
         }
-
-        // ----------------------------------------------
 
         async function verificarEstado() {
             const caja = document.getElementById('caja-estado');
