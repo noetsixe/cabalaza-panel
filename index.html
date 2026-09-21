@@ -10,7 +10,7 @@
     <style>
         body {
             background-color: #000000;
-            color: #171717; /* Tipografía principal invertida a oscuro */
+            color: #b91c1c;
             font-family: 'Press Start 2P', monospace, sans-serif;
             font-size: 11px;
             -webkit-font-smoothing: none;
@@ -25,14 +25,14 @@
         }
         #contenedor-logs::-webkit-scrollbar-track {
             background: #0a0a0a;
-            border-left: 1px solid #dc2626; /* Invertido */
+            border-left: 1px solid #262626;
         }
         #contenedor-logs::-webkit-scrollbar-thumb {
-            background: #262626; /* Invertido */
-            border: 1px solid #171717; /* Invertido */
+            background: #dc2626;
+            border: 1px solid #ef4444;
         }
         #contenedor-logs::-webkit-scrollbar-thumb:hover {
-            background: #404040;
+            background: #f87171;
         }
 
         /* Estilo personalizado para el switch de encendido/apagado */
@@ -52,7 +52,7 @@
             cursor: pointer;
             top: 0; left: 0; right: 0; bottom: 0;
             background-color: #171717;
-            border: 1px solid #dc2626; /* Borde invertido */
+            border: 1px solid #404040;
             transition: .2s;
         }
         .slider:before {
@@ -67,7 +67,7 @@
         }
         input:checked + .slider {
             background-color: #991b1b;
-            border-color: #ef4444;
+            border-color: #dc2626;
         }
         input:checked + .slider:before {
             transform: translateX(22px);
@@ -90,6 +90,7 @@
             pointer-events: none;
             z-index: 9999;
             opacity: 0;
+            /* Cuadrícula tupida estilo retro/arcade de 6px */
             mask-image: repeating-conic-gradient(#000 0% 25%, transparent 0% 50%);
             mask-size: 6px 6px;
             -webkit-mask-image: repeating-conic-gradient(#000 0% 25%, transparent 0% 50%);
@@ -106,6 +107,7 @@
                 opacity: 1;
                 background: linear-gradient(to top, #eab308 80%, transparent 100%);
             }
+            /* CUBRE TODA LA PANTALLA DE UN SOLO COLOR SÓLIDO POR UNOS MILISEGUNDOS */
             40%, 60% {
                 opacity: 1;
                 background: #eab308;
@@ -129,6 +131,7 @@
                 opacity: 1;
                 background: linear-gradient(to top, #dc2626 80%, transparent 100%);
             }
+            /* CUBRE TODA LA PANTALLA DE UN SOLO COLOR SÓLIDO POR UNOS MILISEGUNDOS */
             40%, 60% {
                 opacity: 1;
                 background: #dc2626;
@@ -164,9 +167,10 @@
             animation: vibrar 0.08s infinite linear;
         }
 
-        /* FLASH ROJO TEMPORAL EN EL FONDO */
-        .bg-flash-rojo {
-            background-color: #dc2626 !important;
+        /* INVERSIÓN TOTAL DE COLORES EN LA INTERFAZ */
+        .modo-invertido {
+            filter: invert(100%) hue-rotate(180deg);
+            transition: filter 0.05s ease;
         }
     </style>
 </head>
@@ -177,21 +181,21 @@
 
     <!-- CONTENEDOR FLOTANTE PARA PEDIR CONTRASEÑA -->
     <div id="modal-password" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-black border-2 border-neutral-800 p-6 max-w-sm w-full shadow-[6px_6px_0px_0px_#171717] space-y-4">
-            <div class="text-[10px] text-neutral-400 font-bold uppercase tracking-wider border-b border-neutral-800 pb-2 flex justify-between items-center">
+        <div class="bg-black border-2 border-red-600 p-6 max-w-sm w-full shadow-[6px_6px_0px_0px_#dc2626] space-y-4">
+            <div class="text-[10px] text-red-500 font-bold uppercase tracking-wider border-b border-red-900 pb-2 flex justify-between items-center">
                 <span>&gt;&gt; AUTORIZACIÓN REQUERIDA</span>
-                <button onclick="cerrarModalPassword()" class="text-red-500 hover:text-red-400 cursor-pointer">[X]</button>
+                <button onclick="cerrarModalPassword()" class="text-neutral-500 hover:text-red-400 cursor-pointer">[X]</button>
             </div>
-            <p class="text-[10px] text-red-500 leading-relaxed font-terminal">
+            <p class="text-[10px] text-neutral-300 leading-relaxed font-terminal">
                 Introduce la contraseña de administrador para cambiar el estado del servidor:
             </p>
             <input type="password" id="input-admin-pass" placeholder="Contraseña..." onkeyup="if(event.key==='Enter') ejecutarCambioServidor()"
-                class="w-full bg-neutral-950 border border-red-800 px-3 py-2 text-xs text-neutral-300 focus:outline-none focus:border-red-600 font-terminal">
+                class="w-full bg-neutral-950 border border-neutral-700 px-3 py-2 text-xs text-red-500 focus:outline-none focus:border-red-600 font-terminal">
             <div class="flex justify-end gap-2 pt-2">
-                <button onclick="cerrarModalPassword()" class="bg-neutral-900 hover:bg-neutral-800 text-red-400 text-[10px] px-3 py-2 border border-red-800 uppercase cursor-pointer">
+                <button onclick="cerrarModalPassword()" class="bg-neutral-900 hover:bg-neutral-800 text-neutral-400 text-[10px] px-3 py-2 border border-neutral-700 uppercase cursor-pointer">
                     Cancelar
                 </button>
-                <button onclick="ejecutarCambioServidor()" class="bg-red-950 hover:bg-red-600 text-neutral-300 hover:text-black font-bold text-[10px] px-4 py-2 border border-black transition uppercase tracking-widest cursor-pointer">
+                <button onclick="ejecutarCambioServidor()" class="bg-red-950 hover:bg-red-600 text-red-400 hover:text-black font-bold text-[10px] px-4 py-2 border border-red-800 transition uppercase tracking-widest cursor-pointer">
                     Autorizar
                 </button>
             </div>
@@ -201,18 +205,18 @@
     <div class="max-w-4xl mx-auto space-y-6">
         
         <!-- INTERRUPTOR GENERAL EN LA ESQUINA SUPERIOR IZQUIERDA -->
-        <div class="flex items-center justify-between bg-black border border-red-600 px-4 py-2.5 shadow-[2px_2px_0px_0px_#dc2626] motor-afectado">
+        <div class="flex items-center justify-between bg-black border border-neutral-800 px-4 py-2.5 shadow-[2px_2px_0px_0px_#171717] motor-afectado">
             <div class="flex items-center gap-3">
                 <label class="switch">
                     <input type="checkbox" id="main-server-switch" onclick="intentarCambiarEstado(event)">
                     <span class="slider"></span>
                 </label>
                 <div class="flex flex-col">
-                    <span class="text-[9px] text-red-500 tracking-wider">ESTADO DEL MOTOR DE IA</span>
-                    <span id="label-estado-texto" class="text-[10px] font-bold text-neutral-400 uppercase tracking-widest">DESCONECTADO</span>
+                    <span class="text-[9px] text-neutral-400 tracking-wider">ESTADO DEL MOTOR DE IA</span>
+                    <span id="label-estado-texto" class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">DESCONECTADO</span>
                 </div>
             </div>
-            <div class="text-[9px] text-red-600 font-terminal hidden md:block">
+            <div class="text-[9px] text-neutral-600 font-terminal hidden md:block">
                 // KILL_SWITCH SECURE
             </div>
         </div>
@@ -221,56 +225,56 @@
             <img id="img-calabaza" src="cabalaza-logo.png" alt="Logo Cabalaza" onclick="efectoCalabazaVibrar(event)" class="w-40 h-40 md:w-48 md:h-48 object-contain filter drop-shadow-[0_0_15px_rgba(234,179,8,0.7)] cursor-pointer active:scale-95 transition-transform">
         </div>
 
-        <header class="bg-black border-2 border-neutral-800 p-6 shadow-[4px_4px_0px_0px_#171717] flex flex-col md:flex-row justify-between items-start md:items-center gap-4 motor-afectado">
+        <header class="bg-black border-2 border-red-600 p-6 shadow-[4px_4px_0px_0px_#dc2626] flex flex-col md:flex-row justify-between items-start md:items-center gap-4 motor-afectado">
             <div>
-                <h1 class="text-xl md:text-2xl font-bold tracking-widest text-neutral-300 uppercase flex items-center gap-2">
-                    <span class="inline-block w-3 h-3 bg-neutral-300 animate-pulse"></span>
+                <h1 class="text-xl md:text-2xl font-bold tracking-widest text-red-600 uppercase flex items-center gap-2">
+                    <span class="inline-block w-3 h-3 bg-red-600 animate-pulse"></span>
                     CABALAZA
                 </h1>
-                <p class="text-[10px] text-neutral-500 font-terminal tracking-wider mt-1">// GESTIÓN DE ACCESOS Y REGISTRO EN VIVO</p>
+                <p class="text-[10px] text-pink-400 font-terminal tracking-wider mt-1">// GESTIÓN DE ACCESOS Y REGISTRO EN VIVO</p>
             </div>
-            <button onclick="actualizarTodo()" class="bg-neutral-800 hover:bg-neutral-700 text-red-500 font-bold text-[10px] px-4 py-2 border border-red-600 shadow-[2px_2px_0px_0px_#dc2626] transition uppercase tracking-widest cursor-pointer">
+            <button onclick="actualizarTodo()" class="bg-red-600 hover:bg-red-700 text-black font-bold text-[10px] px-4 py-2 border border-red-500 shadow-[2px_2px_0px_0px_#ffffff] transition uppercase tracking-widest cursor-pointer">
                 Sincronizar Todo
             </button>
         </header>
 
-        <div id="caja-estado" class="bg-black border-2 border-red-600 p-4 text-red-500 text-xs flex items-center gap-3 motor-afectado">
+        <div id="caja-estado" class="bg-black border-2 border-neutral-700 p-4 text-neutral-300 text-xs flex items-center gap-3 motor-afectado">
             <span class="w-2.5 h-2.5 bg-yellow-500 animate-ping"></span>
             Comprobando conexión con el servidor...
         </div>
 
         <!-- SECCIÓN DE PREGUNTAS EN TIEMPO REAL -->
-        <div class="bg-black border-2 border-neutral-800 p-6 shadow-[4px_4px_0px_0px_#171717] motor-afectado">
-            <div class="flex justify-between items-center mb-4 border-b border-black pb-2">
-                <h2 class="text-[10px] font-bold uppercase tracking-widest text-neutral-400">
+        <div class="bg-black border-2 border-red-600 p-6 shadow-[4px_4px_0px_0px_#dc2626] motor-afectado">
+            <div class="flex justify-between items-center mb-4 border-b border-red-900 pb-2">
+                <h2 class="text-[10px] font-bold uppercase tracking-widest text-red-500">
                     &gt;&gt; MONITOR DE PREGUNTAS Y RESPUESTAS [LIVE_FEED]
                 </h2>
-                <span class="text-[10px] font-terminal text-red-500 animate-pulse">● RECIBIENDO TRAFICO</span>
+                <span class="text-[10px] font-terminal text-cyan-400 animate-pulse">● RECIBIENDO TRAFICO</span>
             </div>
             <div id="contenedor-logs" class="space-y-3 max-h-96 overflow-y-auto pr-2">
-                <div class="text-neutral-500 font-terminal text-xs">&gt; Esperando actividad de los usuarios...</div>
+                <div class="text-cyan-400 font-terminal text-xs">&gt; Esperando actividad de los usuarios...</div>
             </div>
         </div>
 
         <!-- SECCIÓN DE GESTIÓN DE USUARIOS -->
-        <div class="bg-black border-2 border-red-600 p-6 shadow-[4px_4px_0px_0px_#dc2626] space-y-6">
-            <h2 class="text-[10px] font-bold uppercase tracking-widest text-neutral-300 border-b border-red-900 pb-2">
+        <div class="bg-black border-2 border-neutral-700 p-6 shadow-[4px_4px_0px_0px_#262626] space-y-6">
+            <h2 class="text-[10px] font-bold uppercase tracking-widest text-red-500 border-b border-neutral-800 pb-2">
                 &gt;&gt; ADMINISTRACIÓN DE USUARIOS [DATABASE]
             </h2>
 
-            <div class="bg-neutral-950 border border-red-900 p-4 space-y-3">
-                <div class="text-[10px] text-neutral-400 font-terminal">// REGISTRAR NUEVO USUARIO</div>
+            <div class="bg-neutral-950 border border-neutral-800 p-4 space-y-3">
+                <div class="text-[10px] text-cyan-400 font-terminal">// REGISTRAR NUEVO USUARIO</div>
                 <form id="form-crear-usuario" onsubmit="crearUsuario(event)" class="flex flex-col md:flex-row gap-3">
                     <input type="text" id="nuevo-usuario-id" placeholder="ID o Nombre de Usuario..." required 
-                        class="flex-1 bg-black border border-red-800 px-3 py-2 text-xs text-neutral-300 focus:outline-none focus:border-red-600 font-terminal">
-                    <button type="submit" class="bg-neutral-900 hover:bg-neutral-800 text-red-500 hover:text-red-400 font-bold text-[10px] px-4 py-2 border border-red-600 transition uppercase tracking-widest cursor-pointer">
+                        class="flex-1 bg-black border border-neutral-700 px-3 py-2 text-xs text-red-500 focus:outline-none focus:border-red-600 font-terminal">
+                    <button type="submit" class="bg-red-950 hover:bg-red-600 text-red-400 hover:text-black font-bold text-[10px] px-4 py-2 border border-red-800 transition uppercase tracking-widest cursor-pointer">
                         + Crear Usuario
                     </button>
                 </form>
             </div>
 
-            <div class="flex items-center gap-2 bg-black border border-red-800 px-3 py-2">
-                <span class="text-red-500 text-[10px]">&gt; FILTRAR:</span>
+            <div class="flex items-center gap-2 bg-black border border-neutral-800 px-3 py-2">
+                <span class="text-neutral-500 text-[10px]">&gt; FILTRAR:</span>
                 <input type="text" id="buscador-usuarios" onkeyup="filtrarUsuarios()" placeholder="Buscar usuario por ID..." 
                     class="w-full bg-transparent text-xs text-neutral-300 focus:outline-none font-terminal">
             </div>
@@ -278,15 +282,15 @@
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="border-b border-red-900 text-red-500 text-[10px] tracking-wider">
+                        <tr class="border-b border-neutral-800 text-neutral-400 text-[10px] tracking-wider">
                             <th class="py-3 px-2">USUARIO / ID</th>
                             <th class="py-3 px-2">ESTADO DE ACCESO</th>
                             <th class="py-3 px-2 text-right">ACCIÓN</th>
                         </tr>
                     </thead>
-                    <tbody id="tabla-usuarios" class="divide-y divide-red-950 text-xs">
+                    <tbody id="tabla-usuarios" class="divide-y divide-neutral-900 text-xs">
                         <tr>
-                            <td class="py-4 px-2 text-neutral-500 font-terminal text-xs" colspan="3">&gt; Cargando registros...</td>
+                            <td class="py-4 px-2 text-neutral-400 font-terminal text-xs" colspan="3">&gt; Cargando registros...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -309,14 +313,15 @@
         function efectoCalabazaVibrar(e) {
             e.stopPropagation();
             const calabaza = document.getElementById('img-calabaza');
-            const body = document.getElementById('body-principal');
+            const root = document.documentElement;
 
             calabaza.classList.add('vibrar-calabaza');
-            body.classList.add('bg-flash-rojo');
+            root.classList.add('modo-invertido');
 
+            // Duración del flash de inversión (250 milisegundos)
             setTimeout(() => {
                 calabaza.classList.remove('vibrar-calabaza');
-                body.classList.remove('bg-flash-rojo');
+                root.classList.remove('modo-invertido');
             }, 250);
         }
 
@@ -378,7 +383,7 @@
                         labelTexto.className = "text-[10px] font-bold text-green-400 uppercase tracking-widest animate-pulse";
                     } else {
                         labelTexto.innerText = "APAGADO 🔴";
-                        labelTexto.className = "text-[10px] font-bold text-neutral-500 uppercase tracking-widest";
+                        labelTexto.className = "text-[10px] font-bold text-red-500 uppercase tracking-widest";
                     }
                 }
             } catch (e) {
@@ -424,6 +429,7 @@
                     
                     checkbox.checked = data.active;
 
+                    // Reproducir animación en ola completa arcade (0.5s)
                     actualizarEfectosVisuales(data.active, true);
 
                     if (data.active) {
@@ -431,7 +437,7 @@
                         labelTexto.className = "text-[10px] font-bold text-green-400 uppercase tracking-widest animate-pulse";
                     } else {
                         labelTexto.innerText = "APAGADO 🔴";
-                        labelTexto.className = "text-[10px] font-bold text-neutral-500 uppercase tracking-widest";
+                        labelTexto.className = "text-[10px] font-bold text-red-500 uppercase tracking-widest";
                     }
                 } else {
                     alert(data.error || "Contraseña incorrecta o error de autorización.");
@@ -447,7 +453,7 @@
             const caja = document.getElementById('caja-estado');
             let clasesBase = "motor-afectado " + (caja.classList.contains('filtro-gris') ? 'filtro-gris ' : '');
             
-            caja.className = clasesBase + "bg-black border-2 border-red-600 p-4 text-red-500 text-xs flex items-center gap-3";
+            caja.className = clasesBase + "bg-black border-2 border-neutral-700 p-4 text-neutral-300 text-xs flex items-center gap-3";
             caja.innerHTML = `<span class="w-2.5 h-2.5 bg-yellow-500 animate-ping"></span> Comprobando servidor...`;
 
             try {
@@ -457,14 +463,14 @@
                 });
 
                 if (res.ok) {
-                    caja.className = clasesBase + "bg-black border-2 border-black p-4 text-neutral-300 text-xs flex items-center gap-3";
-                    caja.innerHTML = `<span class="w-2.5 h-2.5 bg-green-500"></span> <strong class="text-neutral-400">SISTEMA ONLINE:</strong> <span class="text-green-400">Servidor operando correctamente.</span>`;
+                    caja.className = clasesBase + "bg-black border-2 border-red-600 p-4 text-red-500 text-xs flex items-center gap-3";
+                    caja.innerHTML = `<span class="w-2.5 h-2.5 bg-red-600"></span> <strong class="text-cyan-400">SISTEMA ONLINE:</strong> <span class="text-green-400">Servidor operando correctamente.</span>`;
                 } else {
                     throw new Error();
                 }
             } catch (e) {
-                caja.className = clasesBase + "bg-black border-2 border-red-800 p-4 text-red-500 text-xs flex items-center gap-3";
-                caja.innerHTML = `<span class="w-2.5 h-2.5 bg-red-600"></span> <strong>SISTEMA OFFLINE:</strong> Esperando respuesta del servidor...`;
+                caja.className = clasesBase + "bg-black border-2 border-neutral-800 p-4 text-neutral-500 text-xs flex items-center gap-3";
+                caja.innerHTML = `<span class="w-2.5 h-2.5 bg-neutral-600"></span> <strong>SISTEMA OFFLINE:</strong> Esperando respuesta del servidor...`;
             }
         }
 
@@ -493,10 +499,10 @@
                                 let opcionesMatch = opcionesTexto.split(/(?=\d+\.-|\d+\.\s)/g).map(o => o.trim()).filter(o => o.length > 0);
                                 opcionesMatch.reverse();
 
-                                listaOpcionesHTML = `<div class="mt-2 space-y-1 pl-2 border-l border-neutral-700">
-                                    <div class="text-[9px] text-neutral-400">// ALTERNATIVAS (ORDEN INVERTIDO):</div>`;
+                                listaOpcionesHTML = `<div class="mt-2 space-y-1 pl-2 border-l border-cyan-700">
+                                    <div class="text-[9px] text-cyan-300">// ALTERNATIVAS (ORDEN INVERTIDO):</div>`;
                                 opcionesMatch.forEach(op => {
-                                    listaOpcionesHTML += `<div class="text-red-400 font-terminal text-[10px]">🔹 ${op}</div>`;
+                                    listaOpcionesHTML += `<div class="text-green-400 font-terminal text-[10px]">🔹 ${op}</div>`;
                                 });
                                 listaOpcionesHTML += `</div>`;
                             }
@@ -524,37 +530,37 @@
                             }
 
                             let bloqueConsolaHTML = `
-                                <div class="mt-2 space-y-1 border-t border-black pt-2 font-terminal text-[10px]">
-                                    <div class="text-neutral-400 font-bold">${consensoTextoLinea}</div>
-                                    <div class="text-neutral-500">${intentoTextoLinea}</div>
+                                <div class="mt-2 space-y-1 border-t border-red-950 pt-2 font-terminal text-[10px]">
+                                    <div class="text-pink-400 font-bold">${consensoTextoLinea}</div>
+                                    <div class="text-cyan-300">${intentoTextoLinea}</div>
                                 </div>
                             `;
 
                             contenedor.innerHTML += `
-                                <div class="bg-black border border-neutral-800 p-3 text-[10px] space-y-2">
-                                    <div class="flex justify-between text-red-500 font-terminal">
-                                        <span>USER: <strong class="text-neutral-300">${log.usuario || 'Anónimo'}</strong></span>
-                                        <span class="text-neutral-500">[${log.fecha || 'Justo ahora'}]</span>
+                                <div class="bg-black border border-red-800 p-3 text-[10px] space-y-2">
+                                    <div class="flex justify-between text-neutral-300 font-terminal">
+                                        <span>USER: <strong class="text-pink-400">${log.usuario || 'Anónimo'}</strong></span>
+                                        <span class="text-cyan-400">[${log.fecha || 'Justo ahora'}]</span>
                                     </div>
-                                    <div class="text-neutral-300 font-terminal text-xs">
-                                        <strong class="text-neutral-500">Q:</strong> ${textoPregunta}
+                                    <div class="text-green-400 font-terminal text-xs">
+                                        <strong class="text-red-500">Q:</strong> ${textoPregunta}
                                     </div>
                                     ${listaOpcionesHTML}
                                     ${bloqueConsolaHTML}
-                                    <div class="text-red-500 font-terminal text-xs border-t border-black pt-2 flex justify-end">
+                                    <div class="text-neutral-300 font-terminal text-xs border-t border-red-950 pt-2 flex justify-end">
                                         <div>
-                                            <strong class="text-neutral-400">RESPUESTA:</strong> <span class="text-green-400 font-bold text-sm">${log.respuesta || 'N/A'}</span>
+                                            <strong class="text-cyan-400">RESPUESTA:</strong> <span class="text-red-400 font-bold text-sm">${log.respuesta || 'N/A'}</span>
                                         </div>
                                     </div>
                                 </div>
                             `;
                         });
                     } else {
-                        contenedor.innerHTML = `<div class="text-neutral-500 font-terminal text-xs">&gt; No hay preguntas registradas todavía en esta sesión.</div>`;
+                        contenedor.innerHTML = `<div class="text-cyan-400 font-terminal text-xs">&gt; No hay preguntas registradas todavía en esta sesión.</div>`;
                     }
                 }
             } catch (e) {
-                contenedor.innerHTML = `<div class="text-neutral-500 font-terminal text-[10px]">&gt; Error al conectar con el servidor para obtener los logs.</div>`;
+                contenedor.innerHTML = `<div class="text-red-500 font-terminal text-[10px]">&gt; Error al conectar con el servidor para obtener los logs.</div>`;
             }
         }
 
@@ -582,33 +588,33 @@
             tabla.innerHTML = "";
 
             if (usuarios.length === 0) {
-                tabla.innerHTML = `<tr><td class="py-4 px-2 text-red-500 font-terminal text-xs" colspan="3">&gt; No se encontraron registros.</td></tr>`;
+                tabla.innerHTML = `<tr><td class="py-4 px-2 text-neutral-500 font-terminal text-xs" colspan="3">&gt; No se encontraron registros.</td></tr>`;
                 return;
             }
 
             usuarios.forEach(u => {
                 tabla.innerHTML += `
                     <tr class="hover:bg-neutral-900 transition relative">
-                        <td class="py-4 px-2 font-terminal text-xs tracking-wider text-neutral-300">${u.id}</td>
+                        <td class="py-4 px-2 font-terminal text-xs tracking-wider text-pink-400">${u.id}</td>
                         <td class="py-4 px-2">
-                            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-terminal tracking-wider ${u.activo ? 'text-neutral-300 bg-black border border-black' : 'text-red-500 bg-red-950 border border-red-800'}">
+                            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-terminal tracking-wider ${u.activo ? 'text-red-500 bg-red-950 border border-red-800' : 'text-neutral-500 bg-black border border-neutral-800'}">
                                 <span class="w-1.5 h-1.5 ${u.activo ? 'bg-red-600 animate-pulse' : 'bg-neutral-600'}"></span>
                                 ${u.activo ? 'ACTIVO (🩸)' : 'INACTIVO'}
                             </span>
                         </td>
                         <td class="py-4 px-2 text-right relative">
                             <div class="flex items-center justify-end gap-2">
-                                <button onclick="toggleUsuario('${u.id}')" class="px-3 py-1 text-[10px] font-terminal tracking-wider ${u.activo ? 'text-red-500 bg-red-950 hover:bg-red-600 hover:text-black border border-red-800' : 'text-neutral-300 bg-black hover:bg-neutral-800 hover:text-white border border-black'} transition uppercase cursor-pointer">
+                                <button onclick="toggleUsuario('${u.id}')" class="px-3 py-1 text-[10px] font-terminal tracking-wider ${u.activo ? 'text-neutral-300 bg-black hover:bg-red-600 hover:text-black border border-neutral-700' : 'text-red-500 bg-red-950 hover:bg-red-600 hover:text-black border border-red-800'} transition uppercase cursor-pointer">
                                     ${u.activo ? 'Desactivar' : 'Activar'}
                                 </button>
                                 
                                 <div class="relative inline-block text-left">
-                                    <button onclick="toggleMenuPuntitos(event, '${u.id}')" class="p-1.5 text-red-500 hover:text-neutral-300 bg-black hover:bg-neutral-900 border border-red-800 font-bold cursor-pointer text-xs">
+                                    <button onclick="toggleMenuPuntitos(event, '${u.id}')" class="p-1.5 text-neutral-400 hover:text-red-500 bg-neutral-900 hover:bg-black border border-neutral-700 font-bold cursor-pointer text-xs">
                                         ⋮
                                     </button>
                                     
-                                    <div id="menu-${u.id}" class="hidden absolute right-0 mt-1 w-32 bg-black border-2 border-black shadow-[4px_4px_0px_0px_#171717] z-30 text-left">
-                                        <button onclick="eliminarUsuario('${u.id}')" class="w-full text-left px-3 py-2 text-[10px] text-neutral-300 hover:bg-neutral-900 hover:text-red-400 font-terminal transition flex items-center gap-1.5 cursor-pointer">
+                                    <div id="menu-${u.id}" class="hidden absolute right-0 mt-1 w-32 bg-black border-2 border-red-600 shadow-[4px_4px_0px_0px_#dc2626] z-30 text-left">
+                                        <button onclick="eliminarUsuario('${u.id}')" class="w-full text-left px-3 py-2 text-[10px] text-red-500 hover:bg-red-950 hover:text-red-300 font-terminal transition flex items-center gap-1.5 cursor-pointer">
                                             <span>🗑️</span> Eliminar
                                         </button>
                                     </div>
