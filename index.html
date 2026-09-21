@@ -19,7 +19,7 @@
             position: relative;
         }
 
-        /* CANVAS DE MATRIX EN EL FONDO (OPACIDAD AUMENTADA A 0.45) */
+        /* CANVAS DE MATRIX EN EL FONDO */
         #canvas-matrix {
             position: fixed;
             top: 0;
@@ -28,7 +28,7 @@
             height: 100vh;
             z-index: -1;
             pointer-events: none;
-            opacity: 0.45; /* Opacidad más visible */
+            opacity: 0.45;
         }
 
         .font-terminal {
@@ -110,7 +110,6 @@
             -webkit-mask-size: 6px 6px;
         }
 
-        /* ANIMACIÓN EN OLA DE UN SOLO COLOR SÓLIDO (AMARILLO / ROJO) */
         @keyframes olaArcadeAmarillo {
             0% {
                 opacity: 1;
@@ -164,7 +163,6 @@
             animation: olaArcadeRojo 0.5s steps(10, end) forwards;
         }
 
-        /* EFECTO DE VIBRACIÓN PARA LA CALABAZA */
         @keyframes vibrar {
             0% { transform: translate(0, 0) rotate(0deg); }
             20% { transform: translate(-6px, 4px) rotate(-4deg); }
@@ -178,7 +176,6 @@
             animation: vibrar 0.08s infinite linear;
         }
 
-        /* EFECTO DE TEMBLOR GLOBAL PARA TODAS LAS CAJAS Y ELEMENTOS */
         @keyframes tiembleGeneral {
             0% { transform: translate(0px, 0px) rotate(0deg); }
             10% { transform: translate(-8px, -6px) rotate(-1deg); }
@@ -197,7 +194,6 @@
             animation: tiembleGeneral 0.25s linear infinite;
         }
 
-        /* INVERSIÓN TOTAL DE COLORES EN LA INTERFAZ */
         .modo-invertido {
             filter: invert(100%) hue-rotate(180deg);
             transition: filter 0.05s ease;
@@ -220,7 +216,7 @@
                 <button onclick="cerrarModalPassword()" class="text-neutral-500 hover:text-red-400 cursor-pointer">[X]</button>
             </div>
             <p class="text-[10px] text-neutral-300 leading-relaxed font-terminal">
-                Introduce la contraseña de administrador para cambiar el estado del servidor:
+                Introduce la contraseña de administrador para sincronizar con el servidor:
             </p>
             <input type="password" id="input-admin-pass" placeholder="Contraseña..." onkeyup="if(event.key==='Enter') ejecutarCambioServidor()"
                 class="w-full bg-neutral-950 border border-neutral-700 px-3 py-2 text-xs text-red-500 focus:outline-none focus:border-red-600 font-terminal">
@@ -249,9 +245,14 @@
                 </h1>
                 <p class="text-[10px] text-pink-400 font-terminal tracking-wider mt-1">// GESTIÓN DE ACCESOS Y REGISTRO EN VIVO</p>
             </div>
-            <button onclick="actualizarTodo()" class="bg-red-600 hover:bg-red-700 text-black font-bold text-[10px] px-4 py-2 border border-red-500 shadow-[2px_2px_0px_0px_#ffffff] transition uppercase tracking-widest cursor-pointer">
-                Sincronizar Todo
-            </button>
+            <div class="flex gap-2">
+                <button onclick="solicitarNuevaClaveAdmin()" class="bg-neutral-900 hover:bg-neutral-800 text-red-400 font-bold text-[10px] px-3 py-2 border border-neutral-700 transition uppercase tracking-widest cursor-pointer">
+                    Cambiar Clave
+                </button>
+                <button onclick="actualizarTodo()" class="bg-red-600 hover:bg-red-700 text-black font-bold text-[10px] px-4 py-2 border border-red-500 shadow-[2px_2px_0px_0px_#ffffff] transition uppercase tracking-widest cursor-pointer">
+                    Sincronizar Todo
+                </button>
+            </div>
         </header>
 
         <!-- BARRA SUPERIOR: SWITCH A LA IZQUIERDA Y ESTADO ONLINE A LA DERECHA -->
@@ -349,7 +350,7 @@
     </div>
 
     <script>
-        // EFECTO MATRIX ANIMADO FLUIDO Y SIN GLITCHES
+        // EFECTO MATRIX ANIMADO FLUIDO
         (function iniciarMatrix() {
             const canvas = document.getElementById('canvas-matrix');
             const ctx = canvas.getContext('2d');
@@ -377,7 +378,7 @@
             }
 
             ajustarTamano();
-            window.addEventListener('resize', me => ajustarTamano());
+            window.addEventListener('resize', () => ajustarTamano());
 
             let lastTime = 0;
             const fps = 30;
@@ -393,7 +394,7 @@
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                ctx.fillStyle = '#dc2626'; // Rojo Matrix
+                ctx.fillStyle = '#dc2626';
                 ctx.font = fontSize + 'px monospace';
 
                 for (let i = 0; i < gotas.length; i++) {
@@ -419,7 +420,40 @@
         let listaUsuariosCache = []; 
         let estadoDeseadoSwitch = false; 
 
+        // AUTENTICACIÓN Y MANEJO DE HEADERS
+        function getAdminPassword() {
+            let pass = sessionStorage.getItem('admin_pass');
+            if (!pass) {
+                pass = prompt("Introduce la contraseña de Administrador:");
+                if (pass) {
+                    sessionStorage.setItem('admin_pass', pass);
+                }
+            }
+            return pass || "";
+        }
+
+        function getAuthHeaders() {
+            return {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + getAdminPassword()
+            };
+        }
+
+        function solicitarNuevaClaveAdmin() {
+            sessionStorage.removeItem('admin_pass');
+            getAdminPassword();
+            actualizarTodo();
+        }
+
+        function manejarErrorAuth(res) {
+            if (res.status === 401) {
+                sessionStorage.removeItem('admin_pass');
+                alert("Acceso denegado: Contraseña de administración incorrecta.");
+            }
+        }
+
         window.onload = function() {
+            getAdminPassword();
             actualizarTodo();
             notificarServidorPanel(); 
             setInterval(cargarLogsPreguntas, 5000);
@@ -433,10 +467,8 @@
             const switchEstado = document.getElementById('main-server-switch');
             const root = document.documentElement;
 
-            // Siempre aplica la vibración física de la imagen
             calabaza.classList.add('vibrar-calabaza');
 
-            // Solo si el motor de IA está activo: hace temblar toda la interfaz e invierte los colores
             const motorActivo = switchEstado.checked;
             if (motorActivo) {
                 root.classList.add('modo-invertido');
@@ -487,7 +519,7 @@
             try {
                 await fetch(`${URL_SERVIDOR}/api/admin/ping`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: getAuthHeaders(),
                     body: JSON.stringify({ evento: "panel_abierto" })
                 });
             } catch (e) {
@@ -498,7 +530,9 @@
         async function cargarUsuariosActivos() {
             const contenedor = document.getElementById('contenedor-usuarios-activos');
             try {
-                const res = await fetch(`${URL_SERVIDOR}/api/admin/active-users`);
+                const res = await fetch(`${URL_SERVIDOR}/api/admin/active-users`, {
+                    headers: getAuthHeaders()
+                });
                 if (res.ok) {
                     const activos = await res.json();
                     if (activos && activos.length > 0) {
@@ -524,6 +558,8 @@
                     } else {
                         contenedor.innerHTML = `<div class="text-neutral-500 font-terminal text-xs">&gt; Ningún usuario activo en este momento.</div>`;
                     }
+                } else {
+                    manejarErrorAuth(res);
                 }
             } catch (e) {
                 contenedor.innerHTML = `<div class="text-neutral-600 font-terminal text-[10px]">&gt; Error obteniendo usuarios activos.</div>`;
@@ -532,7 +568,9 @@
 
         async function verificarEstadoServidorSwitch() {
             try {
-                const res = await fetch(`${URL_SERVIDOR}/api/admin/server-status`);
+                const res = await fetch(`${URL_SERVIDOR}/api/admin/server-status`, {
+                    headers: getAuthHeaders()
+                });
                 if (res.ok) {
                     const data = await res.json();
                     const checkbox = document.getElementById('main-server-switch');
@@ -548,6 +586,8 @@
                         labelTexto.innerText = "APAGADO 🔴";
                         labelTexto.className = "text-[10px] font-bold text-red-500 uppercase tracking-widest";
                     }
+                } else {
+                    manejarErrorAuth(res);
                 }
             } catch (e) {
                 console.log("No se pudo verificar el estado del switch del servidor");
@@ -560,7 +600,7 @@
             estadoDeseadoSwitch = !checkbox.checked; 
 
             document.getElementById('modal-password').classList.remove('hidden');
-            document.getElementById('input-admin-pass').value = "";
+            document.getElementById('input-admin-pass').value = sessionStorage.getItem('admin_pass') || "";
             document.getElementById('input-admin-pass').focus();
         }
 
@@ -576,11 +616,13 @@
                 return;
             }
 
+            sessionStorage.setItem('admin_pass', passwordIngresada);
+
             try {
                 const res = await fetch(`${URL_SERVIDOR}/api/admin/toggle-server`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ password: passwordIngresada, active: estadoDeseadoSwitch })
+                    headers: getAuthHeaders(),
+                    body: JSON.stringify({ active: estadoDeseadoSwitch })
                 });
 
                 const data = await res.json();
@@ -591,7 +633,6 @@
                     const labelTexto = document.getElementById('label-estado-texto');
                     
                     checkbox.checked = data.active;
-
                     actualizarEfectosVisuales(data.active, true);
 
                     if (data.active) {
@@ -603,6 +644,7 @@
                     }
                 } else {
                     alert(data.error || "Contraseña incorrecta o error de autorización.");
+                    sessionStorage.removeItem('admin_pass');
                     verificarEstadoServidorSwitch();
                 }
             } catch (e) {
@@ -621,13 +663,14 @@
             try {
                 const res = await fetch(`${URL_SERVIDOR}/api/admin/status`, {
                     method: 'GET',
-                    headers: { 'Content-Type': 'application/json' }
+                    headers: getAuthHeaders()
                 });
 
                 if (res.ok) {
                     caja.className = clasesBase + "bg-black/90 border-2 border-red-600 p-3 text-red-500 text-xs flex items-center gap-3 flex-1";
                     caja.innerHTML = `<span class="w-2.5 h-2.5 bg-red-600"></span> <strong class="text-cyan-400">SISTEMA ONLINE:</strong> <span class="text-green-400">Servidor operando correctamente.</span>`;
                 } else {
+                    manejarErrorAuth(res);
                     throw new Error();
                 }
             } catch (e) {
@@ -641,7 +684,7 @@
             try {
                 const res = await fetch(`${URL_SERVIDOR}/api/admin/logs`, {
                     method: 'GET',
-                    headers: { 'Content-Type': 'application/json' }
+                    headers: getAuthHeaders()
                 });
 
                 if (res.ok) {
@@ -676,20 +719,10 @@
                             }
 
                             let matchIntentoLiteral = rawDataString.match(/-->\s*Intento\s*\d+\s*\([^)]+\):\s*\[\s*['"]?\d['"]?,\s*['"]?\d['"]?,\s*['"]?\d['"]?\s*\]/i);
-                            let intentoTextoLinea = "";
-                            if (matchIntentoLiteral) {
-                                intentoTextoLinea = matchIntentoLiteral[0].replace(/\\n/g, '').trim();
-                            } else {
-                                intentoTextoLinea = "--> Intento 1 (OpenAI, Gemini, Groq): [ '2', '2', '2' ]";
-                            }
+                            let intentoTextoLinea = matchIntentoLiteral ? matchIntentoLiteral[0].replace(/\\n/g, '').trim() : "--> Intento 1 (OpenAI, Gemini, Groq): [ '2', '2', '2' ]";
 
                             let matchConsensoLiteral = rawDataString.match(/Consenso\s*alcanzado\s*en\s*Intento\s*\d+:\s*\d+\s*\(\d+\/\d+\s*votos\)/i);
-                            let consensoTextoLinea = "";
-                            if (matchConsensoLiteral) {
-                                consensoTextoLinea = matchConsensoLiteral[0].replace(/\\n/g, '').trim();
-                            } else {
-                                consensoTextoLinea = `Consenso alcanzado en Intento 1: ${log.respuesta || '2'} (3/3 votos)`;
-                            }
+                            let consensoTextoLinea = matchConsensoLiteral ? matchConsensoLiteral[0].replace(/\\n/g, '').trim() : `Consenso alcanzado en Intento 1: ${log.respuesta || '2'} (3/3 votos)`;
 
                             let bloqueConsolaHTML = `
                                 <div class="mt-2 space-y-1 border-t border-red-950 pt-2 font-terminal text-[10px]">
@@ -720,6 +753,8 @@
                     } else {
                         contenedor.innerHTML = `<div class="text-cyan-400 font-terminal text-xs">&gt; No hay preguntas registradas todavía en esta sesión.</div>`;
                     }
+                } else {
+                    manejarErrorAuth(res);
                 }
             } catch (e) {
                 contenedor.innerHTML = `<div class="text-red-500 font-terminal text-[10px]">&gt; Error al conectar con el servidor para obtener los logs.</div>`;
@@ -730,13 +765,14 @@
             try {
                 const res = await fetch(`${URL_SERVIDOR}/api/admin/users`, {
                     method: 'GET',
-                    headers: { 'Content-Type': 'application/json' }
+                    headers: getAuthHeaders()
                 });
 
                 if (res.ok) {
                     listaUsuariosCache = await res.json();
                     renderizarTablaUsuarios(listaUsuariosCache);
                 } else {
+                    manejarErrorAuth(res);
                     throw new Error();
                 }
             } catch (e) {
@@ -822,7 +858,7 @@
             try {
                 const res = await fetch(`${URL_SERVIDOR}/api/admin/user/create`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: getAuthHeaders(),
                     body: JSON.stringify({ usuario: nuevoId })
                 });
 
@@ -832,6 +868,7 @@
                 } else {
                     const data = await res.json();
                     alert(data.error || "No se pudo crear el usuario.");
+                    manejarErrorAuth(res);
                 }
             } catch (e) {
                 alert("Error de conexión al intentar crear el usuario.");
@@ -842,7 +879,7 @@
             try {
                 const res = await fetch(`${URL_SERVIDOR}/api/admin/user/toggle`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: getAuthHeaders(),
                     body: JSON.stringify({ usuario: usuarioId })
                 });
 
@@ -850,6 +887,7 @@
                     cargarUsuarios();
                 } else {
                     alert("No se pudo cambiar el estado del usuario.");
+                    manejarErrorAuth(res);
                 }
             } catch (e) {
                 alert("Error de conexión al intentar modificar el usuario.");
@@ -862,7 +900,7 @@
             try {
                 const res = await fetch(`${URL_SERVIDOR}/api/admin/user/delete`, {
                     method: 'DELETE',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: getAuthHeaders(),
                     body: JSON.stringify({ usuario: usuarioId })
                 });
 
@@ -871,6 +909,7 @@
                 } else {
                     const data = await res.json();
                     alert(data.error || "No se pudo eliminar el usuario.");
+                    manejarErrorAuth(res);
                 }
             } catch (e) {
                 alert("Error de conexión al intentar eliminar el usuario.");
