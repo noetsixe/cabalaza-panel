@@ -75,13 +75,13 @@
             caja.innerHTML = "Comprobando servidor (si está inactivo, puede tardar unos segundos)...";
 
             try {
-                const res = await fetch(`${URL_SERVIDOR}/api/completion`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ client: 'nonetsixe', prompt: '' })
+                // Modificado para usar la nueva ruta de estado específica para el panel
+                const res = await fetch(`${URL_SERVIDOR}/api/admin/status`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
                 });
 
-                if (res.status === 400 || res.status === 200 || res.status === 403) {
+                if (res.ok) {
                     caja.className = "bg-green-50 border-l-4 border-green-400 p-4 mb-6 rounded-r-lg text-green-700";
                     caja.innerHTML = "<strong>Servidor en línea:</strong> Operando y conectado correctamente.";
                 } else {
