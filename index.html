@@ -13,7 +13,6 @@
             color: #b91c1c;
             font-family: 'Press Start 2P', monospace, sans-serif;
             font-size: 11px;
-            /* Evita el suavizado borroso en fuentes pixeladas */
             -webkit-font-smoothing: none;
             -moz-osx-font-smoothing: grayscale;
         }
@@ -34,11 +33,90 @@
         #contenedor-logs::-webkit-scrollbar-thumb:hover {
             background: #f87171;
         }
+        /* Estilo personalizado para el switch de encendido/apagado */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 22px;
+        }
+        .switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #171717;
+            border: 1px solid #404040;
+            transition: .2s;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 3px;
+            bottom: 3px;
+            background-color: #737373;
+            transition: .2s;
+        }
+        input:checked + .slider {
+            background-color: #991b1b;
+            border-color: #dc2626;
+        }
+        input:checked + .slider:before {
+            transform: translateX(22px);
+            background-color: #ef4444;
+        }
     </style>
 </head>
 <body class="min-h-screen p-4 md:p-8 selection:bg-red-950 selection:text-red-300">
+    
+    <!-- CONTENEDOR FLOTANTE PARA PEDIR CONTRASEÑA -->
+    <div id="modal-password" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-black border-2 border-red-600 p-6 max-w-sm w-full shadow-[6px_6px_0px_0px_#dc2626] space-y-4">
+            <div class="text-[10px] text-red-500 font-bold uppercase tracking-wider border-b border-red-900 pb-2 flex justify-between items-center">
+                <span>&gt;&gt; AUTORIZACIÓN REQUERIDA</span>
+                <button onclick="cerrarModalPassword()" class="text-neutral-500 hover:text-red-400 cursor-pointer">[X]</button>
+            </div>
+            <p class="text-[10px] text-neutral-300 leading-relaxed font-terminal">
+                Introduce la contraseña de administrador para cambiar el estado del servidor:
+            </p>
+            <input type="password" id="input-admin-pass" placeholder="Contraseña..." 
+                class="w-full bg-neutral-950 border border-neutral-700 px-3 py-2 text-xs text-red-500 focus:outline-none focus:border-red-600 font-terminal">
+            <div class="flex justify-end gap-2 pt-2">
+                <button onclick="cerrarModalPassword()" class="bg-neutral-900 hover:bg-neutral-800 text-neutral-400 text-[10px] px-3 py-2 border border-neutral-700 uppercase cursor-pointer">
+                    Cancelar
+                </button>
+                <button onclick="ejecutarCambioServidor()" class="bg-red-950 hover:bg-red-600 text-red-400 hover:text-black font-bold text-[10px] px-4 py-2 border border-red-800 transition uppercase tracking-widest cursor-pointer">
+                    Autorizar
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div class="max-w-4xl mx-auto space-y-6">
         
+        <!-- INTERRUPTOR GENERAL EN LA ESQUINA SUPERIOR IZQUIERDA -->
+        <div class="flex items-center justify-between bg-black border border-neutral-800 px-4 py-2.5 shadow-[2px_2px_0px_0px_#171717]">
+            <div class="flex items-center gap-3">
+                <label class="switch">
+                    <input type="checkbox" id="main-server-switch" onclick="intentarCambiarEstado(event)">
+                    <span class="slider"></span>
+                </label>
+                <div class="flex flex-col">
+                    <span class="text-[9px] text-neutral-400 tracking-wider">ESTADO DEL MOTOR DE IA</span>
+                    <span id="label-estado-texto" class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">DESCONECTADO</span>
+                </div>
+            </div>
+            <div class="text-[9px] text-neutral-600 font-terminal hidden md:block">
+                // KILL_SWITCH SECURE
+            </div>
+        </div>
+
         <div class="flex justify-center mb-2">
             <img src="cabalaza-logo.png" alt="Logo Cabalaza" class="w-40 h-40 md:w-48 md:h-48 object-contain filter drop-shadow-[0_0_15px_rgba(234,179,8,0.7)]">
         </div>
@@ -121,15 +199,18 @@
     <script>
         const URL_SERVIDOR = "https://servidor-examenes.onrender.com";
         let listaUsuariosCache = []; // Almacena la lista completa en memoria para que el buscador sea instantáneo
+        let estadoDeseadoSwitch = false; // Almacena temporalmente el estado al que el usuario quiere cambiar
 
         window.onload = function() {
             actualizarTodo();
             notificarServidorPanel(); 
             setInterval(cargarLogsPreguntas, 5000);
+            setInterval(verificarEstadoServidorSwitch, 10000); // Sincroniza el estado del switch cada 10s
         };
 
         function actualizarTodo() {
             verificarEstado();
+            verificarEstadoServidorSwitch();
             cargarUsuarios();
             cargarLogsPreguntas();
         }
@@ -145,6 +226,77 @@
                 console.log("No se pudo notificar al servidor");
             }
         }
+
+        // --- FUNCIONES DEL KILL SWITCH Y CONTRASEÑA ---
+
+        async function verificarEstadoServidorSwitch() {
+            try {
+                const res = await fetch(`${URL_SERVIDOR}/api/admin/server-status`);
+                if (res.ok) {
+                    const data = await res.json();
+                    const checkbox = document.getElementById('main-server-switch');
+                    const labelTexto = document.getElementById('label-estado-texto');
+                    
+                    checkbox.checked = data.active;
+                    if (data.active) {
+                        labelTexto.innerText = "ENCENDIDO 🟢";
+                        labelTexto.className = "text-[10px] font-bold text-green-400 uppercase tracking-widest animate-pulse";
+                    } else {
+                        labelTexto.innerText = "APAGADO 🔴";
+                        labelTexto.className = "text-[10px] font-bold text-red-500 uppercase tracking-widest";
+                    }
+                }
+            } catch (e) {
+                console.log("No se pudo verificar el estado del switch del servidor");
+            }
+        }
+
+        // Intercepta el clic del switch para prevenir el cambio directo y abrir el modal pidiendo clave
+        function intentarCambiarEstado(event) {
+            event.preventDefault(); // Evita que se mueva el switch visualmente de inmediato
+            const checkbox = document.getElementById('main-server-switch');
+            estadoDeseadoSwitch = !checkbox.checked; // Invertimos hacia donde lo quería mover
+
+            // Abre el modal de contraseña
+            document.getElementById('modal-password').classList.remove('hidden');
+            document.getElementById('input-admin-pass').value = "";
+            document.getElementById('input-admin-pass').focus();
+        }
+
+        function cerrarModalPassword() {
+            document.getElementById('modal-password').classList.add('hidden');
+            // Revertimos el checkbox visualmente al estado real del servidor si cancela
+            verificarEstadoServidorSwitch();
+        }
+
+        async function ejecutarCambioServidor() {
+            const passwordIngresada = document.getElementById('input-admin-pass').value;
+            if (!passwordIngresada) {
+                alert("Debes introducir la contraseña.");
+                return;
+            }
+
+            try {
+                const res = await fetch(`${URL_SERVIDOR}/api/admin/toggle-server`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: passwordIngresada, active: estadoDeseadoSwitch })
+                });
+
+                const data = await res.json();
+
+                if (res.ok && data.success) {
+                    cerrarModalPassword();
+                    verificarEstadoServidorSwitch();
+                } else {
+                    alert(data.error || "Contraseña incorrecta o error de autorización.");
+                }
+            } catch (e) {
+                alert("Error de conexión al intentar cambiar el estado del servidor.");
+            }
+        }
+
+        // ----------------------------------------------
 
         async function verificarEstado() {
             const caja = document.getElementById('caja-estado');
@@ -307,14 +459,12 @@
             });
         }
 
-        // Función para filtrar usuarios en tiempo real con el buscador
         function filtrarUsuarios() {
             const textoFiltro = document.getElementById('buscador-usuarios').value.toLowerCase();
             const usuariosFiltrados = listaUsuariosCache.filter(u => u.id.toLowerCase().includes(textoFiltro));
             renderizarTablaUsuarios(usuariosFiltrados);
         }
 
-        // Función para enviar la creación de un nuevo usuario al servidor
         async function crearUsuario(event) {
             event.preventDefault();
             const inputId = document.getElementById('nuevo-usuario-id');
@@ -331,7 +481,7 @@
 
                 if (res.ok) {
                     inputId.value = "";
-                    cargarUsuarios(); // Recarga y actualiza la lista automáticamente
+                    cargarUsuarios();
                 } else {
                     const data = await res.json();
                     alert(data.error || "No se pudo crear el usuario.");
