@@ -13,6 +13,9 @@
             color: #b91c1c;
             font-family: 'Press Start 2P', monospace, sans-serif;
             font-size: 11px;
+            /* Evita el suavizado borroso en fuentes pixeladas */
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: grayscale;
         }
         .font-terminal {
             font-family: 'Press Start 2P', monospace;
@@ -37,7 +40,8 @@
     <div class="max-w-4xl mx-auto space-y-6">
         
         <div class="flex justify-center mb-2">
-            <img src="cabalaza-logo.png" alt="Logo Cabalaza" class="w-56 h-56 md:w-64 md:h-64 object-contain drop-shadow-[0_0_20px_#dc2626]">
+            <!-- Quitamos el drop-shadow difuso para que no arrastre sombra a los elementos cercanos -->
+            <img src="cabalaza-logo.png" alt="Logo Cabalaza" class="w-40 h-40 md:w-48 md:h-48 object-contain">
         </div>
 
         <header class="bg-black border-2 border-red-600 p-6 shadow-[4px_4px_0px_0px_#dc2626] flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -46,39 +50,39 @@
                     <span class="inline-block w-3 h-3 bg-red-600 animate-pulse"></span>
                     PANEL_DE_CONTROL
                 </h1>
-                <p class="text-[10px] text-neutral-500 font-terminal tracking-wider mt-1">// GESTIÓN DE ACCESOS Y REGISTRO EN VIVO</p>
+                <p class="text-[10px] text-red-500 font-terminal tracking-wider mt-1">// GESTIÓN DE ACCESOS Y REGISTRO EN VIVO</p>
             </div>
             <button onclick="actualizarTodo()" class="bg-red-600 hover:bg-red-700 text-black font-bold text-[10px] px-4 py-2 border border-red-500 shadow-[2px_2px_0px_0px_#ffffff] transition uppercase tracking-widest cursor-pointer">
                 Sincronizar Todo
             </button>
         </header>
 
-        <div id="caja-estado" class="bg-black border-2 border-neutral-800 p-4 text-neutral-400 text-xs flex items-center gap-3">
+        <div id="caja-estado" class="bg-black border-2 border-neutral-700 p-4 text-neutral-300 text-xs flex items-center gap-3">
             <span class="w-2.5 h-2.5 bg-yellow-500 animate-ping"></span>
             Comprobando conexión con el servidor...
         </div>
 
-        <!-- SECCIÓN DE PREGUNTAS EN TIEMPO REAL (CAJA ROJA Y TEXTO REDUCIDO) -->
-        <div class="bg-black border-2 border-red-600 p-6 shadow-[4px_4px_0px_0px_#dc2626]">
-            <div class="flex justify-between items-center mb-4 border-b border-red-900/40 pb-2">
-                <h2 class="text-[10px] font-bold uppercase tracking-widest text-red-500">
+        <!-- SECCIÓN DE PREGUNTAS EN TIEMPO REAL -->
+        <div class="bg-black border-2 border-pink-600 p-6 shadow-[4px_4px_0px_0px_#db2777]">
+            <div class="flex justify-between items-center mb-4 border-b border-pink-900 pb-2">
+                <h2 class="text-[10px] font-bold uppercase tracking-widest text-pink-500">
                     &gt;&gt; MONITOR DE PREGUNTAS Y RESPUESTAS [LIVE_FEED]
                 </h2>
-                <span class="text-[9px] font-terminal text-cyan-400 animate-pulse">● RECIBIENDO TRAFICO</span>
+                <span class="text-[10px] font-terminal text-cyan-400 animate-pulse">● RECIBIENDO TRAFICO</span>
             </div>
             <div id="contenedor-logs" class="space-y-3 max-h-96 overflow-y-auto pr-2">
-                <div class="text-cyan-600 font-terminal text-[9px]">&gt; Esperando actividad de los usuarios...</div>
+                <div class="text-cyan-400 font-terminal text-xs">&gt; Esperando actividad de los usuarios...</div>
             </div>
         </div>
 
-        <div class="bg-black border-2 border-neutral-800 p-6 shadow-[4px_4px_0px_0px_#262626]">
+        <div class="bg-black border-2 border-neutral-700 p-6 shadow-[4px_4px_0px_0px_#262626]">
             <h2 class="text-[10px] font-bold uppercase tracking-widest text-red-500 mb-4 border-b border-neutral-800 pb-2">
                 &gt;&gt; USUARIOS REGISTRADOS [DATABASE]
             </h2>
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
-                        <tr class="border-b border-neutral-800 text-neutral-600 text-[10px] tracking-wider">
+                        <tr class="border-b border-neutral-800 text-neutral-400 text-[10px] tracking-wider">
                             <th class="py-3 px-2">USUARIO / ID</th>
                             <th class="py-3 px-2">ESTADO DE ACCESO</th>
                             <th class="py-3 px-2 text-right">ACCIÓN</th>
@@ -86,7 +90,7 @@
                     </thead>
                     <tbody id="tabla-usuarios" class="divide-y divide-neutral-900 text-xs">
                         <tr>
-                            <td class="py-4 px-2 text-neutral-700 font-terminal text-xs" colspan="3">&gt; Cargando registros...</td>
+                            <td class="py-4 px-2 text-neutral-400 font-terminal text-xs" colspan="3">&gt; Cargando registros...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -123,7 +127,7 @@
 
         async function verificarEstado() {
             const caja = document.getElementById('caja-estado');
-            caja.className = "bg-black border-2 border-neutral-800 p-4 text-neutral-400 text-xs flex items-center gap-3";
+            caja.className = "bg-black border-2 border-neutral-700 p-4 text-neutral-300 text-xs flex items-center gap-3";
             caja.innerHTML = `<span class="w-2.5 h-2.5 bg-yellow-500 animate-ping"></span> Comprobando servidor...`;
 
             try {
@@ -133,14 +137,14 @@
                 });
 
                 if (res.ok) {
-                    caja.className = "bg-black border-2 border-red-900/60 p-4 text-red-500 text-xs flex items-center gap-3 shadow-[0_0_10px_rgba(220,38,38,0.1)]";
-                    caja.innerHTML = `<span class="w-2.5 h-2.5 bg-red-600 shadow-[0_0_8px_#dc2626]"></span> <strong>SISTEMA ONLINE:</strong> Servidor operando correctamente.`;
+                    caja.className = "bg-black border-2 border-red-600 p-4 text-red-500 text-xs flex items-center gap-3";
+                    caja.innerHTML = `<span class="w-2.5 h-2.5 bg-red-600"></span> <strong>SISTEMA ONLINE:</strong> Servidor operando correctamente.`;
                 } else {
                     throw new Error();
                 }
             } catch (e) {
-                caja.className = "bg-black border-2 border-neutral-800 p-4 text-neutral-600 text-xs flex items-center gap-3";
-                caja.innerHTML = `<span class="w-2.5 h-2.5 bg-neutral-700"></span> <strong>SISTEMA OFFLINE:</strong> Esperando respuesta del servidor...`;
+                caja.className = "bg-black border-2 border-neutral-800 p-4 text-neutral-500 text-xs flex items-center gap-3";
+                caja.innerHTML = `<span class="w-2.5 h-2.5 bg-neutral-600"></span> <strong>SISTEMA OFFLINE:</strong> Esperando respuesta del servidor...`;
             }
         }
 
@@ -169,10 +173,10 @@
                                 let opcionesMatch = opcionesTexto.split(/(?=\d+\.-|\d+\.\s)/g).map(o => o.trim()).filter(o => o.length > 0);
                                 opcionesMatch.reverse();
 
-                                listaOpcionesHTML = `<div class="mt-1 space-y-0.5 pl-2 border-l border-cyan-900/40">
-                                    <div class="text-[8px] text-cyan-400">// ALTERNATIVAS (ORDEN INVERTIDO):</div>`;
+                                listaOpcionesHTML = `<div class="mt-2 space-y-1 pl-2 border-l border-cyan-700">
+                                    <div class="text-[9px] text-cyan-300">// ALTERNATIVAS (ORDEN INVERTIDO):</div>`;
                                 opcionesMatch.forEach(op => {
-                                    listaOpcionesHTML += `<div class="text-green-400 font-terminal text-[8px]">🔹 ${op}</div>`;
+                                    listaOpcionesHTML += `<div class="text-green-400 font-terminal text-[10px]">🔹 ${op}</div>`;
                                 });
                                 listaOpcionesHTML += `</div>`;
                             }
@@ -200,37 +204,37 @@
                             }
 
                             let bloqueConsolaHTML = `
-                                <div class="mt-1.5 space-y-0.5 border-t border-pink-950 pt-1.5 font-terminal text-[8px]">
+                                <div class="mt-2 space-y-1 border-t border-pink-900 pt-2 font-terminal text-[10px]">
                                     <div class="text-pink-400 font-bold">${consensoTextoLinea}</div>
                                     <div class="text-cyan-300">${intentoTextoLinea}</div>
                                 </div>
                             `;
 
                             contenedor.innerHTML += `
-                                <div class="bg-neutral-950 border border-pink-900/50 p-2.5 text-[9px] space-y-1.5 shadow-sm">
-                                    <div class="flex justify-between text-neutral-400 font-terminal text-[8px]">
-                                        <span>USER: <strong class="text-pink-500">${log.usuario || 'Anónimo'}</strong></span>
-                                        <span class="text-cyan-500">[${log.fecha || 'Justo ahora'}]</span>
+                                <div class="bg-black border border-pink-700 p-3 text-[10px] space-y-2">
+                                    <div class="flex justify-between text-neutral-300 font-terminal">
+                                        <span>USER: <strong class="text-pink-400">${log.usuario || 'Anónimo'}</strong></span>
+                                        <span class="text-cyan-400">[${log.fecha || 'Justo ahora'}]</span>
                                     </div>
-                                    <div class="text-green-300 font-terminal text-[9px]">
+                                    <div class="text-green-400 font-terminal text-xs">
                                         <strong class="text-pink-500">Q:</strong> ${textoPregunta}
                                     </div>
                                     ${listaOpcionesHTML}
                                     ${bloqueConsolaHTML}
-                                    <div class="text-neutral-400 font-terminal text-[9px] border-t border-pink-950 pt-1.5 flex justify-end">
+                                    <div class="text-neutral-300 font-terminal text-xs border-t border-pink-900 pt-2 flex justify-end">
                                         <div>
-                                            <strong class="text-cyan-400">RESPUESTA:</strong> <span class="text-pink-400 font-bold text-[10px]">${log.respuesta || 'N/A'}</span>
+                                            <strong class="text-cyan-400">RESPUESTA:</strong> <span class="text-pink-400 font-bold text-sm">${log.respuesta || 'N/A'}</span>
                                         </div>
                                     </div>
                                 </div>
                             `;
                         });
                     } else {
-                        contenedor.innerHTML = `<div class="text-cyan-600 font-terminal text-[9px]">&gt; No hay preguntas registradas todavía en esta sesión.</div>`;
+                        contenedor.innerHTML = `<div class="text-cyan-400 font-terminal text-xs">&gt; No hay preguntas registradas todavía en esta sesión.</div>`;
                     }
                 }
             } catch (e) {
-                contenedor.innerHTML = `<div class="text-pink-600 font-terminal text-[9px]">&gt; Error al conectar con el servidor para obtener los logs.</div>`;
+                contenedor.innerHTML = `<div class="text-pink-500 font-terminal text-[10px]">&gt; Error al conectar con el servidor para obtener los logs.</div>`;
             }
         }
 
@@ -244,16 +248,16 @@
             tabla.innerHTML = "";
             usuarios.forEach(u => {
                 tabla.innerHTML += `
-                    <tr class="hover:bg-neutral-950 transition">
-                        <td class="py-4 px-2 font-terminal text-xs tracking-wider text-[#fb923c]">${u.id}</td>
+                    <tr class="hover:bg-neutral-900 transition">
+                        <td class="py-4 px-2 font-terminal text-xs tracking-wider text-orange-400">${u.id}</td>
                         <td class="py-4 px-2">
-                            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-terminal tracking-wider ${u.activo ? 'text-red-500 bg-red-950/40 border border-red-900/40' : 'text-neutral-600 bg-neutral-900 border border-neutral-800'}">
-                                <span class="w-1.5 h-1.5 ${u.activo ? 'bg-red-600 animate-pulse' : 'bg-neutral-700'}"></span>
+                            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-terminal tracking-wider ${u.activo ? 'text-red-500 bg-red-950 border border-red-800' : 'text-neutral-500 bg-black border border-neutral-800'}">
+                                <span class="w-1.5 h-1.5 ${u.activo ? 'bg-red-600 animate-pulse' : 'bg-neutral-600'}"></span>
                                 ${u.activo ? 'ACTIVO (🩸)' : 'INACTIVO'}
                             </span>
                         </td>
                         <td class="py-4 px-2 text-right">
-                            <button onclick="alert('Para modificar este usuario, actualiza el objeto USERS_DB en tu repositorio de GitHub.')" class="px-3 py-1 text-[10px] font-terminal tracking-wider text-neutral-400 bg-neutral-900 hover:bg-red-600 hover:text-black border border-neutral-700 transition uppercase">
+                            <button onclick="alert('Para modificar este usuario, actualiza el objeto USERS_DB en tu repositorio de GitHub.')" class="px-3 py-1 text-[10px] font-terminal tracking-wider text-neutral-300 bg-black hover:bg-red-600 hover:text-black border border-neutral-700 transition uppercase cursor-pointer">
                                 Gestionar
                             </button>
                         </td>
