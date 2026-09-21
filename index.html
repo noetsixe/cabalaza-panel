@@ -17,7 +17,6 @@
         .font-terminal {
             font-family: 'VT323', monospace;
         }
-        /* Scrollbar personalizado en tonos oscuros y rojos */
         #contenedor-logs::-webkit-scrollbar {
             width: 8px;
         }
@@ -37,12 +36,12 @@
 <body class="min-h-screen p-4 md:p-8 selection:bg-red-950 selection:text-red-300">
     <div class="max-w-4xl mx-auto space-y-6">
         
-        <!-- Logo de la calabaza (Más grande y sin franja/marco) -->
+        <!-- Logo de la calabaza -->
         <div class="flex justify-center mb-2">
             <img src="cabalaza-logo.png" alt="Logo Cabalaza" class="w-40 h-40 md:w-48 md:h-48 object-contain drop-shadow-[0_0_15px_#dc2626]">
         </div>
 
-        <!-- Cabecera estilo Blog/Zine -->
+        <!-- Cabecera -->
         <header class="bg-black border-2 border-red-600 p-6 shadow-[4px_4px_0px_0px_#dc2626] flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
                 <h1 class="text-2xl md:text-3xl font-bold tracking-widest text-red-600 uppercase flex items-center gap-2">
@@ -129,7 +128,7 @@
         async function verificarEstado() {
             const caja = document.getElementById('caja-estado');
             caja.className = "bg-black border-2 border-neutral-800 p-4 text-neutral-400 text-sm flex items-center gap-3";
-            caja.innerHTML = `<span class="w-2.5 h-2.5 bg-yellow-500 animate-ping"></span> Comprobando servidor (puede tardar si la instancia duerme)...`;
+            caja.innerHTML = `<span class="w-2.5 h-2.5 bg-yellow-500 animate-ping"></span> Comprobando servidor...`;
 
             try {
                 const res = await fetch(`${URL_SERVIDOR}/api/admin/status`, {
@@ -145,7 +144,7 @@
                 }
             } catch (e) {
                 caja.className = "bg-black border-2 border-neutral-800 p-4 text-neutral-600 text-sm flex items-center gap-3";
-                caja.innerHTML = `<span class="w-2.5 h-2.5 bg-neutral-700"></span> <strong>SISTEMA OFFLINE:</strong> Esperando respuesta del servidor gratuito...`;
+                caja.innerHTML = `<span class="w-2.5 h-2.5 bg-neutral-700"></span> <strong>SISTEMA OFFLINE:</strong> Esperando respuesta del servidor...`;
             }
         }
 
@@ -166,6 +165,7 @@
                             let textoPregunta = log.pregunta || "";
                             let listaOpcionesHTML = "";
 
+                            // Procesar opciones si vienen en el texto de la pregunta
                             if (textoPregunta.includes("Opciones:")) {
                                 let partes = textoPregunta.split("Opciones:");
                                 textoPregunta = partes[0].trim();
@@ -182,46 +182,46 @@
                                 listaOpcionesHTML += `</div>`;
                             }
 
-                            // --- SOPORTE PARA MÚLTIPLES INTENTOS DE LAS IAS ---
+                            // --- EXTRACCIÓN ROBUSTA DE INTENTOS Y CONSENSO DESDE EL LOG ---
+                            // Unimos todo el contenido disponible del log en un solo gran texto para buscar patrones sin importar cómo lo guarde el server
+                            let rawDataString = JSON.stringify(log);
+                            
                             let intentosHTML = "";
-                            let consensoVotos = log.consenso || log.votos || "";
+                            let consensoResumen = "";
 
-                            // Si el servidor envía un array de intentos o texto enriquecido en 'textoLog' / 'intentos'
-                            if (log.intentos && Array.isArray(log.intentos) && log.intentos.length > 0) {
-                                intentosHTML = `<div class="mt-2 space-y-1 border-t border-neutral-900 pt-2"><div class="text-xs text-yellow-600">// REGISTRO DE INTENTOS DE IAs:</div>`;
-                                log.intentos.forEach((intento, idx) => {
-                                    intentosHTML += `<div class="text-neutral-400 font-terminal text-xs">↳ Intento ${idx + 1}: [${intento}]</div>`;
+                            // Buscamos todas las líneas de intentos (ej: "Intento 1 (OpenAI, Gemini, Groq): [ '2', '2', '2' ]" o similares)
+                            const regexIntentosGlobal = /Intento\s*(\d+)[\s\S]*?(?:\[[\s\S]*?\])/g;
+                            
+                            // Extraer líneas específicas de la consola que coincidan con los intentos
+                            let matchesIntentos = rawDataString.match(/Intento\s*\d+[^"\\]*/g);
+                            
+                            let intentosUnicos = [];
+                            if (matchesIntentos) {
+                                matchesIntentos.forEach(m => {
+                                    if (!intentosUnicos.includes(m)) intentosUnicos.push(m);
+                                });
+                            }
+
+                            if (intentosUnicos.length > 0) {
+                                intentosHTML = `<div class="mt-2 space-y-1 border-t border-neutral-900 pt-2"><div class="text-xs text-yellow-600 font-terminal">// REGISTRO DE INTENTOS DE IAs:</div>`;
+                                intentosUnicos.forEach(intentoTxt => {
+                                    intentosHTML += `<div class="text-neutral-300 font-terminal text-xs">↳ ${intentoTxt.replace(/\\n/g, '')}</div>`;
                                 });
                                 intentosHTML += `</div>`;
-                            } else if (log.textoLog) {
-                                // Buscamos si hay múltiples líneas de intentos en el texto plano del log
-                                const regexTodosIntentos = /-->\s*(Intento\s*\d+.*?)(?=\n|$)/g;
-                                let matchIntentos;
-                                let lineasIntentos = [];
-                                while ((matchIntentos = regexTodosIntentos.exec(log.textoLog)) !== null) {
-                                    lineasIntentos.push(matchIntentos[1]);
-                                }
-
-                                if (lineasIntentos.length > 0) {
-                                    intentosHTML = `<div class="mt-2 space-y-1 border-t border-neutral-900 pt-2"><div class="text-xs text-yellow-600">// REGISTRO DE INTENTOS DE IAs:</div>`;
-                                    lineasIntentos.forEach(lin => {
-                                        intentosHTML += `<div class="text-neutral-400 font-terminal text-xs">↳ ${lin}</div>`;
-                                    });
-                                    intentosHTML += `</div>`;
-                                } else {
-                                    // Comportamiento de respaldo por si solo hay un intento simple en textoLog
-                                    const regexVotos = /-->\s*Intento\s*\d+\s*\(OpenAI,\s*Gemini,\s*Groq\):\s*\[\s*(.*?)\s*\]/;
-                                    const match = log.textoLog.match(regexVotos);
-                                    if (match && match[1]) {
-                                        const votosLimpios = match[1].replace(/'/g, "").replace(/\s+/g, "");
-                                        consensoVotos = votosLimpios.replace(/,/g, "/");
-                                    }
-                                }
                             }
-                            // --- FIN DE SOPORTE DE INTENTOS ---
+
+                            // Buscar líneas de consenso alcanzado (ej: "Consenso alcanzado en Intento 1: 2 (3/3 votos)")
+                            let matchConsenso = rawDataString.match(/Consenso\s*alcanzado[^"\\]*/i);
+                            if (matchConsenso) {
+                                consensoResumen = matchConsenso[0].replace(/\\n/g, '');
+                            } else {
+                                // Si no hay frase de consenso, intentamos armarla con el campo log.consenso o log.votos
+                                consensoResumen = log.consenso || log.votos || "Pendiente / Varios";
+                            }
+                            // --- FIN DE EXTRACCIÓN ---
 
                             contenedor.innerHTML += `
-                                <div class="bg-neutral-950 border border-neutral-800 p-3 text-xs space-y-2">
+                                <div class="bg-neutral-950 border border-neutral-800 p-3 text-xs space-y-2 shadow-sm">
                                     <div class="flex justify-between text-neutral-500 font-terminal">
                                         <span>USER: <strong class="text-[#fb923c]">${log.usuario || 'Anónimo'}</strong></span>
                                         <span>[${log.fecha || 'Justo ahora'}]</span>
@@ -231,12 +231,12 @@
                                     </div>
                                     ${listaOpcionesHTML}
                                     ${intentosHTML}
-                                    <div class="text-neutral-400 font-terminal text-sm border-t border-neutral-900 pt-2 flex items-center justify-between">
+                                    <div class="text-neutral-400 font-terminal text-sm border-t border-neutral-900 pt-2 flex flex-col md:flex-row items-start md:items-center justify-between gap-1">
                                         <div>
-                                            <span class="text-yellow-500 font-bold">[CONSENSO IAs: ${consensoVotos}]</span>
+                                            <span class="text-yellow-500 font-bold">[CONSENSO IAs: ${consensoResumen}]</span>
                                         </div>
                                         <div>
-                                            <strong class="text-zinc-400">RESPUESTA:</strong> <span class="text-red-500 font-bold text-base">${log.respuesta}</span>
+                                            <strong class="text-zinc-400">RESPUESTA:</strong> <span class="text-red-500 font-bold text-base">${log.respuesta || 'N/A'}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -247,7 +247,7 @@
                     }
                 }
             } catch (e) {
-                contenedor.innerHTML = `<div class="text-neutral-600 font-terminal text-lg">&gt; [Aviso]: Configura la ruta <code class="text-red-500">/api/admin/logs</code> en tu backend para capturar el flujo.</div>`;
+                contenedor.innerHTML = `<div class="text-neutral-600 font-terminal text-lg">&gt; Error al conectar con el servidor para obtener los logs.</div>`;
             }
         }
 
