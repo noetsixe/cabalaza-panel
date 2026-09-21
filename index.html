@@ -182,8 +182,43 @@
                                 listaOpcionesHTML += `</div>`;
                             }
 
-                            // Se muestra exactamente lo que llega del servidor en el campo de consenso/votos sin alterar ni sobreescribir con valores por defecto
-                            let consensoVotos = log.consenso || log.votos || ""; 
+                            // --- SOPORTE PARA MÚLTIPLES INTENTOS DE LAS IAS ---
+                            let intentosHTML = "";
+                            let consensoVotos = log.consenso || log.votos || "";
+
+                            // Si el servidor envía un array de intentos o texto enriquecido en 'textoLog' / 'intentos'
+                            if (log.intentos && Array.isArray(log.intentos) && log.intentos.length > 0) {
+                                intentosHTML = `<div class="mt-2 space-y-1 border-t border-neutral-900 pt-2"><div class="text-xs text-yellow-600">// REGISTRO DE INTENTOS DE IAs:</div>`;
+                                log.intentos.forEach((intento, idx) => {
+                                    intentosHTML += `<div class="text-neutral-400 font-terminal text-xs">↳ Intento ${idx + 1}: [${intento}]</div>`;
+                                });
+                                intentosHTML += `</div>`;
+                            } else if (log.textoLog) {
+                                // Buscamos si hay múltiples líneas de intentos en el texto plano del log
+                                const regexTodosIntentos = /-->\s*(Intento\s*\d+.*?)(?=\n|$)/g;
+                                let matchIntentos;
+                                let lineasIntentos = [];
+                                while ((matchIntentos = regexTodosIntentos.exec(log.textoLog)) !== null) {
+                                    lineasIntentos.push(matchIntentos[1]);
+                                }
+
+                                if (lineasIntentos.length > 0) {
+                                    intentosHTML = `<div class="mt-2 space-y-1 border-t border-neutral-900 pt-2"><div class="text-xs text-yellow-600">// REGISTRO DE INTENTOS DE IAs:</div>`;
+                                    lineasIntentos.forEach(lin => {
+                                        intentosHTML += `<div class="text-neutral-400 font-terminal text-xs">↳ ${lin}</div>`;
+                                    });
+                                    intentosHTML += `</div>`;
+                                } else {
+                                    // Comportamiento de respaldo por si solo hay un intento simple en textoLog
+                                    const regexVotos = /-->\s*Intento\s*\d+\s*\(OpenAI,\s*Gemini,\s*Groq\):\s*\[\s*(.*?)\s*\]/;
+                                    const match = log.textoLog.match(regexVotos);
+                                    if (match && match[1]) {
+                                        const votosLimpios = match[1].replace(/'/g, "").replace(/\s+/g, "");
+                                        consensoVotos = votosLimpios.replace(/,/g, "/");
+                                    }
+                                }
+                            }
+                            // --- FIN DE SOPORTE DE INTENTOS ---
 
                             contenedor.innerHTML += `
                                 <div class="bg-neutral-950 border border-neutral-800 p-3 text-xs space-y-2">
@@ -195,6 +230,7 @@
                                         <strong class="text-red-600">Q:</strong> ${textoPregunta}
                                     </div>
                                     ${listaOpcionesHTML}
+                                    ${intentosHTML}
                                     <div class="text-neutral-400 font-terminal text-sm border-t border-neutral-900 pt-2 flex items-center justify-between">
                                         <div>
                                             <span class="text-yellow-500 font-bold">[CONSENSO IAs: ${consensoVotos}]</span>
