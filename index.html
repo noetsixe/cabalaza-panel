@@ -877,5 +877,92 @@
             }
         }
     </script>
+<!-- AUTENTICACIÓN ADMINISTRATIVA: añadido para proteger el panel -->
+<script>
+(() => {
+    const rawFetch = window.fetch.bind(window);
+    const originalOnload = window.onload;
+    let adminToken = null;
+    let panelStarted = false;
+    let pendingAction = null;
+
+    window.fetch = async (input, init = {}) => {
+        const url = typeof input === 'string' ? input : input.url;
+        if (!url.startsWith(`${URL_SERVIDOR}/api/admin`)) return rawFetch(input, init);
+        const headers = new Headers(init.headers || {});
+        if (adminToken) headers.set('Authorization', `Bearer ${adminToken}`);
+        return rawFetch(input, { ...init, headers });
+    };
+
+    function abrirModal(texto, accion) {
+        pendingAction = accion;
+        document.querySelector('#modal-password p').textContent = texto;
+        document.querySelector('#modal-password span').textContent = '>> AUTORIZACIÓN REQUERIDA';
+        const input = document.getElementById('input-admin-pass');
+        input.value = '';
+        document.getElementById('modal-password').classList.remove('hidden');
+        input.focus();
+    }
+
+    async function iniciarSesionYContinuar() {
+        const password = document.getElementById('input-admin-pass').value;
+        if (!password) return alert('Debes introducir la contraseña.');
+        try {
+            const response = await rawFetch(`${URL_SERVIDOR}/api/admin/login`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ password })
+            });
+            const data = await response.json();
+            if (!response.ok || !data.token) return alert(data.error || 'Contraseña incorrecta.');
+            adminToken = data.token;
+            document.getElementById('modal-password').classList.add('hidden');
+            const accion = pendingAction;
+            pendingAction = null;
+            if (accion) await accion();
+        } catch {
+            alert('No se pudo iniciar sesión con el servidor.');
+        }
+    }
+
+    async function alternarServidor() {
+        try {
+            const response = await fetch(`${URL_SERVIDOR}/api/admin/toggle-server`, {
+                method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}'
+            });
+            const data = await response.json();
+            if (!response.ok || !data.success) throw new Error();
+            const checkbox = document.getElementById('main-server-switch');
+            const label = document.getElementById('label-estado-texto');
+            checkbox.checked = data.active;
+            actualizarEfectosVisuales(data.active, true);
+            label.innerText = data.active ? 'ENCENDIDO 🟢' : 'APAGADO 🔴';
+            label.className = data.active
+                ? 'text-[10px] font-bold text-green-400 uppercase tracking-widest animate-pulse'
+                : 'text-[10px] font-bold text-red-500 uppercase tracking-widest';
+        } catch {
+            alert('No se pudo cambiar el estado del servidor.');
+            verificarEstadoServidorSwitch();
+        }
+    }
+
+    window.intentarCambiarEstado = function(event) {
+        event.preventDefault();
+        abrirModal('Introduce la contraseña de administrador para cambiar el estado del servidor:', alternarServidor);
+    };
+    window.ejecutarCambioServidor = iniciarSesionYContinuar;
+    window.cerrarModalPassword = function() {
+        document.getElementById('modal-password').classList.add('hidden');
+        pendingAction = null;
+        if (panelStarted) verificarEstadoServidorSwitch();
+    };
+    window.onload = function() {
+        abrirModal('Introduce la contraseña de administrador para acceder al panel de control:', async () => {
+            panelStarted = true;
+            originalOnload();
+        });
+    };
+})();
+</script>
 </body>
 </html>
