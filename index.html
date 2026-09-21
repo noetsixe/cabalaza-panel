@@ -19,6 +19,7 @@
             position: relative;
         }
 
+        /* CANVAS DE MATRIX EN EL FONDO (OPACIDAD AUMENTADA A 0.45) */
         #canvas-matrix {
             position: fixed;
             top: 0;
@@ -27,7 +28,7 @@
             height: 100vh;
             z-index: -1;
             pointer-events: none;
-            opacity: 0.45;
+            opacity: 0.45; /* Opacidad más visible */
         }
 
         .font-terminal {
@@ -48,6 +49,7 @@
             background: #f87171;
         }
 
+        /* Switch de encendido/apagado */
         .switch {
             position: relative;
             display: inline-block;
@@ -86,6 +88,7 @@
             background-color: #ef4444;
         }
 
+        /* FILTROS Y EFECTOS */
         .filtro-gris {
             filter: grayscale(100%) brightness(70%);
             transition: filter 0.4s ease;
@@ -94,6 +97,7 @@
             transition: filter 0.4s ease;
         }
 
+        /* OVERLAY OLA MYSTIQUE / ARCADE COMPLETO */
         #pixel-flash-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -106,25 +110,61 @@
             -webkit-mask-size: 6px 6px;
         }
 
+        /* ANIMACIÓN EN OLA DE UN SOLO COLOR SÓLIDO (AMARILLO / ROJO) */
         @keyframes olaArcadeAmarillo {
-            0% { opacity: 1; background: linear-gradient(to top, #eab308 0%, transparent 10%); }
-            30% { opacity: 1; background: linear-gradient(to top, #eab308 80%, transparent 100%); }
-            40%, 60% { opacity: 1; background: #eab308; }
-            70% { opacity: 1; background: linear-gradient(to top, transparent 0%, #eab308 20%); }
-            100% { opacity: 0; background: linear-gradient(to top, transparent 90%, #eab308 100%); }
+            0% {
+                opacity: 1;
+                background: linear-gradient(to top, #eab308 0%, transparent 10%);
+            }
+            30% {
+                opacity: 1;
+                background: linear-gradient(to top, #eab308 80%, transparent 100%);
+            }
+            40%, 60% {
+                opacity: 1;
+                background: #eab308;
+            }
+            70% {
+                opacity: 1;
+                background: linear-gradient(to top, transparent 0%, #eab308 20%);
+            }
+            100% {
+                opacity: 0;
+                background: linear-gradient(to top, transparent 90%, #eab308 100%);
+            }
         }
 
         @keyframes olaArcadeRojo {
-            0% { opacity: 1; background: linear-gradient(to top, #dc2626 0%, transparent 10%); }
-            30% { opacity: 1; background: linear-gradient(to top, #dc2626 80%, transparent 100%); }
-            40%, 60% { opacity: 1; background: #dc2626; }
-            70% { opacity: 1; background: linear-gradient(to top, transparent 0%, #dc2626 20%); }
-            100% { opacity: 0; background: linear-gradient(to top, transparent 90%, #dc2626 100%); }
+            0% {
+                opacity: 1;
+                background: linear-gradient(to top, #dc2626 0%, transparent 10%);
+            }
+            30% {
+                opacity: 1;
+                background: linear-gradient(to top, #dc2626 80%, transparent 100%);
+            }
+            40%, 60% {
+                opacity: 1;
+                background: #dc2626;
+            }
+            70% {
+                opacity: 1;
+                background: linear-gradient(to top, transparent 0%, #dc2626 20%);
+            }
+            100% {
+                opacity: 0;
+                background: linear-gradient(to top, transparent 90%, #dc2626 100%);
+            }
         }
 
-        .flash-anim-on { animation: olaArcadeAmarillo 0.5s steps(10, end) forwards; }
-        .flash-anim-off { animation: olaArcadeRojo 0.5s steps(10, end) forwards; }
+        .flash-anim-on {
+            animation: olaArcadeAmarillo 0.5s steps(10, end) forwards;
+        }
+        .flash-anim-off {
+            animation: olaArcadeRojo 0.5s steps(10, end) forwards;
+        }
 
+        /* EFECTO DE VIBRACIÓN PARA LA CALABAZA */
         @keyframes vibrar {
             0% { transform: translate(0, 0) rotate(0deg); }
             20% { transform: translate(-6px, 4px) rotate(-4deg); }
@@ -134,8 +174,11 @@
             100% { transform: translate(0, 0) rotate(0deg); }
         }
 
-        .vibrar-calabaza { animation: vibrar 0.08s infinite linear; }
+        .vibrar-calabaza {
+            animation: vibrar 0.08s infinite linear;
+        }
 
+        /* EFECTO DE TEMBLOR GLOBAL PARA TODAS LAS CAJAS Y ELEMENTOS */
         @keyframes tiembleGeneral {
             0% { transform: translate(0px, 0px) rotate(0deg); }
             10% { transform: translate(-8px, -6px) rotate(-1deg); }
@@ -150,8 +193,11 @@
             100% { transform: translate(0px, 0px) rotate(0deg); }
         }
 
-        .temblor-pantalla { animation: tiembleGeneral 0.25s linear infinite; }
+        .temblor-pantalla {
+            animation: tiembleGeneral 0.25s linear infinite;
+        }
 
+        /* INVERSIÓN TOTAL DE COLORES EN LA INTERFAZ */
         .modo-invertido {
             filter: invert(100%) hue-rotate(180deg);
             transition: filter 0.05s ease;
@@ -160,11 +206,13 @@
 </head>
 <body id="body-principal" class="min-h-screen p-4 md:p-8 selection:bg-red-950 selection:text-red-300" onclick="cerrarTodosLosMenus(event)">
     
+    <!-- CANVAS MATRIX DE FONDO -->
     <canvas id="canvas-matrix"></canvas>
 
+    <!-- OVERLAY PARA EFECTO PIXELEADO EN OLA COMPLETA -->
     <div id="pixel-flash-overlay"></div>
 
-    <!-- MODAL DE CONTRASEÑA -->
+    <!-- CONTENEDOR FLOTANTE PARA PEDIR CONTRASEÑA -->
     <div id="modal-password" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-black border-2 border-red-600 p-6 max-w-sm w-full shadow-[6px_6px_0px_0px_#dc2626] space-y-4">
             <div class="text-[10px] text-red-500 font-bold uppercase tracking-wider border-b border-red-900 pb-2 flex justify-between items-center">
@@ -206,11 +254,13 @@
             </button>
         </header>
 
+        <!-- BARRA SUPERIOR: SWITCH A LA IZQUIERDA Y ESTADO ONLINE A LA DERECHA -->
         <div class="flex flex-col md:flex-row gap-4 items-stretch">
+            <!-- INTERRUPTOR GENERAL -->
             <div class="flex items-center justify-between bg-black/90 border border-neutral-800 px-4 py-2.5 shadow-[2px_2px_0px_0px_#171717] motor-afectado backdrop-blur-sm flex-1">
                 <div class="flex items-center gap-3">
                     <label class="switch">
-                        <input type="checkbox" id="main-server-switch" onchange="intentarCambiarEstado(event)">
+                        <input type="checkbox" id="main-server-switch" onclick="intentarCambiarEstado(event)">
                         <span class="slider"></span>
                     </label>
                     <div class="flex flex-col">
@@ -223,12 +273,14 @@
                 </div>
             </div>
 
+            <!-- CAJA DE ESTADO DE CONEXIÓN -->
             <div id="caja-estado" class="bg-black/90 border-2 border-neutral-700 p-3 text-neutral-300 text-xs flex items-center gap-3 motor-afectado backdrop-blur-sm flex-1">
                 <span class="w-2.5 h-2.5 bg-yellow-500 animate-ping"></span>
                 Comprobando conexión con el servidor...
             </div>
         </div>
 
+        <!-- SECCIÓN DE USUARIOS ACTIVOS EN TIEMPO REAL -->
         <div class="bg-black/90 border-2 border-green-600 p-6 shadow-[4px_4px_0px_0px_#16a34a] motor-afectado backdrop-blur-sm">
             <div class="flex justify-between items-center mb-4 border-b border-green-900 pb-2">
                 <h2 class="text-[10px] font-bold uppercase tracking-widest text-green-500">
@@ -241,6 +293,7 @@
             </div>
         </div>
 
+        <!-- SECCIÓN DE PREGUNTAS EN TIEMPO REAL -->
         <div class="bg-black/90 border-2 border-red-600 p-6 shadow-[4px_4px_0px_0px_#dc2626] motor-afectado backdrop-blur-sm">
             <div class="flex justify-between items-center mb-4 border-b border-red-900 pb-2">
                 <h2 class="text-[10px] font-bold uppercase tracking-widest text-red-500">
@@ -253,6 +306,7 @@
             </div>
         </div>
 
+        <!-- SECCIÓN DE GESTIÓN DE USUARIOS -->
         <div class="bg-black/90 border-2 border-neutral-700 p-6 shadow-[4px_4px_0px_0px_#262626] space-y-6 backdrop-blur-sm">
             <h2 class="text-[10px] font-bold uppercase tracking-widest text-red-500 border-b border-neutral-800 pb-2">
                 &gt;&gt; ADMINISTRACIÓN DE USUARIOS [DATABASE]
@@ -295,6 +349,7 @@
     </div>
 
     <script>
+        // EFECTO MATRIX ANIMADO FLUIDO Y SIN GLITCHES
         (function iniciarMatrix() {
             const canvas = document.getElementById('canvas-matrix');
             const ctx = canvas.getContext('2d');
@@ -338,7 +393,7 @@
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-                ctx.fillStyle = '#dc2626';
+                ctx.fillStyle = '#dc2626'; // Rojo Matrix
                 ctx.font = fontSize + 'px monospace';
 
                 for (let i = 0; i < gotas.length; i++) {
@@ -378,8 +433,10 @@
             const switchEstado = document.getElementById('main-server-switch');
             const root = document.documentElement;
 
+            // Siempre aplica la vibración física de la imagen
             calabaza.classList.add('vibrar-calabaza');
 
+            // Solo si el motor de IA está activo: hace temblar toda la interfaz e invierte los colores
             const motorActivo = switchEstado.checked;
             if (motorActivo) {
                 root.classList.add('modo-invertido');
@@ -498,12 +555,9 @@
         }
 
         function intentarCambiarEstado(event) {
-            event.preventDefault();
-            event.stopPropagation();
-            
+            event.preventDefault(); 
             const checkbox = document.getElementById('main-server-switch');
-            estadoDeseadoSwitch = checkbox.checked;
-            checkbox.checked = !estadoDeseadoSwitch;
+            estadoDeseadoSwitch = !checkbox.checked; 
 
             document.getElementById('modal-password').classList.remove('hidden');
             document.getElementById('input-admin-pass').value = "";
@@ -534,10 +588,19 @@
                 if (res.ok && data.success) {
                     cerrarModalPassword();
                     const checkbox = document.getElementById('main-server-switch');
+                    const labelTexto = document.getElementById('label-estado-texto');
+                    
                     checkbox.checked = data.active;
 
                     actualizarEfectosVisuales(data.active, true);
-                    actualizarTodo();
+
+                    if (data.active) {
+                        labelTexto.innerText = "ENCENDIDO 🟢";
+                        labelTexto.className = "text-[10px] font-bold text-green-400 uppercase tracking-widest animate-pulse";
+                    } else {
+                        labelTexto.innerText = "APAGADO 🔴";
+                        labelTexto.className = "text-[10px] font-bold text-red-500 uppercase tracking-widest";
+                    }
                 } else {
                     alert(data.error || "Contraseña incorrecta o error de autorización.");
                     verificarEstadoServidorSwitch();
