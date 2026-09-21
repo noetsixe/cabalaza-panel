@@ -17,6 +17,21 @@
         .font-terminal {
             font-family: 'VT323', monospace;
         }
+        /* Scrollbar personalizado en tonos oscuros y rojos */
+        #contenedor-logs::-webkit-scrollbar {
+            width: 8px;
+        }
+        #contenedor-logs::-webkit-scrollbar-track {
+            background: #0a0a0a;
+            border-left: 1px solid #262626;
+        }
+        #contenedor-logs::-webkit-scrollbar-thumb {
+            background: #7f1d1d;
+            border: 1px solid #991b1b;
+        }
+        #contenedor-logs::-webkit-scrollbar-thumb:hover {
+            background: #dc2626;
+        }
     </style>
 </head>
 <body class="min-h-screen p-4 md:p-8 selection:bg-red-950 selection:text-red-300">
@@ -167,7 +182,8 @@
                                 listaOpcionesHTML += `</div>`;
                             }
 
-                            let consensoVotos = log.consenso || log.votos || "3/3/3"; 
+                            // Se muestra exactamente lo que llega del servidor en el campo de consenso/votos sin alterar ni sobreescribir con valores por defecto
+                            let consensoVotos = log.consenso || log.votos || ""; 
 
                             contenedor.innerHTML += `
                                 <div class="bg-neutral-950 border border-neutral-800 p-3 text-xs space-y-2">
