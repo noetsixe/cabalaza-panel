@@ -96,60 +96,60 @@
             -webkit-mask-size: 6px 6px;
         }
 
-        /* ANIMACIÓN EN OLA DE ABAJO HACIA ARRIBA CON COBERTURA TOTAL TEMPORAL (0.5s) */
+        /* ANIMACIÓN EN OLA DE UN SOLO COLOR SÓLIDO (AMARILLO / ROJO) */
         @keyframes olaArcadeAmarillo {
             0% {
                 opacity: 1;
-                background: linear-gradient(to top, #eab308 0%, transparent 5%);
+                background: linear-gradient(to top, #eab308 0%, transparent 10%);
             }
-            35% {
+            30% {
                 opacity: 1;
-                background: linear-gradient(to top, #eab308 0%, #fef08a 80%, transparent 100%);
+                background: linear-gradient(to top, #eab308 80%, transparent 100%);
             }
-            /* CUBRE TODA LA PANTALLA POR UNOS MILISEGUNDOS */
-            50% {
+            /* CUBRE TODA LA PANTALLA DE UN SOLO COLOR SÓLIDO POR UNOS MILISEGUNDOS */
+            40%, 60% {
                 opacity: 1;
                 background: #eab308;
             }
-            65% {
+            70% {
                 opacity: 1;
-                background: linear-gradient(to top, transparent 0%, #fef08a 20%, #eab308 100%);
+                background: linear-gradient(to top, transparent 0%, #eab308 20%);
             }
             100% {
                 opacity: 0;
-                background: linear-gradient(to top, transparent 95%, #eab308 100%);
+                background: linear-gradient(to top, transparent 90%, #eab308 100%);
             }
         }
 
         @keyframes olaArcadeRojo {
             0% {
                 opacity: 1;
-                background: linear-gradient(to top, #dc2626 0%, transparent 5%);
+                background: linear-gradient(to top, #dc2626 0%, transparent 10%);
             }
-            35% {
+            30% {
                 opacity: 1;
-                background: linear-gradient(to top, #dc2626 0%, #fca5a5 80%, transparent 100%);
+                background: linear-gradient(to top, #dc2626 80%, transparent 100%);
             }
-            /* CUBRE TODA LA PANTALLA POR UNOS MILISEGUNDOS */
-            50% {
+            /* CUBRE TODA LA PANTALLA DE UN SOLO COLOR SÓLIDO POR UNOS MILISEGUNDOS */
+            40%, 60% {
                 opacity: 1;
                 background: #dc2626;
             }
-            65% {
+            70% {
                 opacity: 1;
-                background: linear-gradient(to top, transparent 0%, #fca5a5 20%, #dc2626 100%);
+                background: linear-gradient(to top, transparent 0%, #dc2626 20%);
             }
             100% {
                 opacity: 0;
-                background: linear-gradient(to top, transparent 95%, #dc2626 100%);
+                background: linear-gradient(to top, transparent 90%, #dc2626 100%);
             }
         }
 
         .flash-anim-on {
-            animation: olaArcadeAmarillo 0.5s steps(12, end) forwards;
+            animation: olaArcadeAmarillo 0.5s steps(10, end) forwards;
         }
         .flash-anim-off {
-            animation: olaArcadeRojo 0.5s steps(12, end) forwards;
+            animation: olaArcadeRojo 0.5s steps(10, end) forwards;
         }
     </style>
 </head>
