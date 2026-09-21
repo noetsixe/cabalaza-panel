@@ -218,23 +218,6 @@
 
     <div class="max-w-4xl mx-auto space-y-6">
         
-        <!-- INTERRUPTOR GENERAL EN LA ESQUINA SUPERIOR IZQUIERDA -->
-        <div class="flex items-center justify-between bg-black/90 border border-neutral-800 px-4 py-2.5 shadow-[2px_2px_0px_0px_#171717] motor-afectado backdrop-blur-sm">
-            <div class="flex items-center gap-3">
-                <label class="switch">
-                    <input type="checkbox" id="main-server-switch" onclick="intentarCambiarEstado(event)">
-                    <span class="slider"></span>
-                </label>
-                <div class="flex flex-col">
-                    <span class="text-[9px] text-neutral-400 tracking-wider">ESTADO DEL MOTOR DE IA</span>
-                    <span id="label-estado-texto" class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">DESCONECTADO</span>
-                </div>
-            </div>
-            <div class="text-[9px] text-neutral-600 font-terminal hidden md:block">
-                // KILL_SWITCH SECURE
-            </div>
-        </div>
-
         <div class="flex justify-center mb-2 motor-afectado">
             <img id="img-calabaza" src="cabalaza-logo.png" alt="Logo Cabalaza" onclick="efectoCalabazaVibrar(event)" class="w-40 h-40 md:w-48 md:h-48 object-contain filter drop-shadow-[0_0_15px_rgba(234,179,8,0.7)] cursor-pointer active:scale-95 transition-transform">
         </div>
@@ -252,9 +235,30 @@
             </button>
         </header>
 
-        <div id="caja-estado" class="bg-black/90 border-2 border-neutral-700 p-4 text-neutral-300 text-xs flex items-center gap-3 motor-afectado backdrop-blur-sm">
-            <span class="w-2.5 h-2.5 bg-yellow-500 animate-ping"></span>
-            Comprobando conexión con el servidor...
+        <!-- BARRA SUPERIOR: SWITCH A LA IZQUIERDA Y ESTADO ONLINE A LA DERECHA -->
+        <div class="flex flex-col md:flex-row gap-4 items-stretch">
+            <!-- INTERRUPTOR GENERAL -->
+            <div class="flex items-center justify-between bg-black/90 border border-neutral-800 px-4 py-2.5 shadow-[2px_2px_0px_0px_#171717] motor-afectado backdrop-blur-sm flex-1">
+                <div class="flex items-center gap-3">
+                    <label class="switch">
+                        <input type="checkbox" id="main-server-switch" onclick="intentarCambiarEstado(event)">
+                        <span class="slider"></span>
+                    </label>
+                    <div class="flex flex-col">
+                        <span class="text-[9px] text-neutral-400 tracking-wider">ESTADO DEL MOTOR DE IA</span>
+                        <span id="label-estado-texto" class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">DESCONECTADO</span>
+                    </div>
+                </div>
+                <div class="text-[9px] text-neutral-600 font-terminal hidden sm:block">
+                    // KILL_SWITCH
+                </div>
+            </div>
+
+            <!-- CAJA DE ESTADO DE CONEXIÓN -->
+            <div id="caja-estado" class="bg-black/90 border-2 border-neutral-700 p-3 text-neutral-300 text-xs flex items-center gap-3 motor-afectado backdrop-blur-sm flex-1">
+                <span class="w-2.5 h-2.5 bg-yellow-500 animate-ping"></span>
+                Comprobando conexión con el servidor...
+            </div>
         </div>
 
         <!-- SECCIÓN DE USUARIOS ACTIVOS EN TIEMPO REAL -->
@@ -590,7 +594,7 @@
             const caja = document.getElementById('caja-estado');
             let clasesBase = "motor-afectado backdrop-blur-sm " + (caja.classList.contains('filtro-gris') ? 'filtro-gris ' : '');
             
-            caja.className = clasesBase + "bg-black/90 border-2 border-neutral-700 p-4 text-neutral-300 text-xs flex items-center gap-3";
+            caja.className = clasesBase + "bg-black/90 border-2 border-neutral-700 p-3 text-neutral-300 text-xs flex items-center gap-3 flex-1";
             caja.innerHTML = `<span class="w-2.5 h-2.5 bg-yellow-500 animate-ping"></span> Comprobando servidor...`;
 
             try {
@@ -600,13 +604,13 @@
                 });
 
                 if (res.ok) {
-                    caja.className = clasesBase + "bg-black/90 border-2 border-red-600 p-4 text-red-500 text-xs flex items-center gap-3";
+                    caja.className = clasesBase + "bg-black/90 border-2 border-red-600 p-3 text-red-500 text-xs flex items-center gap-3 flex-1";
                     caja.innerHTML = `<span class="w-2.5 h-2.5 bg-red-600"></span> <strong class="text-cyan-400">SISTEMA ONLINE:</strong> <span class="text-green-400">Servidor operando correctamente.</span>`;
                 } else {
                     throw new Error();
                 }
             } catch (e) {
-                caja.className = clasesBase + "bg-black/90 border-2 border-neutral-800 p-4 text-neutral-500 text-xs flex items-center gap-3";
+                caja.className = clasesBase + "bg-black/90 border-2 border-neutral-800 p-3 text-neutral-500 text-xs flex items-center gap-3 flex-1";
                 caja.innerHTML = `<span class="w-2.5 h-2.5 bg-neutral-600"></span> <strong>SISTEMA OFFLINE:</strong> Esperando respuesta del servidor...`;
             }
         }
