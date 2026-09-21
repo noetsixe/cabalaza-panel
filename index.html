@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PANEL // EXAM</title>
-    <!-- Favicon conectado al archivo en GitHub -->
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="advicon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=VT323&display=swap" rel="stylesheet">
@@ -22,7 +22,7 @@
 <body class="min-h-screen p-4 md:p-8 selection:bg-red-950 selection:text-red-300">
     <div class="max-w-4xl mx-auto space-y-6">
         
-        <!-- Imagen de la calabaza conectada al archivo en GitHub -->
+        <!-- Logo de la calabaza -->
         <div class="flex justify-center mb-2">
             <div class="p-2 bg-black border border-red-900/50 shadow-[0_0_15px_rgba(220,38,38,0.2)] rounded">
                 <img src="calabaza-logo.png" alt="Logo Calabaza" class="w-24 h-24 object-contain drop-shadow-[0_0_10px_#dc2626]">
@@ -49,7 +49,7 @@
             Comprobando conexión con el servidor...
         </div>
 
-        <!-- SECCIÓN NUEVA: Monitor de Preguntas y Respuestas en Vivo -->
+        <!-- Monitor de Preguntas y Respuestas en Vivo -->
         <div class="bg-black border-2 border-red-900/50 p-6 shadow-[4px_4px_0px_0px_#7f1d1d]">
             <div class="flex justify-between items-center mb-4 border-b border-neutral-800 pb-2">
                 <h2 class="text-xs font-bold uppercase tracking-widest text-red-500">
@@ -87,7 +87,6 @@
     </div>
 
     <script>
-        // URL exacta de tu servidor backend en Render
         const URL_SERVIDOR = "https://servidor-examenes.onrender.com";
 
         window.onload = function() {
@@ -137,7 +136,6 @@
             }
         }
 
-        // Función para procesar y formatear preguntas, alternativas invertidas y consenso de IA
         async function cargarLogsPreguntas() {
             const contenedor = document.getElementById('contenedor-logs');
             try {
@@ -152,7 +150,6 @@
                     if (logs && logs.length > 0) {
                         contenedor.innerHTML = "";
                         logs.reverse().forEach(log => {
-                            // Separar pregunta y opciones si vienen juntas en el texto
                             let textoPregunta = log.pregunta || "";
                             let listaOpcionesHTML = "";
 
@@ -161,10 +158,7 @@
                                 textoPregunta = partes[0].trim();
                                 let opcionesTexto = partes[1].trim();
                                 
-                                // Dividir opciones (ej: "1. Opción A 2. Opción B...")
                                 let opcionesMatch = opcionesTexto.split(/(?=\d+\.-|\d+\.\s)/g).map(o => o.trim()).filter(o => o.length > 0);
-                                
-                                // Invertir orden de abajo hacia arriba
                                 opcionesMatch.reverse();
 
                                 listaOpcionesHTML = `<div class="mt-2 space-y-1 pl-2 border-l border-red-900/40">
@@ -175,7 +169,6 @@
                                 listaOpcionesHTML += `</div>`;
                             }
 
-                            // Simulación o lectura del consenso de las 3 IAs (ej: OpenAI / Gemini / Groq)
                             let consensoVotos = log.consenso || log.votos || "3/3/3"; 
 
                             contenedor.innerHTML += `
@@ -219,7 +212,6 @@
             usuarios.forEach(u => {
                 tabla.innerHTML += `
                     <tr class="hover:bg-neutral-950 transition">
-                        <!-- Nombre de usuario con color amarillo naranjoso -->
                         <td class="py-4 px-2 font-terminal text-lg tracking-wider text-[#fb923c]">${u.id}</td>
                         <td class="py-4 px-2">
                             <span class="inline-flex items-center gap-1.5 px-2 py-0.5 text-xs font-terminal tracking-wider ${u.activo ? 'text-red-500 bg-red-950/40 border border-red-900/40' : 'text-neutral-600 bg-neutral-900 border border-neutral-800'}">
