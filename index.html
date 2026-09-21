@@ -209,10 +209,10 @@
                 <button onclick="cerrarModalPassword()" class="text-neutral-500 hover:text-red-400 cursor-pointer">[X]</button>
             </div>
             <p class="text-[10px] text-neutral-300 leading-relaxed font-terminal">
-                Introduce la contraseña de administrador para sincronizar con el servidor:
+                Introduce la contraseña de administrador para cambiar el estado del motor:
             </p>
             <input type="password" id="input-admin-pass" placeholder="Contraseña..." onkeyup="if(event.key==='Enter') ejecutarCambioServidor()"
-                class="w-full bg-neutral-950 border border-neutral-700 px-3 py-2 text-xs text-red-500 focus:outline-none focus:border-red-600 font-terminal">
+                class="w-full bg-neutral-950 border border-neutral-700 px-3 py-2 text-xs text-red-500 focus:outline-none focus:border-red-600 font-terminal" autocomplete="off">
             <div class="flex justify-end gap-2 pt-2">
                 <button onclick="cerrarModalPassword()" class="bg-neutral-900 hover:bg-neutral-800 text-neutral-400 text-[10px] px-3 py-2 border border-neutral-700 uppercase cursor-pointer">
                     Cancelar
@@ -400,12 +400,7 @@
 
         // GESTIÓN DE CREDENCIALES DE ADMINISTRADOR
         function getAdminPassword() {
-            let pass = sessionStorage.getItem('admin_pass');
-            if (!pass) {
-                pass = prompt("Introduce la contraseña de Administrador:");
-                if (pass) sessionStorage.setItem('admin_pass', pass);
-            }
-            return pass || "";
+            return sessionStorage.getItem('admin_pass') || "";
         }
 
         function getAuthHeaders() {
@@ -416,20 +411,14 @@
         }
 
         function solicitarNuevaClaveAdmin() {
-            sessionStorage.removeItem('admin_pass');
-            getAdminPassword();
-            actualizarTodo();
-        }
-
-        function manejarErrorAuth(res) {
-            if (res.status === 401) {
-                sessionStorage.removeItem('admin_pass');
-                alert("Acceso denegado: Contraseña de administración incorrecta.");
+            const nuevaClave = prompt("Introduce la clave de Administrador:");
+            if (nuevaClave !== null) {
+                sessionStorage.setItem('admin_pass', nuevaClave);
+                actualizarTodo();
             }
         }
 
         window.onload = function() {
-            getAdminPassword();
             actualizarTodo();
             notificarServidorPanel(); 
             setInterval(cargarLogsPreguntas, 5000);
@@ -528,7 +517,7 @@
                         contenedor.innerHTML = `<div class="text-neutral-500 font-terminal text-xs">&gt; Ningún usuario activo en este momento.</div>`;
                     }
                 } else {
-                    manejarErrorAuth(res);
+                    contenedor.innerHTML = `<div class="text-neutral-500 font-terminal text-xs">&gt; Requiere clave de administrador validada.</div>`;
                 }
             } catch (e) {
                 contenedor.innerHTML = `<div class="text-neutral-600 font-terminal text-[10px]">&gt; Error obteniendo usuarios activos.</div>`;
@@ -555,8 +544,6 @@
                         labelTexto.innerText = "APAGADO 🔴";
                         labelTexto.className = "text-[10px] font-bold text-red-500 uppercase tracking-widest";
                     }
-                } else {
-                    manejarErrorAuth(res);
                 }
             } catch (e) {
                 console.log("No se pudo verificar el estado del switch del servidor");
@@ -569,7 +556,8 @@
             estadoDeseadoSwitch = !checkbox.checked; 
 
             document.getElementById('modal-password').classList.remove('hidden');
-            document.getElementById('input-admin-pass').value = sessionStorage.getItem('admin_pass') || "";
+            // Garantizar que la caja de texto aparezca totalmente VACÍA
+            document.getElementById('input-admin-pass').value = "";
             document.getElementById('input-admin-pass').focus();
         }
 
@@ -611,6 +599,7 @@
                         labelTexto.innerText = "APAGADO 🔴";
                         labelTexto.className = "text-[10px] font-bold text-red-500 uppercase tracking-widest";
                     }
+                    actualizarTodo();
                 } else {
                     alert(data.error || "Contraseña incorrecta o error de autorización.");
                     sessionStorage.removeItem('admin_pass');
@@ -639,7 +628,6 @@
                     caja.className = clasesBase + "bg-black/90 border-2 border-red-600 p-3 text-red-500 text-xs flex items-center gap-3 flex-1";
                     caja.innerHTML = `<span class="w-2.5 h-2.5 bg-red-600"></span> <strong class="text-cyan-400">SISTEMA ONLINE:</strong> <span class="text-green-400">Servidor operando correctamente.</span>`;
                 } else {
-                    manejarErrorAuth(res);
                     throw new Error();
                 }
             } catch (e) {
@@ -723,7 +711,7 @@
                         contenedor.innerHTML = `<div class="text-cyan-400 font-terminal text-xs">&gt; No hay preguntas registradas todavía en esta sesión.</div>`;
                     }
                 } else {
-                    manejarErrorAuth(res);
+                    contenedor.innerHTML = `<div class="text-cyan-400 font-terminal text-xs">&gt; Esperando autorización para visualizar registros...</div>`;
                 }
             } catch (e) {
                 contenedor.innerHTML = `<div class="text-red-500 font-terminal text-[10px]">&gt; Error al conectar con el servidor para obtener los logs.</div>`;
@@ -741,12 +729,11 @@
                     listaUsuariosCache = await res.json();
                     renderizarTablaUsuarios(listaUsuariosCache);
                 } else {
-                    manejarErrorAuth(res);
                     throw new Error();
                 }
             } catch (e) {
                 const tabla = document.getElementById('tabla-usuarios');
-                tabla.innerHTML = `<tr><td class="py-4 px-2 text-red-500 font-terminal text-xs" colspan="3">&gt; Error al cargar usuarios desde el servidor.</td></tr>`;
+                tabla.innerHTML = `<tr><td class="py-4 px-2 text-red-500 font-terminal text-xs" colspan="3">&gt; Esperando clave válida de administrador...</td></tr>`;
             }
         }
 
@@ -836,8 +823,7 @@
                     cargarUsuarios();
                 } else {
                     const data = await res.json();
-                    alert(data.error || "No se pudo crear el usuario.");
-                    manejarErrorAuth(res);
+                    alert(data.error || "No se pudo crear el usuario. Verifica la clave de administrador.");
                 }
             } catch (e) {
                 alert("Error de conexión al intentar crear el usuario.");
@@ -856,7 +842,6 @@
                     cargarUsuarios();
                 } else {
                     alert("No se pudo cambiar el estado del usuario.");
-                    manejarErrorAuth(res);
                 }
             } catch (e) {
                 alert("Error de conexión al intentar modificar el usuario.");
@@ -878,7 +863,6 @@
                 } else {
                     const data = await res.json();
                     alert(data.error || "No se pudo eliminar el usuario.");
-                    manejarErrorAuth(res);
                 }
             } catch (e) {
                 alert("Error de conexión al intentar eliminar el usuario.");
