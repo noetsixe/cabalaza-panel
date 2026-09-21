@@ -28,19 +28,18 @@
             border-left: 1px solid #262626;
         }
         #contenedor-logs::-webkit-scrollbar-thumb {
-            background: #db2777;
-            border: 1px solid #ec4899;
+            background: #dc2626;
+            border: 1px solid #ef4444;
         }
         #contenedor-logs::-webkit-scrollbar-thumb:hover {
-            background: #f472b6;
+            background: #f87171;
         }
     </style>
 </head>
-<body class="min-h-screen p-4 md:p-8 selection:bg-pink-950 selection:text-pink-300">
+<body class="min-h-screen p-4 md:p-8 selection:bg-red-950 selection:text-red-300">
     <div class="max-w-4xl mx-auto space-y-6">
         
         <div class="flex justify-center mb-2">
-            <!-- Quitamos el drop-shadow difuso para que no arrastre sombra a los elementos cercanos -->
             <img src="cabalaza-logo.png" alt="Logo Cabalaza" class="w-40 h-40 md:w-48 md:h-48 object-contain">
         </div>
 
@@ -62,10 +61,10 @@
             Comprobando conexión con el servidor...
         </div>
 
-        <!-- SECCIÓN DE PREGUNTAS EN TIEMPO REAL -->
-        <div class="bg-black border-2 border-pink-600 p-6 shadow-[4px_4px_0px_0px_#db2777]">
-            <div class="flex justify-between items-center mb-4 border-b border-pink-900 pb-2">
-                <h2 class="text-[10px] font-bold uppercase tracking-widest text-pink-500">
+        <!-- SECCIÓN DE PREGUNTAS EN TIEMPO REAL (CAMBIADA A ROJO) -->
+        <div class="bg-black border-2 border-red-600 p-6 shadow-[4px_4px_0px_0px_#dc2626]">
+            <div class="flex justify-between items-center mb-4 border-b border-red-900 pb-2">
+                <h2 class="text-[10px] font-bold uppercase tracking-widest text-red-500">
                     &gt;&gt; MONITOR DE PREGUNTAS Y RESPUESTAS [LIVE_FEED]
                 </h2>
                 <span class="text-[10px] font-terminal text-cyan-400 animate-pulse">● RECIBIENDO TRAFICO</span>
@@ -204,26 +203,26 @@
                             }
 
                             let bloqueConsolaHTML = `
-                                <div class="mt-2 space-y-1 border-t border-pink-900 pt-2 font-terminal text-[10px]">
-                                    <div class="text-pink-400 font-bold">${consensoTextoLinea}</div>
+                                <div class="mt-2 space-y-1 border-t border-red-950 pt-2 font-terminal text-[10px]">
+                                    <div class="text-red-400 font-bold">${consensoTextoLinea}</div>
                                     <div class="text-cyan-300">${intentoTextoLinea}</div>
                                 </div>
                             `;
 
                             contenedor.innerHTML += `
-                                <div class="bg-black border border-pink-700 p-3 text-[10px] space-y-2">
+                                <div class="bg-black border border-red-800 p-3 text-[10px] space-y-2">
                                     <div class="flex justify-between text-neutral-300 font-terminal">
-                                        <span>USER: <strong class="text-pink-400">${log.usuario || 'Anónimo'}</strong></span>
+                                        <span>USER: <strong class="text-red-500">${log.usuario || 'Anónimo'}</strong></span>
                                         <span class="text-cyan-400">[${log.fecha || 'Justo ahora'}]</span>
                                     </div>
                                     <div class="text-green-400 font-terminal text-xs">
-                                        <strong class="text-pink-500">Q:</strong> ${textoPregunta}
+                                        <strong class="text-red-500">Q:</strong> ${textoPregunta}
                                     </div>
                                     ${listaOpcionesHTML}
                                     ${bloqueConsolaHTML}
-                                    <div class="text-neutral-300 font-terminal text-xs border-t border-pink-900 pt-2 flex justify-end">
+                                    <div class="text-neutral-300 font-terminal text-xs border-t border-red-950 pt-2 flex justify-end">
                                         <div>
-                                            <strong class="text-cyan-400">RESPUESTA:</strong> <span class="text-pink-400 font-bold text-sm">${log.respuesta || 'N/A'}</span>
+                                            <strong class="text-cyan-400">RESPUESTA:</strong> <span class="text-red-400 font-bold text-sm">${log.respuesta || 'N/A'}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -234,7 +233,7 @@
                     }
                 }
             } catch (e) {
-                contenedor.innerHTML = `<div class="text-pink-500 font-terminal text-[10px]">&gt; Error al conectar con el servidor para obtener los logs.</div>`;
+                contenedor.innerHTML = `<div class="text-red-500 font-terminal text-[10px]">&gt; Error al conectar con el servidor para obtener los logs.</div>`;
             }
         }
 
