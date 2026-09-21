@@ -19,7 +19,6 @@
             position: relative;
         }
 
-        /* CANVAS DE MATRIX EN EL FONDO */
         #canvas-matrix {
             position: fixed;
             top: 0;
@@ -49,7 +48,6 @@
             background: #f87171;
         }
 
-        /* Switch de encendido/apagado */
         .switch {
             position: relative;
             display: inline-block;
@@ -88,7 +86,6 @@
             background-color: #ef4444;
         }
 
-        /* FILTROS Y EFECTOS */
         .filtro-gris {
             filter: grayscale(100%) brightness(70%);
             transition: filter 0.4s ease;
@@ -97,7 +94,6 @@
             transition: filter 0.4s ease;
         }
 
-        /* OVERLAY OLA MYSTIQUE / ARCADE COMPLETO */
         #pixel-flash-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -202,13 +198,10 @@
 </head>
 <body id="body-principal" class="min-h-screen p-4 md:p-8 selection:bg-red-950 selection:text-red-300" onclick="cerrarTodosLosMenus(event)">
     
-    <!-- CANVAS MATRIX DE FONDO -->
     <canvas id="canvas-matrix"></canvas>
-
-    <!-- OVERLAY PARA EFECTO PIXELEADO EN OLA COMPLETA -->
     <div id="pixel-flash-overlay"></div>
 
-    <!-- CONTENEDOR FLOTANTE PARA PEDIR CONTRASEÑA -->
+    <!-- MODAL DE CONTRASEÑA -->
     <div id="modal-password" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-black border-2 border-red-600 p-6 max-w-sm w-full shadow-[6px_6px_0px_0px_#dc2626] space-y-4">
             <div class="text-[10px] text-red-500 font-bold uppercase tracking-wider border-b border-red-900 pb-2 flex justify-between items-center">
@@ -255,9 +248,7 @@
             </div>
         </header>
 
-        <!-- BARRA SUPERIOR: SWITCH A LA IZQUIERDA Y ESTADO ONLINE A LA DERECHA -->
         <div class="flex flex-col md:flex-row gap-4 items-stretch">
-            <!-- INTERRUPTOR GENERAL -->
             <div class="flex items-center justify-between bg-black/90 border border-neutral-800 px-4 py-2.5 shadow-[2px_2px_0px_0px_#171717] motor-afectado backdrop-blur-sm flex-1">
                 <div class="flex items-center gap-3">
                     <label class="switch">
@@ -274,14 +265,12 @@
                 </div>
             </div>
 
-            <!-- CAJA DE ESTADO DE CONEXIÓN -->
             <div id="caja-estado" class="bg-black/90 border-2 border-neutral-700 p-3 text-neutral-300 text-xs flex items-center gap-3 motor-afectado backdrop-blur-sm flex-1">
                 <span class="w-2.5 h-2.5 bg-yellow-500 animate-ping"></span>
                 Comprobando conexión con el servidor...
             </div>
         </div>
 
-        <!-- SECCIÓN DE USUARIOS ACTIVOS EN TIEMPO REAL -->
         <div class="bg-black/90 border-2 border-green-600 p-6 shadow-[4px_4px_0px_0px_#16a34a] motor-afectado backdrop-blur-sm">
             <div class="flex justify-between items-center mb-4 border-b border-green-900 pb-2">
                 <h2 class="text-[10px] font-bold uppercase tracking-widest text-green-500">
@@ -294,7 +283,6 @@
             </div>
         </div>
 
-        <!-- SECCIÓN DE PREGUNTAS EN TIEMPO REAL -->
         <div class="bg-black/90 border-2 border-red-600 p-6 shadow-[4px_4px_0px_0px_#dc2626] motor-afectado backdrop-blur-sm">
             <div class="flex justify-between items-center mb-4 border-b border-red-900 pb-2">
                 <h2 class="text-[10px] font-bold uppercase tracking-widest text-red-500">
@@ -307,7 +295,6 @@
             </div>
         </div>
 
-        <!-- SECCIÓN DE GESTIÓN DE USUARIOS -->
         <div class="bg-black/90 border-2 border-neutral-700 p-6 shadow-[4px_4px_0px_0px_#262626] space-y-6 backdrop-blur-sm">
             <h2 class="text-[10px] font-bold uppercase tracking-widest text-red-500 border-b border-neutral-800 pb-2">
                 &gt;&gt; ADMINISTRACIÓN DE USUARIOS [DATABASE]
@@ -350,11 +337,9 @@
     </div>
 
     <script>
-        // EFECTO MATRIX ANIMADO FLUIDO
         (function iniciarMatrix() {
             const canvas = document.getElementById('canvas-matrix');
             const ctx = canvas.getContext('2d');
-
             const caracteres = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*+-/<>[]{}';
             const fontSize = 14;
             let columnas = 0;
@@ -386,7 +371,6 @@
 
             function render(currentTime) {
                 requestAnimationFrame(render);
-
                 const delta = currentTime - lastTime;
                 if (delta < interval) return;
                 lastTime = currentTime - (delta % interval);
@@ -402,17 +386,11 @@
                     const x = i * fontSize;
                     const y = gotas[i] * fontSize;
 
-                    if (y > 0) {
-                        ctx.fillText(char, x, y);
-                    }
-
-                    if (y > canvas.height && Math.random() > 0.975) {
-                        gotas[i] = 0;
-                    }
+                    if (y > 0) ctx.fillText(char, x, y);
+                    if (y > canvas.height && Math.random() > 0.975) gotas[i] = 0;
                     gotas[i]++;
                 }
             }
-
             requestAnimationFrame(render);
         })();
 
@@ -420,14 +398,12 @@
         let listaUsuariosCache = []; 
         let estadoDeseadoSwitch = false; 
 
-        // AUTENTICACIÓN Y MANEJO DE HEADERS
+        // GESTIÓN DE CREDENCIALES DE ADMINISTRADOR
         function getAdminPassword() {
             let pass = sessionStorage.getItem('admin_pass');
             if (!pass) {
                 pass = prompt("Introduce la contraseña de Administrador:");
-                if (pass) {
-                    sessionStorage.setItem('admin_pass', pass);
-                }
+                if (pass) sessionStorage.setItem('admin_pass', pass);
             }
             return pass || "";
         }
@@ -468,7 +444,6 @@
             const root = document.documentElement;
 
             calabaza.classList.add('vibrar-calabaza');
-
             const motorActivo = switchEstado.checked;
             if (motorActivo) {
                 root.classList.add('modo-invertido');
@@ -491,19 +466,13 @@
             if (reproducirAnimacion) {
                 overlay.classList.remove('flash-anim-on', 'flash-anim-off');
                 void overlay.offsetWidth;
-                if (activo) {
-                    overlay.classList.add('flash-anim-on');
-                } else {
-                    overlay.classList.add('flash-anim-off');
-                }
+                if (activo) overlay.classList.add('flash-anim-on');
+                else overlay.classList.add('flash-anim-off');
             }
 
             elementosAfectados.forEach(el => {
-                if (activo) {
-                    el.classList.remove('filtro-gris');
-                } else {
-                    el.classList.add('filtro-gris');
-                }
+                if (activo) el.classList.remove('filtro-gris');
+                else el.classList.add('filtro-gris');
             });
         }
 
