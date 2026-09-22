@@ -696,125 +696,113 @@
                 .replace(/'/g, '&#039;');
         }
 
-     async function cargarLogsPreguntas() {
-    if (!adminToken) return;
+             async function cargarLogsPreguntas() {
+            if (!adminToken) return;
 
-    const contenedor = document.getElementById('contenedor-logs');
+            const contenedor = document.getElementById('contenedor-logs');
 
-    try {
-        const res = await fetch(`${URL_SERVIDOR}/api/admin/live-logs`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+            try {
+                const res = await fetch(`${URL_SERVIDOR}/api/admin/live-logs`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
 
-        if (!res.ok) {
-            throw new Error('HTTP ' + res.status);
-        }
+                if (!res.ok) {
+                    throw new Error('HTTP ' + res.status);
+                }
 
-        const logs = await res.json();
+                const logs = await res.json();
 
-        if (!logs || logs.length === 0) {
-            contenedor.innerHTML = `
-                <div class="text-cyan-400 font-terminal text-xs">
-                    &gt; Esperando actividad del servidor...
-                </div>
-            `;
-            return;
-        }
+                if (!logs || logs.length === 0) {
+                    contenedor.innerHTML = `
+                        <div class="text-neutral-500 font-terminal text-[10px]">
+                            &gt; Esperando actividad del servidor...
+                        </div>
+                    `;
+                    return;
+                }
 
-        contenedor.innerHTML = '';
+                contenedor.innerHTML = '';
 
-        [...logs].reverse().forEach(log => {
+                [...logs].reverse().forEach(log => {
 
-            let claseColor = 'text-neutral-300';
+                    const texto = String(log.texto || '');
 
-            if (log.tipo === 'ERROR') {
-                claseColor = 'text-red-500';
-            } else if (log.tipo === 'WARN') {
-                claseColor = 'text-yellow-400';
-            }
+                    let textoResaltado = escapeHTML(texto);
 
-            const texto = String(log.texto || '');
+                    // RESALTADO DE INFORMACIÓN IMPORTANTE
+                    textoResaltado = textoResaltado
+                        .replace(
+                            /(Pregunta recibida|PREGUNTA RECIBIDA|Pregunta|PREGUNTA)/gi,
+                            '<span class="text-pink-400 font-bold">$1</span>'
+                        )
+                        .replace(
+                            /(CONSENSO|consenso)/g,
+                            '<span class="text-green-400 font-bold">$1</span>'
+                        )
+                        .replace(
+                            /(RESPUESTA FINAL|Respuesta final|respuesta final)/gi,
+                            '<span class="text-yellow-400 font-bold">$1</span>'
+                        )
+                        .replace(
+                            /(OPENAI|OpenAI)/g,
+                            '<span class="text-cyan-400 font-bold">$1</span>'
+                        )
+                        .replace(
+                            /(GEMINI|Gemini)/g,
+                            '<span class="text-blue-400 font-bold">$1</span>'
+                        )
+                        .replace(
+                            /(GROQ|Groq)/g,
+                            '<span class="text-purple-400 font-bold">$1</span>'
+                        )
+                        .replace(
+                            /(ERROR|Error|error)/g,
+                            '<span class="text-red-500 font-bold">$1</span>'
+                        )
+                        .replace(
+                            /(429)/g,
+                            '<span class="text-orange-400 font-bold">$1</span>'
+                        );
 
-            let textoResaltado = escapeHTML(texto);
+                    let colorFecha = 'text-neutral-600';
 
-            textoResaltado = textoResaltado
-                .replace(
-                    /(Pregunta recibida|PREGUNTA RECIBIDA|Pregunta|PREGUNTA)/gi,
-                    '<span class="text-pink-400 font-bold">$1</span>'
-                )
-                .replace(
-                    /(CONSENSO|consenso)/g,
-                    '<span class="text-green-400 font-bold">$1</span>'
-                )
-                .replace(
-                    /(RESPUESTA FINAL|Respuesta final|respuesta final)/gi,
-                    '<span class="text-yellow-400 font-bold">$1</span>'
-                )
-                .replace(
-                    /(OPENAI|OpenAI)/g,
-                    '<span class="text-cyan-400 font-bold">$1</span>'
-                )
-                .replace(
-                    /(GEMINI|Gemini)/g,
-                    '<span class="text-blue-400 font-bold">$1</span>'
-                )
-                .replace(
-                    /(GROQ|Groq)/g,
-                    '<span class="text-purple-400 font-bold">$1</span>'
-                )
-                .replace(
-                    /(ERROR|Error|error)/g,
-                    '<span class="text-red-500 font-bold">$1</span>'
-                )
-                .replace(
-                    /(429)/g,
-                    '<span class="text-orange-400 font-bold">$1</span>'
-                );
+                    if (log.tipo === 'ERROR') {
+                        colorFecha = 'text-red-500';
+                    } else if (log.tipo === 'WARN') {
+                        colorFecha = 'text-yellow-400';
+                    }
 
-            contenedor.innerHTML += `
-                <div class="bg-black border border-red-950 p-3 font-terminal text-[10px]">
+                    contenedor.innerHTML += `
+                        <div class="font-terminal text-[10px] leading-relaxed py-0.5 border-b border-neutral-950">
 
-                    <div class="flex justify-between items-center border-b border-red-950 pb-2 mb-2">
-
-                        <div class="flex items-center gap-2">
-
-                            <span class="${claseColor} font-bold">
-                                [${escapeHTML(log.tipo || 'LOG')}]
+                            <span class="${colorFecha}">
+                                [${escapeHTML(log.fecha || '')}]
                             </span>
 
-                            <span class="text-cyan-600">
-                                SERVER
+                            <span class="text-neutral-700 mx-1">|</span>
+
+                            <span class="${log.tipo === 'ERROR' ? 'text-red-500' : log.tipo === 'WARN' ? 'text-yellow-400' : 'text-neutral-300'}">
+                                ${textoResaltado}
                             </span>
 
                         </div>
+                    `;
+                });
 
-                        <span class="text-neutral-600">
-                            [${escapeHTML(log.fecha || '')}]
-                        </span>
+            } catch (e) {
 
+                contenedor.innerHTML = `
+                    <div class="text-red-500 font-terminal text-[10px]">
+                        &gt; ERROR: no se pudieron obtener los logs del servidor.
+                        <br>
+                        &gt; ${escapeHTML(e.message)}
                     </div>
-
-                    <pre class="${claseColor} whitespace-pre-wrap break-words leading-relaxed">${textoResaltado}</pre>
-
-                </div>
-            `;
-        });
-
-    } catch (e) {
-
-        contenedor.innerHTML = `
-            <div class="text-red-500 font-terminal text-[10px]">
-                &gt; ERROR: no se pudieron obtener los logs del servidor.
-                <br>
-                &gt; ${escapeHTML(e.message)}
-            </div>
-        `;
-    }
-}
-        
+                `;
+            }
+        }
         async function cargarUsuarios() {
             if (!adminToken) return;
             try {
