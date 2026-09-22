@@ -406,7 +406,7 @@
             window.addEventListener('resize', me => ajustarTamano());
 
             let lastTime = 0;
-            const fps = 30;
+            const fps = 24;
             const interval = 1000 / fps;
 
             function render(currentTime) {
@@ -751,7 +751,7 @@
                 }
 
                 contenedor.innerHTML = '';
-
+                let htmlLogs = '';
                 [...logs].reverse().forEach(log => {
 
                     const texto = String(log.texto || '');
@@ -801,7 +801,7 @@
                         colorFecha = 'text-yellow-400';
                     }
 
-                    contenedor.innerHTML += `
+                    htmlLogs += `
                         <div class="font-terminal text-[10px] leading-relaxed py-0.5 border-b border-neutral-950">
 
                             <span class="${colorFecha}">
@@ -817,6 +817,8 @@
                         </div>
                     `;
                 });
+
+                contenedor.innerHTML = htmlLogs;
 
             } catch (e) {
 
