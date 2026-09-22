@@ -693,7 +693,7 @@
     const contenedor = document.getElementById('contenedor-logs');
 
     try {
-        const res = await fetch(`${URL_SERVIDOR}/api/admin/logs`, {
+        const res = await fetch(`${URL_SERVIDOR}/api/admin/live-logs`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -709,7 +709,7 @@
         if (!logs || logs.length === 0) {
             contenedor.innerHTML = `
                 <div class="text-cyan-400 font-terminal text-xs">
-                    &gt; Esperando actividad de los usuarios...
+                    &gt; Esperando actividad del servidor...
                 </div>
             `;
             return;
@@ -719,120 +719,76 @@
 
         [...logs].reverse().forEach(log => {
 
-            const preguntaCompleta = String(log.pregunta || '');
-            const respuesta = log.respuesta ?? 'N/A';
-            const usuario = log.usuario || 'Anónimo';
-            const fecha = log.fecha || 'Justo ahora';
+            let claseColor = 'text-neutral-300';
 
-            let pregunta = preguntaCompleta;
-            let opcionesHTML = '';
-
-            /*
-             * Separar pregunta y opciones, exactamente
-             * como vienen almacenadas en examLogs.
-             */
-            if (preguntaCompleta.includes('Opciones:')) {
-
-                const partes = preguntaCompleta.split('Opciones:');
-
-                pregunta = partes[0].trim();
-
-                const opcionesTexto = partes.slice(1).join('Opciones:').trim();
-
-                const opciones = opcionesTexto
-                    .split(/(?=\d+\.-|\d+\.\s)/g)
-                    .map(op => op.trim())
-                    .filter(op => op.length > 0);
-
-                if (opciones.length > 0) {
-                    opcionesHTML = `
-                        <div class="mt-3 pl-3 border-l-2 border-cyan-800 space-y-1">
-                            <div class="text-[9px] text-cyan-500 tracking-wider">
-                                // OPCIONES RECIBIDAS
-                            </div>
-
-                            ${opciones.map(op => `
-                                <div class="text-[10px] text-green-400 font-terminal">
-                                    ${op}
-                                </div>
-                            `).join('')}
-                        </div>
-                    `;
-                }
+            if (log.tipo === 'ERROR') {
+                claseColor = 'text-red-500';
+            } else if (log.tipo === 'WARN') {
+                claseColor = 'text-yellow-400';
             }
 
-            contenedor.innerHTML += `
-                <div class="bg-black border border-red-900 p-4 font-terminal text-[10px] shadow-[2px_2px_0px_0px_#450a0a]">
+            const texto = String(log.texto || '');
 
-                    <!-- CABECERA -->
-                    <div class="flex flex-wrap justify-between items-center gap-2 border-b border-red-950 pb-2">
+            let textoResaltado = escapeHTML(texto);
+
+            textoResaltado = textoResaltado
+                .replace(
+                    /(Pregunta recibida|PREGUNTA RECIBIDA|Pregunta|PREGUNTA)/gi,
+                    '<span class="text-pink-400 font-bold">$1</span>'
+                )
+                .replace(
+                    /(CONSENSO|consenso)/g,
+                    '<span class="text-green-400 font-bold">$1</span>'
+                )
+                .replace(
+                    /(RESPUESTA FINAL|Respuesta final|respuesta final)/gi,
+                    '<span class="text-yellow-400 font-bold">$1</span>'
+                )
+                .replace(
+                    /(OPENAI|OpenAI)/g,
+                    '<span class="text-cyan-400 font-bold">$1</span>'
+                )
+                .replace(
+                    /(GEMINI|Gemini)/g,
+                    '<span class="text-blue-400 font-bold">$1</span>'
+                )
+                .replace(
+                    /(GROQ|Groq)/g,
+                    '<span class="text-purple-400 font-bold">$1</span>'
+                )
+                .replace(
+                    /(ERROR|Error|error)/g,
+                    '<span class="text-red-500 font-bold">$1</span>'
+                )
+                .replace(
+                    /(429)/g,
+                    '<span class="text-orange-400 font-bold">$1</span>'
+                );
+
+            contenedor.innerHTML += `
+                <div class="bg-black border border-red-950 p-3 font-terminal text-[10px]">
+
+                    <div class="flex justify-between items-center border-b border-red-950 pb-2 mb-2">
 
                         <div class="flex items-center gap-2">
-                            <span class="text-red-600">&gt;&gt;</span>
 
-                            <span class="text-pink-400 font-bold">
-                                USER:
+                            <span class="${claseColor} font-bold">
+                                [${escapeHTML(log.tipo || 'LOG')}]
                             </span>
 
-                            <span class="text-pink-300 font-bold">
-                                ${escapeHTML(usuario)}
+                            <span class="text-cyan-600">
+                                SERVER
                             </span>
+
                         </div>
 
-                        <span class="text-cyan-500">
-                            [${escapeHTML(fecha)}]
+                        <span class="text-neutral-600">
+                            [${escapeHTML(log.fecha || '')}]
                         </span>
-                    </div>
-
-                    <!-- PREGUNTA -->
-                    <div class="mt-3">
-                        <div class="text-red-500 font-bold text-[9px] tracking-wider mb-1">
-                            &gt;&gt; PREGUNTA RECIBIDA
-                        </div>
-
-                        <div class="text-green-400 text-xs leading-relaxed whitespace-pre-wrap">
-                            ${escapeHTML(pregunta)}
-                        </div>
-                    </div>
-
-                    ${opcionesHTML}
-
-                    <!-- DATOS DEL REGISTRO -->
-                    <div class="mt-3 border-t border-red-950 pt-2 space-y-1">
-
-                        <div class="text-cyan-400">
-                            &gt; REQUEST:
-                            <span class="text-neutral-400">
-                                /api/completion
-                            </span>
-                        </div>
-
-                        <div class="text-purple-400">
-                            &gt; IAs:
-                            <span class="text-neutral-500">
-                                OpenAI / Gemini / Groq
-                            </span>
-                        </div>
-
-                        <div class="text-yellow-400">
-                            &gt; RESPUESTA FINAL:
-                            <span class="text-red-400 font-bold text-sm">
-                                ${escapeHTML(String(respuesta))}
-                            </span>
-                        </div>
 
                     </div>
 
-                    <!-- REGISTRO RAW -->
-                    <details class="mt-3 border-t border-neutral-900 pt-2">
-
-                        <summary class="cursor-pointer text-neutral-600 hover:text-neutral-300 text-[9px]">
-                            [VER REGISTRO COMPLETO]
-                        </summary>
-
-                        <pre class="mt-2 text-neutral-500 text-[9px] whitespace-pre-wrap break-words overflow-x-auto">${escapeHTML(JSON.stringify(log, null, 2))}</pre>
-
-                    </details>
+                    <pre class="${claseColor} whitespace-pre-wrap break-words leading-relaxed">${textoResaltado}</pre>
 
                 </div>
             `;
@@ -842,23 +798,14 @@
 
         contenedor.innerHTML = `
             <div class="text-red-500 font-terminal text-[10px]">
-                &gt; Error al conectar con el servidor para obtener los logs.
+                &gt; ERROR: no se pudieron obtener los logs del servidor.
+                <br>
+                &gt; ${escapeHTML(e.message)}
             </div>
         `;
     }
 }
-
-
-/* Evita que el contenido del log pueda romper el HTML del panel */
-function escapeHTML(texto) {
-    return String(texto)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
-}
-
+        
         async function cargarUsuarios() {
             if (!adminToken) return;
             try {
