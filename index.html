@@ -441,7 +441,7 @@
             abrirModal('Introduce la contraseña de administrador para acceder al panel:', async () => {
                 actualizarTodo();
                 notificarServidorPanel(); 
-                setInterval(cargarLogsPreguntas, 5000);
+                setInterval(cargarLogsPreguntas, 1000);
                 setInterval(cargarUsuariosActivos, 3000);
                 setInterval(verificarEstadoServidorSwitch, 10000); 
             });
@@ -687,96 +687,177 @@
             }
         }
 
-        async function cargarLogsPreguntas() {
-            if (!adminToken) return;
-            const contenedor = document.getElementById('contenedor-logs');
-            try {
-                const res = await fetch(`${URL_SERVIDOR}/api/admin/logs`, {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' }
-                });
+     async function cargarLogsPreguntas() {
+    if (!adminToken) return;
 
-                if (res.ok) {
-                    const logs = await res.json();
-                    
-                    if (logs && logs.length > 0) {
-                        contenedor.innerHTML = "";
-                        logs.reverse().forEach(log => {
-                            let textoPregunta = log.pregunta || "";
-                            let listaOpcionesHTML = "";
+    const contenedor = document.getElementById('contenedor-logs');
 
-                            if (textoPregunta.includes("Opciones:")) {
-                                let partes = textoPregunta.split("Opciones:");
-                                textoPregunta = partes[0].trim();
-                                let opcionesTexto = partes[1].trim();
-                                
-                                let opcionesMatch = opcionesTexto.split(/(?=\d+\.-|\d+\.\s)/g).map(o => o.trim()).filter(o => o.length > 0);
-                                opcionesMatch.reverse();
-
-                                listaOpcionesHTML = `<div class="mt-2 space-y-1 pl-2 border-l border-cyan-700">
-                                    <div class="text-[9px] text-cyan-300">// ALTERNATIVAS (ORDEN INVERTIDO):</div>`;
-                                opcionesMatch.forEach(op => {
-                                    listaOpcionesHTML += `<div class="text-green-400 font-terminal text-[10px]">🔹 ${op}</div>`;
-                                });
-                                listaOpcionesHTML += `</div>`;
-                            }
-
-                            let rawDataString = JSON.stringify(log);
-                            for (let key in log) {
-                                if (typeof log[key] === 'string') rawDataString += " " + log[key];
-                                else if (typeof log[key] === 'object' && log[key] !== null) rawDataString += " " + JSON.stringify(log[key]);
-                            }
-
-                            let matchIntentoLiteral = rawDataString.match(/-->\s*Intento\s*\d+\s*\([^)]+\):\s*\[\s*['"]?\d['"]?,\s*['"]?\d['"]?,\s*['"]?\d['"]?\s*\]/i);
-                            let intentoTextoLinea = "";
-                            if (matchIntentoLiteral) {
-                                intentoTextoLinea = matchIntentoLiteral[0].replace(/\\n/g, '').trim();
-                            } else {
-                                intentoTextoLinea = "--> Intento 1 (OpenAI, Gemini, Groq): [ '2', '2', '2' ]";
-                            }
-
-                            let matchConsensoLiteral = rawDataString.match(/Consenso\s*alcanzado\s*en\s*Intento\s*\d+:\s*\d+\s*\(\d+\/\d+\s*votos\)/i);
-                            let consensoTextoLinea = "";
-                            if (matchConsensoLiteral) {
-                                consensoTextoLinea = matchConsensoLiteral[0].replace(/\\n/g, '').trim();
-                            } else {
-                                consensoTextoLinea = `Consenso alcanzado en Intento 1: ${log.respuesta || '2'} (3/3 votos)`;
-                            }
-
-                            let bloqueConsolaHTML = `
-                                <div class="mt-2 space-y-1 border-t border-red-950 pt-2 font-terminal text-[10px]">
-                                    <div class="text-pink-400 font-bold">${consensoTextoLinea}</div>
-                                    <div class="text-cyan-300">${intentoTextoLinea}</div>
-                                </div>
-                            `;
-
-                            contenedor.innerHTML += `
-                                <div class="bg-black border border-red-800 p-3 text-[10px] space-y-2">
-                                    <div class="flex justify-between text-neutral-300 font-terminal">
-                                        <span>USER: <strong class="text-pink-400">${log.usuario || 'Anónimo'}</strong></span>
-                                        <span class="text-cyan-400">[${log.fecha || 'Justo ahora'}]</span>
-                                    </div>
-                                    <div class="text-green-400 font-terminal text-xs">
-                                        <strong class="text-red-500">Q:</strong> ${textoPregunta}
-                                    </div>
-                                    ${listaOpcionesHTML}
-                                    ${bloqueConsolaHTML}
-                                    <div class="text-neutral-300 font-terminal text-xs border-t border-red-950 pt-2 flex justify-end">
-                                        <div>
-                                            <strong class="text-cyan-400">RESPUESTA:</strong> <span class="text-red-400 font-bold text-sm">${log.respuesta || 'N/A'}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
-                        });
-                    } else {
-                        contenedor.innerHTML = `<div class="text-cyan-400 font-terminal text-xs">&gt; No hay preguntas registradas todavía en esta sesión.</div>`;
-                    }
-                }
-            } catch (e) {
-                contenedor.innerHTML = `<div class="text-red-500 font-terminal text-[10px]">&gt; Error al conectar con el servidor para obtener los logs.</div>`;
+    try {
+        const res = await fetch(`${URL_SERVIDOR}/api/admin/logs`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
             }
+        });
+
+        if (!res.ok) {
+            throw new Error('HTTP ' + res.status);
         }
+
+        const logs = await res.json();
+
+        if (!logs || logs.length === 0) {
+            contenedor.innerHTML = `
+                <div class="text-cyan-400 font-terminal text-xs">
+                    &gt; Esperando actividad de los usuarios...
+                </div>
+            `;
+            return;
+        }
+
+        contenedor.innerHTML = '';
+
+        [...logs].reverse().forEach(log => {
+
+            const preguntaCompleta = String(log.pregunta || '');
+            const respuesta = log.respuesta ?? 'N/A';
+            const usuario = log.usuario || 'Anónimo';
+            const fecha = log.fecha || 'Justo ahora';
+
+            let pregunta = preguntaCompleta;
+            let opcionesHTML = '';
+
+            /*
+             * Separar pregunta y opciones, exactamente
+             * como vienen almacenadas en examLogs.
+             */
+            if (preguntaCompleta.includes('Opciones:')) {
+
+                const partes = preguntaCompleta.split('Opciones:');
+
+                pregunta = partes[0].trim();
+
+                const opcionesTexto = partes.slice(1).join('Opciones:').trim();
+
+                const opciones = opcionesTexto
+                    .split(/(?=\d+\.-|\d+\.\s)/g)
+                    .map(op => op.trim())
+                    .filter(op => op.length > 0);
+
+                if (opciones.length > 0) {
+                    opcionesHTML = `
+                        <div class="mt-3 pl-3 border-l-2 border-cyan-800 space-y-1">
+                            <div class="text-[9px] text-cyan-500 tracking-wider">
+                                // OPCIONES RECIBIDAS
+                            </div>
+
+                            ${opciones.map(op => `
+                                <div class="text-[10px] text-green-400 font-terminal">
+                                    ${op}
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                }
+            }
+
+            contenedor.innerHTML += `
+                <div class="bg-black border border-red-900 p-4 font-terminal text-[10px] shadow-[2px_2px_0px_0px_#450a0a]">
+
+                    <!-- CABECERA -->
+                    <div class="flex flex-wrap justify-between items-center gap-2 border-b border-red-950 pb-2">
+
+                        <div class="flex items-center gap-2">
+                            <span class="text-red-600">&gt;&gt;</span>
+
+                            <span class="text-pink-400 font-bold">
+                                USER:
+                            </span>
+
+                            <span class="text-pink-300 font-bold">
+                                ${escapeHTML(usuario)}
+                            </span>
+                        </div>
+
+                        <span class="text-cyan-500">
+                            [${escapeHTML(fecha)}]
+                        </span>
+                    </div>
+
+                    <!-- PREGUNTA -->
+                    <div class="mt-3">
+                        <div class="text-red-500 font-bold text-[9px] tracking-wider mb-1">
+                            &gt;&gt; PREGUNTA RECIBIDA
+                        </div>
+
+                        <div class="text-green-400 text-xs leading-relaxed whitespace-pre-wrap">
+                            ${escapeHTML(pregunta)}
+                        </div>
+                    </div>
+
+                    ${opcionesHTML}
+
+                    <!-- DATOS DEL REGISTRO -->
+                    <div class="mt-3 border-t border-red-950 pt-2 space-y-1">
+
+                        <div class="text-cyan-400">
+                            &gt; REQUEST:
+                            <span class="text-neutral-400">
+                                /api/completion
+                            </span>
+                        </div>
+
+                        <div class="text-purple-400">
+                            &gt; IAs:
+                            <span class="text-neutral-500">
+                                OpenAI / Gemini / Groq
+                            </span>
+                        </div>
+
+                        <div class="text-yellow-400">
+                            &gt; RESPUESTA FINAL:
+                            <span class="text-red-400 font-bold text-sm">
+                                ${escapeHTML(String(respuesta))}
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <!-- REGISTRO RAW -->
+                    <details class="mt-3 border-t border-neutral-900 pt-2">
+
+                        <summary class="cursor-pointer text-neutral-600 hover:text-neutral-300 text-[9px]">
+                            [VER REGISTRO COMPLETO]
+                        </summary>
+
+                        <pre class="mt-2 text-neutral-500 text-[9px] whitespace-pre-wrap break-words overflow-x-auto">${escapeHTML(JSON.stringify(log, null, 2))}</pre>
+
+                    </details>
+
+                </div>
+            `;
+        });
+
+    } catch (e) {
+
+        contenedor.innerHTML = `
+            <div class="text-red-500 font-terminal text-[10px]">
+                &gt; Error al conectar con el servidor para obtener los logs.
+            </div>
+        `;
+    }
+}
+
+
+/* Evita que el contenido del log pueda romper el HTML del panel */
+function escapeHTML(texto) {
+    return String(texto)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
 
         async function cargarUsuarios() {
             if (!adminToken) return;
