@@ -406,7 +406,7 @@
             window.addEventListener('resize', me => ajustarTamano());
 
             let lastTime = 0;
-            const fps = 27;
+            const fps = 20;
             const interval = 1000 / fps;
 
             function render(currentTime) {
@@ -467,8 +467,8 @@
             abrirModal('Introduce la contraseña de administrador para acceder al panel:', async () => {
                 actualizarTodo();
                 notificarServidorPanel(); 
-                setInterval(cargarLogsPreguntas, 1000);
-                setInterval(cargarUsuariosActivos, 3000);
+                setInterval(cargarLogsPreguntas, 2000);
+                setInterval(cargarUsuariosActivos, 5000);
                 setInterval(verificarEstadoServidorSwitch, 10000); 
             });
         };
