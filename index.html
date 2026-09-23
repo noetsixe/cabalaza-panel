@@ -228,17 +228,18 @@
             font-size: 12px;
             line-height: 1.65;
         }
-        /* PANTALLA "NENA" */
+        /* PANTALLA "NENA" - ESTÉTICA BLUE SCREEN */
 #pantalla-nena {
     position: fixed;
     inset: 0;
     z-index: 100000;
-    background: #b8d8e8;
+    background: #0000aa;
     display: none;
     align-items: center;
     justify-content: center;
     flex-direction: column;
     text-align: center;
+    color: #ffffff;
 }
 
 #pantalla-nena.activa {
@@ -246,31 +247,38 @@
 }
 
 #pantalla-nena .nena-texto {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 48px;
+    font-family: 'VT323', monospace;
+    font-size: 32px;
     font-weight: 400;
-    color: #7fd694;
     line-height: 1;
-    letter-spacing: 1px;
-    margin-bottom: 24px;
+    letter-spacing: 0;
+    color: #0000aa;
+    background: #c0c0c0;
+    padding: 1px 7px 2px 7px;
+    margin-bottom: 22px;
     text-transform: lowercase;
-    text-shadow: none;
+
+    /* efecto de resaltado/sombra tipo pantalla antigua */
+    box-shadow:
+        2px 2px 0px #ffffff,
+        -1px -1px 0px #555555;
 }
 
 #pantalla-nena .volver-nena {
-    font-family: Arial, sans-serif;
-    font-size: 11px;
+    font-family: 'VT323', monospace;
+    font-size: 18px;
     font-weight: 400;
-    color: #e85d5d;
+    color: #ffffff;
     background: none;
     border: none;
     cursor: pointer;
-    padding: 3px 6px;
-    transition: opacity 0.2s ease;
+    padding: 0;
+    margin: 0;
+    letter-spacing: 0;
 }
 
 #pantalla-nena .volver-nena:hover {
-    opacity: 0.7;
+    color: #c0c0c0;
 }
         
     </style>
