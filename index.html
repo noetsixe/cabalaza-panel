@@ -228,12 +228,12 @@
             font-size: 12px;
             line-height: 1.65;
         }
-        /* PANTALLA BLANCA "NENA" */
+        /* PANTALLA "NENA" */
 #pantalla-nena {
     position: fixed;
     inset: 0;
     z-index: 100000;
-    background: #ffffff;
+    background: #b8d8e8;
     display: none;
     align-items: center;
     justify-content: center;
@@ -247,30 +247,30 @@
 
 #pantalla-nena .nena-texto {
     font-family: 'Press Start 2P', monospace;
-    font-size: clamp(40px, 7vw, 82px);
+    font-size: 48px;
     font-weight: 400;
-    color: #f29ab2;
+    color: #7fd694;
     line-height: 1;
-    letter-spacing: 2px;
-    margin-bottom: 38px;
-    text-transform: uppercase;
-    text-shadow: 3px 3px 0px #f8c1d0;
+    letter-spacing: 1px;
+    margin-bottom: 24px;
+    text-transform: lowercase;
+    text-shadow: none;
 }
 
 #pantalla-nena .volver-nena {
     font-family: Arial, sans-serif;
-    font-size: 15px;
+    font-size: 11px;
     font-weight: 400;
-    color: #888888;
+    color: #e85d5d;
     background: none;
     border: none;
     cursor: pointer;
-    padding: 4px 8px;
-    transition: color 0.2s ease;
+    padding: 3px 6px;
+    transition: opacity 0.2s ease;
 }
 
 #pantalla-nena .volver-nena:hover {
-    color: #555555;
+    opacity: 0.7;
 }
         
     </style>
