@@ -246,12 +246,15 @@
 }
 
 #pantalla-nena .nena-texto {
-    font-family: 'Fredoka', sans-serif;
-    font-size: clamp(70px, 10vw, 120px);
-    font-weight: 600;
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(40px, 7vw, 82px);
+    font-weight: 400;
     color: #f29ab2;
     line-height: 1;
-    margin-bottom: 28px;
+    letter-spacing: 2px;
+    margin-bottom: 38px;
+    text-transform: uppercase;
+    text-shadow: 3px 3px 0px #f8c1d0;
 }
 
 #pantalla-nena .volver-nena {
@@ -272,7 +275,7 @@
         
     </style>
 </head>
-<body id="body-principal" class="min-h-screen p-4 md:p-8 selection:bg-red-950 selection:text-red-300" onclick="cerrarTodosLosMenus(event)">
+<body id="body-principal" class="min-h-screen p-4 md:p-8 selection:bg-red-950 selection:text-red-300" style="visibility: hidden;" onclick="cerrarTodosLosMenus(event)">
     
     <!-- CANVAS MATRIX DE FONDO -->
     <canvas id="canvas-matrix"></canvas>
@@ -515,14 +518,16 @@
 
         // INICIALIZACIÓN
         window.onload = function() {
-            abrirModal('Introduce la contraseña de administrador para acceder al panel:', async () => {
-                actualizarTodo();
-                notificarServidorPanel(); 
-                setInterval(cargarLogsPreguntas, 2000);
-                setInterval(cargarUsuariosActivos, 5000);
-                setInterval(verificarEstadoServidorSwitch, 10000); 
-            });
-        };
+    abrirModal('Introduce la contraseña de administrador para acceder al panel:', async () => {
+        actualizarTodo();
+        notificarServidorPanel(); 
+        setInterval(cargarLogsPreguntas, 2000);
+        setInterval(cargarUsuariosActivos, 5000);
+        setInterval(verificarEstadoServidorSwitch, 10000); 
+    });
+
+    document.body.style.visibility = 'visible';
+};
 
         // MODAL Y AUTENTICACIÓN
         function abrirModal(texto, accion) {
