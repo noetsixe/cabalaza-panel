@@ -6,7 +6,7 @@
     <title>PANEL // EXAM</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
     <style>
         body {
             background-color: #000000;
@@ -228,6 +228,48 @@
             font-size: 12px;
             line-height: 1.65;
         }
+        /* PANTALLA BLANCA "NENA" */
+#pantalla-nena {
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    background: #ffffff;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+#pantalla-nena.activa {
+    display: flex;
+}
+
+#pantalla-nena .nena-texto {
+    font-family: 'Fredoka', sans-serif;
+    font-size: clamp(70px, 10vw, 120px);
+    font-weight: 600;
+    color: #f29ab2;
+    line-height: 1;
+    margin-bottom: 28px;
+}
+
+#pantalla-nena .volver-nena {
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    color: #888888;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px 8px;
+    transition: color 0.2s ease;
+}
+
+#pantalla-nena .volver-nena:hover {
+    color: #555555;
+}
+        
     </style>
 </head>
 <body id="body-principal" class="min-h-screen p-4 md:p-8 selection:bg-red-950 selection:text-red-300" onclick="cerrarTodosLosMenus(event)">
@@ -239,7 +281,7 @@
     <div id="pixel-flash-overlay"></div>
 
     <!-- CONTENEDOR FLOTANTE PARA PEDIR CONTRASEÑA -->
-    <div id="modal-password" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 hidden">
+    <div id="modal-password" class="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 hidden" style="backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);">
         <div class="bg-black border-2 border-red-600 p-6 max-w-sm w-full shadow-[6px_6px_0px_0px_#dc2626] space-y-4">
             <div class="text-[10px] text-red-500 font-bold uppercase tracking-wider border-b border-red-900 pb-2 flex justify-between items-center">
                 <span>&gt;&gt; AUTORIZACIÓN REQUERIDA</span>
@@ -260,7 +302,16 @@
             </div>
         </div>
     </div>
+    
+<!-- PANTALLA BLANCA AL CANCELAR -->
+<div id="pantalla-nena">
+    <div class="nena-texto">nena</div>
 
+    <button class="volver-nena" onclick="volverDesdeNena()">
+        dejar de ser nena
+    </button>
+</div>
+    
     <div class="max-w-4xl mx-auto space-y-6">
         
         <div class="flex justify-center mb-2 motor-afectado">
@@ -485,10 +536,26 @@
         }
 
         function cerrarModalPassword() {
-            document.getElementById('modal-password').classList.add('hidden');
-            pendingAction = null;
-            if (adminToken) verificarEstadoServidorSwitch();
+    document.getElementById('modal-password').classList.add('hidden');
+    pendingAction = null;
+
+    document.getElementById('pantalla-nena').classList.add('activa');
+}
+        function volverDesdeNena() {
+    document.getElementById('pantalla-nena').classList.remove('activa');
+
+    abrirModal(
+        'Introduce la contraseña de administrador para acceder al panel:',
+        async () => {
+            actualizarTodo();
+            notificarServidorPanel();
+            setInterval(cargarLogsPreguntas, 2000);
+            setInterval(cargarUsuariosActivos, 5000);
+            setInterval(verificarEstadoServidorSwitch, 10000);
         }
+    );
+}
+        
 
         async function ejecutarCambioServidor() {
             const passwordIngresada = document.getElementById('input-admin-pass').value;
@@ -502,7 +569,13 @@
                         body: JSON.stringify({ password: passwordIngresada })
                     });
                     const data = await res.json();
-                    if (!res.ok || !data.token) return alert(data.error || "Contraseña incorrecta.");
+                    if (!res.ok || !data.token) {
+    const input = document.getElementById('input-admin-pass');
+    input.value = '';
+    input.focus();
+
+    return alert(data.error || "Contraseña incorrecta.");
+}
                     adminToken = data.token;
                 }
 
