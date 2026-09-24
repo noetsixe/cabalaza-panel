@@ -616,85 +616,95 @@
 
         estilo.textContent = `
             #pantalla-carga-admin {
-                position: fixed;
-                inset: 0;
-                z-index: 999999;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: #008080;
-                font-family: "MS Sans Serif", Tahoma, Arial, sans-serif;
-            }
+    position: fixed;
+    inset: 0;
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #0000AA;
+    color: #FFFFFF;
+    font-family: "Lucida Console", "Courier New", monospace;
+}
 
-            .ventana-carga-admin {
-                width: 430px;
-                background: #c0c0c0;
-                border-top: 2px solid #ffffff;
-                border-left: 2px solid #ffffff;
-                border-right: 2px solid #000000;
-                border-bottom: 2px solid #000000;
-                box-shadow: 2px 2px 0 #000;
-            }
+.ventana-carga-admin {
+    width: min(760px, 90vw);
+    background: #0000AA;
+    color: #FFFFFF;
+    border: none;
+    box-shadow: none;
+}
 
-            .barra-titulo-carga {
-                height: 26px;
-                display: flex;
-                align-items: center;
-                padding: 0 7px;
-                color: white;
-                background: #000080;
-                font-weight: bold;
-                font-size: 13px;
-            }
+.barra-titulo-carga {
+    display: inline-block;
+    height: auto;
+    padding: 1px 7px 2px 7px;
+    margin-bottom: 22px;
 
-            .contenido-carga-admin {
-                display: flex;
-                align-items: center;
-                gap: 18px;
-                padding: 25px;
-            }
+    background: #C0C0C0;
+    color: #0000AA;
 
-            .icono-carga-admin {
-                font-size: 38px;
-            }
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 18px;
+    font-weight: bold;
+}
 
-            .texto-carga-principal {
-                font-size: 14px;
-                font-weight: bold;
-                margin-bottom: 8px;
-            }
+.contenido-carga-admin {
+    display: block;
+    padding: 0;
+    text-align: left;
+}
 
-            .texto-carga-secundario {
-                font-size: 12px;
-                margin-bottom: 18px;
-            }
+.icono-carga-admin {
+    display: none;
+}
 
-            .barra-progreso-admin {
-                width: 250px;
-                height: 18px;
-                background: #ffffff;
-                border-top: 2px solid #808080;
-                border-left: 2px solid #808080;
-                border-right: 2px solid #ffffff;
-                border-bottom: 2px solid #ffffff;
-                overflow: hidden;
-            }
+.texto-carga-principal {
+    margin-bottom: 18px;
 
-            .progreso-admin {
-                height: 100%;
-                width: 35%;
-                background: #000080;
-                animation: cargarWindowsAdmin 1.2s linear infinite;
-            }
+    color: #FFFFFF;
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1.5;
+}
 
-            @keyframes cargarWindowsAdmin {
-                from {
-                    transform: translateX(-120%);
-                }
-                to {
-                    transform: translateX(400%);
-                }
-            }
+.texto-carga-secundario {
+    margin-bottom: 22px;
+
+    color: #FFFFFF;
+    font-family: "Lucida Console", "Courier New", monospace;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.barra-progreso-admin {
+    width: 100%;
+    height: 20px;
+
+    background: #0000AA;
+    border: none;
+    overflow: hidden;
+}
+
+.progreso-admin {
+    display: none;
+}
+
+.texto-carga-principal::after {
+    content: "_";
+    animation: cursorBSOD 0.8s steps(1) infinite;
+}
+
+@keyframes cursorBSOD {
+    0%, 49% {
+        opacity: 1;
+    }
+
+    50%, 100% {
+        opacity: 0;
+    }
+}
         `;
 
         document.head.appendChild(estilo);
