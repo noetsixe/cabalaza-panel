@@ -571,37 +571,195 @@
         
 
         async function ejecutarCambioServidor() {
-            const passwordIngresada = document.getElementById('input-admin-pass').value;
-            if (!passwordIngresada) return alert("Debes introducir la contraseña.");
+    const passwordIngresada = document.getElementById('input-admin-pass').value;
 
-            try {
-                if (!adminToken) {
-                    const res = await rawFetch(`${URL_SERVIDOR}/api/admin/login`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ password: passwordIngresada })
-                    });
-                    const data = await res.json();
-                    if (!res.ok || !data.token) {
-    const input = document.getElementById('input-admin-pass');
-    input.value = '';
-    input.focus();
+    if (!passwordIngresada) {
+        return alert("Debes introducir la contraseña.");
+    }
 
-    return alert(data.error || "Contraseña incorrecta.");
-}
-                    adminToken = data.token;
-                }
+    // Mostrar pantalla de carga estilo Windows antiguo
+    let pantallaCarga = document.getElementById('pantalla-carga-admin');
 
-                document.getElementById('modal-password').classList.add('hidden');
-                
-                const accion = pendingAction;
-                pendingAction = null;
-                if (accion) await accion();
-            } catch (e) {
-                alert("Error de conexión con el servidor.");
+    if (!pantallaCarga) {
+        pantallaCarga = document.createElement('div');
+        pantallaCarga.id = 'pantalla-carga-admin';
+
+        pantallaCarga.innerHTML = `
+            <div class="ventana-carga-admin">
+                <div class="barra-titulo-carga">
+                    <span>Servidor de Exámenes</span>
+                </div>
+
+                <div class="contenido-carga-admin">
+                    <div class="icono-carga-admin">💻</div>
+
+                    <div>
+                        <div class="texto-carga-principal">
+                            Conectando con el servidor...
+                        </div>
+
+                        <div class="texto-carga-secundario">
+                            Esperando a que el servidor responda.
+                        </div>
+
+                        <div class="barra-progreso-admin">
+                            <div class="progreso-admin"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(pantallaCarga);
+
+        const estilo = document.createElement('style');
+
+        estilo.textContent = `
+            #pantalla-carga-admin {
+                position: fixed;
+                inset: 0;
+                z-index: 999999;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background: #008080;
+                font-family: "MS Sans Serif", Tahoma, Arial, sans-serif;
             }
+
+            .ventana-carga-admin {
+                width: 430px;
+                background: #c0c0c0;
+                border-top: 2px solid #ffffff;
+                border-left: 2px solid #ffffff;
+                border-right: 2px solid #000000;
+                border-bottom: 2px solid #000000;
+                box-shadow: 2px 2px 0 #000;
+            }
+
+            .barra-titulo-carga {
+                height: 26px;
+                display: flex;
+                align-items: center;
+                padding: 0 7px;
+                color: white;
+                background: #000080;
+                font-weight: bold;
+                font-size: 13px;
+            }
+
+            .contenido-carga-admin {
+                display: flex;
+                align-items: center;
+                gap: 18px;
+                padding: 25px;
+            }
+
+            .icono-carga-admin {
+                font-size: 38px;
+            }
+
+            .texto-carga-principal {
+                font-size: 14px;
+                font-weight: bold;
+                margin-bottom: 8px;
+            }
+
+            .texto-carga-secundario {
+                font-size: 12px;
+                margin-bottom: 18px;
+            }
+
+            .barra-progreso-admin {
+                width: 250px;
+                height: 18px;
+                background: #ffffff;
+                border-top: 2px solid #808080;
+                border-left: 2px solid #808080;
+                border-right: 2px solid #ffffff;
+                border-bottom: 2px solid #ffffff;
+                overflow: hidden;
+            }
+
+            .progreso-admin {
+                height: 100%;
+                width: 35%;
+                background: #000080;
+                animation: cargarWindowsAdmin 1.2s linear infinite;
+            }
+
+            @keyframes cargarWindowsAdmin {
+                from {
+                    transform: translateX(-120%);
+                }
+                to {
+                    transform: translateX(400%);
+                }
+            }
+        `;
+
+        document.head.appendChild(estilo);
+    }
+
+    pantallaCarga.style.display = 'flex';
+
+    const input = document.getElementById('input-admin-pass');
+    input.disabled = true;
+
+    try {
+        if (!adminToken) {
+
+            const res = await rawFetch(`${URL_SERVIDOR}/api/admin/login`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    password: passwordIngresada
+                })
+            });
+
+            const data = await res.json();
+
+            if (res.status === 401) {
+                pantallaCarga.style.display = 'none';
+
+                input.disabled = false;
+                input.value = '';
+                input.focus();
+
+                return alert(data.error || "Contraseña incorrecta.");
+            }
+
+            if (!res.ok || !data.token) {
+                throw new Error(data.error || "Error de conexión.");
+            }
+
+            adminToken = data.token;
         }
 
+        pantallaCarga.style.display = 'none';
+        input.disabled = false;
+
+        document.getElementById('modal-password').classList.add('hidden');
+
+        const accion = pendingAction;
+        pendingAction = null;
+
+        if (accion) {
+            await accion();
+        }
+
+    } catch (e) {
+
+        pantallaCarga.style.display = 'none';
+        input.disabled = false;
+
+        alert(
+            "No se pudo conectar con el servidor. " +
+            "Comprueba tu conexión e inténtalo nuevamente."
+        );
+    }
+}
         function intentarCambiarEstado(event) {
             event.preventDefault(); 
             const checkbox = document.getElementById('main-server-switch');
