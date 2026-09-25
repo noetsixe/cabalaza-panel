@@ -9,16 +9,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
     <style>
         body {
-            background-color: #000000;
-            color: #b91c1c;
-            font-family: 'Press Start 2P', monospace, sans-serif;
-            font-size: 11px;
-            -webkit-font-smoothing: none;
-            -moz-osx-font-smoothing: grayscale;
-            transition: background-color 0.05s ease;
-            position: relative;
-        }
+    background-color: #000000;
+    color: #b91c1c;
+    font-family: 'Press Start 2P', monospace, sans-serif;
+    font-size: 11px;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.05s ease;
+    position: relative;
 
+    overscroll-behavior: none;
+    overscroll-behavior-y: none;
+}
+        html {
+    overscroll-behavior: none;
+    overscroll-behavior-y: none;
+}
         /* CANVAS DE MATRIX EN EL FONDO */
         #canvas-matrix {
             position: fixed;
@@ -539,23 +545,37 @@
 
         // MODAL Y AUTENTICACIÓN
         function abrirModal(texto, accion) {
-            pendingAction = accion;
-            const pModal = document.querySelector('#modal-password p');
-            if (pModal) pModal.textContent = texto;
-            const input = document.getElementById('input-admin-pass');
-            input.value = '';
-            document.getElementById('modal-password').classList.remove('hidden');
-            input.focus();
-        }
+    pendingAction = accion;
+
+    const pModal = document.querySelector('#modal-password p');
+    if (pModal) pModal.textContent = texto;
+
+    const input = document.getElementById('input-admin-pass');
+    input.value = '';
+
+    document.getElementById('modal-password').classList.remove('hidden');
+
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+
+    input.focus();
+}
 
         function cerrarModalPassword() {
     document.getElementById('modal-password').classList.add('hidden');
+
     pendingAction = null;
+
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
 
     document.getElementById('pantalla-nena').classList.add('activa');
 }
         function volverDesdeNena() {
     document.getElementById('pantalla-nena').classList.remove('activa');
+
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
 
     abrirModal(
         'Introduce la contraseña de administrador para acceder al panel:',
@@ -783,6 +803,8 @@
         input.disabled = false;
 
         document.getElementById('modal-password').classList.add('hidden');
+        document.documentElement.style.overflow = '';
+document.body.style.overflow = '';
 
         const accion = pendingAction;
         pendingAction = null;
