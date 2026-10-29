@@ -1343,19 +1343,25 @@ async function intentarCambiarTestSim(event) {
     try {
         const res = await fetch(`${URL_SERVIDOR}/api/admin/toggle-test-sim`, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${adminToken}` // 👈 Asegura el envío del token de admin
+            },
             body: JSON.stringify({ active: nuevoEstadoDeseado })
         });
 
         const data = await res.json();
+        
         if (res.ok && data.success) {
             checkbox.checked = data.active;
             actualizarLabelTestSim(data.active);
         } else {
-            alert("No se pudo actualizar el estado del simulador.");
+            console.error("Error del servidor al cambiar Test Sim:", data);
+            alert("No se pudo actualizar el estado del simulador. Verifica tu sesión.");
             verificarEstadoTestSim();
         }
     } catch (e) {
+        console.error("Error de conexión:", e);
         alert("Error de conexión con el servidor.");
         verificarEstadoTestSim();
     }
