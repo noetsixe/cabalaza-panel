@@ -1331,11 +1331,12 @@ async function verificarEstadoTestSim() {
 }
 
 async function intentarCambiarTestSim(event) {
-    if (event) event.preventDefault();
+    if (event) event.preventDefault(); // Evitamos que el navegador mueva el switch por su cuenta para controlarlo nosotros
+    
     const checkbox = document.getElementById('test-simulation-switch');
     
-    // Si el checkbox está marcado (true), el nuevo estado deseado será apagarlo (false)
-    // Si está desmarcado (false), el nuevo estado deseado será encenderlo (true)
+    // Como bloqueamos el comportamiento por defecto con preventDefault(), 
+    // el nuevo estado deseado es exactamente lo CONTRARIO de cómo está marcado HOY visualmente.
     const nuevoEstadoDeseado = !checkbox.checked;
 
     const labelTexto = document.getElementById('label-test-texto');
@@ -1357,7 +1358,7 @@ async function intentarCambiarTestSim(event) {
         const data = await res.json();
         
         if (res.ok && data.success) {
-            // Sincronizamos el switch con lo que confirmó el servidor
+            // Forzamos el switch al estado exacto que confirmó el servidor
             checkbox.checked = data.active;
             actualizarLabelTestSim(data.active);
             console.log("--> [PANEL] Test Simulation cambiado exitosamente a:", data.active);
