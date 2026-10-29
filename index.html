@@ -367,6 +367,23 @@
                 </div>
             </div>
 
+            <!-- INTERRUPTOR TEST SIMULATION -->
+            <div class="flex items-center justify-between bg-black/90 border border-neutral-800 px-4 py-2.5 shadow-[2px_2px_0px_0px_#171717] motor-afectado backdrop-blur-sm flex-1">
+                <div class="flex items-center gap-3">
+                    <label class="switch">
+                        <input type="checkbox" id="test-simulation-switch" onclick="intentarCambiarTestSim(event)">
+                        <span class="slider"></span>
+                    </label>
+                    <div class="flex flex-col">
+                        <span class="text-[9px] text-neutral-400 tracking-wider">TEST SIMULATION</span>
+                        <span id="label-test-texto" class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">CARGANDO...</span>
+                    </div>
+                </div>
+                <div class="text-[9px] text-neutral-600 font-terminal hidden sm:block">
+                    // ON_OFF
+                </div>
+            </div>
+
             <!-- CAJA DE ESTADO DE CONEXIÓN -->
             <div id="caja-estado" class="bg-black/90 border-2 border-neutral-700 p-3 text-neutral-300 text-xs flex items-center gap-3 motor-afectado backdrop-blur-sm flex-1">
                 <span class="w-2.5 h-2.5 bg-yellow-500 animate-ping"></span>
