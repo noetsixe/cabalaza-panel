@@ -1317,7 +1317,7 @@ document.body.style.overflow = '';
 
 async function verificarEstadoTestSim() {
     try {
-        const res = await fetch(`${URL_SERVIDOR}/api/admin/test-sim-status?t=${Date.now()}`);
+        const res = await fetch(`${URL_SERVIDOR}/api/test-sim-status?t=${Date.now()}`);
         if (res.ok) {
             const data = await res.json();
             console.log("--> [PANEL] Estado leído de Supabase (Test Sim):", data.active);
@@ -1331,11 +1331,8 @@ async function verificarEstadoTestSim() {
 }
 
 async function intentarCambiarTestSim(event) {
-    if (event) event.preventDefault();
     const checkbox = document.getElementById('test-simulation-switch');
-    
-    // Leemos el estado INVERSO al que tiene el checkbox antes del clic
-    const nuevoEstadoDeseado = !checkbox.checked;
+const nuevoEstadoDeseado = checkbox.checked;
 
     const labelTexto = document.getElementById('label-test-texto');
     if (labelTexto) {
