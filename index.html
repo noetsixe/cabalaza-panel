@@ -1308,6 +1308,68 @@ document.body.style.overflow = '';
                 alert("Error de conexión al intentar eliminar el usuario.");
             }
         }
+
+        // ==========================================
+// CONTROL DE TEST SIMULATION (SUPABASE)
+// ==========================================
+
+// 1. Cargar el estado al iniciar el panel
+async function verificarEstadoTestSim() {
+    try {
+        const res = await fetch(`${URL_SERVIDOR}/api/admin/server-status`);
+        if (res.ok) {
+            const data = await res.json();
+            const checkbox = document.getElementById('test-simulation-switch');
+            if (checkbox) checkbox.checked = data.active;
+            actualizarLabelTestSim(data.active);
+        }
+    } catch (e) {
+        console.error("Error al obtener estado del simulador:", e);
+    }
+}
+
+// 2. Al hacer clic en el interruptor
+async function intentarCambiarTestSim(event) {
+    event.preventDefault();
+    const checkbox = document.getElementById('test-simulation-switch');
+    const nuevoEstadoDeseado = !checkbox.checked;
+
+    const labelTexto = document.getElementById('label-test-texto');
+    labelTexto.innerText = "GUARDANDO...";
+    labelTexto.className = "text-[10px] font-bold text-yellow-400 uppercase tracking-widest animate-pulse";
+
+    try {
+        const res = await fetch(`${URL_SERVIDOR}/api/admin/toggle-server`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ active: nuevoEstadoDeseado })
+        });
+
+        const data = await res.json();
+        if (res.ok && data.success) {
+            checkbox.checked = data.active;
+            actualizarLabelTestSim(data.active);
+        } else {
+            alert("No se pudo actualizar el estado.");
+            verificarEstadoTestSim();
+        }
+    } catch (e) {
+        alert("Error de conexión.");
+        verificarEstadoTestSim();
+    }
+}
+
+function actualizarLabelTestSim(activo) {
+    const labelTexto = document.getElementById('label-test-texto');
+    if (!labelTexto) return;
+    if (activo) {
+        labelTexto.innerText = "ENCENDIDO 🟢";
+        labelTexto.className = "text-[10px] font-bold text-green-400 uppercase tracking-widest animate-pulse";
+    } else {
+        labelTexto.innerText = "APAGADO 🔴";
+        labelTexto.className = "text-[10px] font-bold text-red-500 uppercase tracking-widest";
+    }
+}
     </script>
 </body>
 </html>
