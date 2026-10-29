@@ -556,6 +556,7 @@ let listaUsuariosCache = [];
         setInterval(cargarLogsPreguntas, 2000);
         setInterval(cargarUsuariosActivos, 5000);
         setInterval(verificarEstadoServidorSwitch, 10000); 
+        setInterval(verificarEstadoTestSim, 10000); // 👈 AGREGA ESTE TEMPORIZADOR AQUÍ
     });
 
     document.body.style.visibility = 'visible';
@@ -934,6 +935,7 @@ document.body.style.overflow = '';
         function actualizarTodo() {
             verificarEstado();
             verificarEstadoServidorSwitch();
+            verificarEstadoTestSim(); // 👈 AGREGA ESTA LÍNEA AQUÍ
             cargarUsuarios();
             cargarUsuariosActivos();
             cargarLogsPreguntas();
