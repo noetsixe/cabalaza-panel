@@ -347,8 +347,14 @@
                 Sincronizar Todo
             </button>
         </header>
+            <!-- CAJA DE ESTADO DE CONEXIÓN -->
+            <div id="caja-estado" class="bg-black/90 border-2 border-neutral-700 p-3 text-neutral-300 text-xs flex items-center gap-3 motor-afectado backdrop-blur-sm flex-1">
+                <span class="w-2.5 h-2.5 bg-yellow-500 animate-ping"></span>
+                Comprobando conexión con el servidor...
+            </div>
+        </div>
 
-        <!-- BARRA SUPERIOR: SWITCH A LA IZQUIERDA Y ESTADO ONLINE A LA DERECHA -->
+    <!-- BARRA SUPERIOR: SWITCH A LA IZQUIERDA Y ESTADO ONLINE A LA DERECHA -->
         <!-- BARRA SUPERIOR: SWITCHES UNO DEBAJO DE OTRO -->
         <div class="flex flex-col gap-4 items-stretch">
             <!-- INTERRUPTOR GENERAL -->
@@ -384,13 +390,7 @@
                     // ON_OFF
                 </div>
             </div>
-
-            <!-- CAJA DE ESTADO DE CONEXIÓN -->
-            <div id="caja-estado" class="bg-black/90 border-2 border-neutral-700 p-3 text-neutral-300 text-xs flex items-center gap-3 motor-afectado backdrop-blur-sm flex-1">
-                <span class="w-2.5 h-2.5 bg-yellow-500 animate-ping"></span>
-                Comprobando conexión con el servidor...
-            </div>
-        </div>
+    
 
         <!-- SECCIÓN DE USUARIOS ACTIVOS EN TIEMPO REAL -->
         <div class="bg-black/90 border-2 border-green-600 p-6 shadow-[4px_4px_0px_0px_#16a34a] motor-afectado backdrop-blur-sm">
