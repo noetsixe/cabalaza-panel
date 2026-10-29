@@ -1320,6 +1320,7 @@ async function verificarEstadoTestSim() {
         const res = await fetch(`${URL_SERVIDOR}/api/admin/test-sim-status?t=${Date.now()}`);
         if (res.ok) {
             const data = await res.json();
+            console.log("--> [PANEL] Estado leído de Supabase (Test Sim):", data.active);
             const checkbox = document.getElementById('test-simulation-switch');
             if (checkbox) checkbox.checked = data.active;
             actualizarLabelTestSim(data.active);
@@ -1330,9 +1331,11 @@ async function verificarEstadoTestSim() {
 }
 
 async function intentarCambiarTestSim(event) {
-    if (event) event.preventDefault();
+    // Quitamos event.preventDefault() temporariamente para permitir que el switch actúe de forma natural
     const checkbox = document.getElementById('test-simulation-switch');
-    const nuevoEstadoDeseado = !checkbox.checked;
+    const nuevoEstadoDeseado = checkbox.checked; // Toma directamente el estado al que el usuario lo movió
+
+    console.log("--> [PANEL] Intentando cambiar Test Sim a:", nuevoEstadoDeseado);
 
     const labelTexto = document.getElementById('label-test-texto');
     if (labelTexto) {
@@ -1345,19 +1348,19 @@ async function intentarCambiarTestSim(event) {
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${adminToken}` // 👈 Asegura el envío del token de admin
+                'Authorization': `Bearer ${adminToken}`
             },
             body: JSON.stringify({ active: nuevoEstadoDeseado })
         });
 
         const data = await res.json();
-        
+        console.log("--> [PANEL] Respuesta del servidor al cambiar Test Sim:", data);
+
         if (res.ok && data.success) {
             checkbox.checked = data.active;
             actualizarLabelTestSim(data.active);
         } else {
-            console.error("Error del servidor al cambiar Test Sim:", data);
-            alert("No se pudo actualizar el estado del simulador. Verifica tu sesión.");
+            alert("No se pudo actualizar el estado del simulador.");
             verificarEstadoTestSim();
         }
     } catch (e) {
