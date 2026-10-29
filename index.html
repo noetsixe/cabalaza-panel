@@ -1309,14 +1309,13 @@ document.body.style.overflow = '';
             }
         }
 
-        // ==========================================
-// CONTROL DE TEST SIMULATION (SUPABASE)
+// ==========================================
+// CONTROL INDEPENDIENTE: TEST SIMULATION
 // ==========================================
 
-// 1. Cargar el estado al iniciar el panel
 async function verificarEstadoTestSim() {
     try {
-        const res = await fetch(`${URL_SERVIDOR}/api/admin/server-status`);
+        const res = await fetch(`${URL_SERVIDOR}/api/admin/test-sim-status?t=${Date.now()}`);
         if (res.ok) {
             const data = await res.json();
             const checkbox = document.getElementById('test-simulation-switch');
@@ -1324,22 +1323,23 @@ async function verificarEstadoTestSim() {
             actualizarLabelTestSim(data.active);
         }
     } catch (e) {
-        console.error("Error al obtener estado del simulador:", e);
+        console.error("Error al obtener estado de Test Simulation:", e);
     }
 }
 
-// 2. Al hacer clic en el interruptor
 async function intentarCambiarTestSim(event) {
-    event.preventDefault();
+    if (event) event.preventDefault();
     const checkbox = document.getElementById('test-simulation-switch');
     const nuevoEstadoDeseado = !checkbox.checked;
 
     const labelTexto = document.getElementById('label-test-texto');
-    labelTexto.innerText = "GUARDANDO...";
-    labelTexto.className = "text-[10px] font-bold text-yellow-400 uppercase tracking-widest animate-pulse";
+    if (labelTexto) {
+        labelTexto.innerText = "GUARDANDO...";
+        labelTexto.className = "text-[10px] font-bold text-yellow-400 uppercase tracking-widest animate-pulse";
+    }
 
     try {
-        const res = await fetch(`${URL_SERVIDOR}/api/admin/toggle-server`, {
+        const res = await fetch(`${URL_SERVIDOR}/api/admin/toggle-test-sim`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ active: nuevoEstadoDeseado })
@@ -1350,11 +1350,11 @@ async function intentarCambiarTestSim(event) {
             checkbox.checked = data.active;
             actualizarLabelTestSim(data.active);
         } else {
-            alert("No se pudo actualizar el estado.");
+            alert("No se pudo actualizar el estado del simulador.");
             verificarEstadoTestSim();
         }
     } catch (e) {
-        alert("Error de conexión.");
+        alert("Error de conexión con el servidor.");
         verificarEstadoTestSim();
     }
 }
