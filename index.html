@@ -1334,8 +1334,8 @@ async function intentarCambiarTestSim(event) {
     if (event) event.preventDefault();
     const checkbox = document.getElementById('test-simulation-switch');
     
-    // Determinamos el nuevo estado de forma explícita basándonos en el click:
-    // Si estaba marcado, ahora queremos apagarlo (false); si estaba desmarcado, encenderlo (true).
+    // Si el checkbox está marcado (true), el nuevo estado deseado será apagarlo (false)
+    // Si está desmarcado (false), el nuevo estado deseado será encenderlo (true)
     const nuevoEstadoDeseado = !checkbox.checked;
 
     const labelTexto = document.getElementById('label-test-texto');
@@ -1357,11 +1357,11 @@ async function intentarCambiarTestSim(event) {
         const data = await res.json();
         
         if (res.ok && data.success) {
-            // Sincronizamos estrictamente con la respuesta real del servidor
+            // Sincronizamos el switch con lo que confirmó el servidor
             checkbox.checked = data.active;
             actualizarLabelTestSim(data.active);
+            console.log("--> [PANEL] Test Simulation cambiado exitosamente a:", data.active);
         } else {
-            console.error("Error del servidor:", data);
             alert("No se pudo actualizar el estado del simulador.");
             verificarEstadoTestSim();
         }
@@ -1371,7 +1371,7 @@ async function intentarCambiarTestSim(event) {
         verificarEstadoTestSim();
     }
 }
-
+        
 function actualizarLabelTestSim(activo) {
     const labelTexto = document.getElementById('label-test-texto');
     if (!labelTexto) return;
