@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Archivo Clínico // CABALAZA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* Estética Médica Elegante */
+        body {
+            background-color: #f4f7f6; /* Blanco clínico */
+            background-image: radial-gradient(#d1d5db 1px, transparent 1px);
+            background-size: 20px 20px;
+            font-family: 'Inter', sans-serif;
+            color: #334155;
+        }
+
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+        /* Tarjetas tipo Expediente */
+        .card-medica {
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .card-materia:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            border-color: #10b981; /* Verde quirófano */
+        }
+
+        /* Alternativas */
+        .alternativa {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            padding: 14px 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 14px;
+            font-weight: 500;
+            color: #475569;
+        }
+
+        .alternativa:hover:not(.bloqueada) {
+            background: #f0fdf4;
+            border-color: #10b981;
+            color: #047857;
+        }
+
+        .alternativa.correcta {
+            background: #dcfce7;
+            border-color: #22c55e;
+            color: #15803d;
+            font-weight: 600;
+        }
+
+        .alternativa.incorrecta {
+            background: #fee2e2;
+            border-color: #ef4444;
+            color: #b91c1c;
+        }
+
+        .alternativa.bloqueada { cursor: default; }
+
+        /* Panel de respuesta correcta */
+        .panel-correcta {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, opacity 0.4s ease, margin 0.4s ease;
+            opacity: 0;
+            margin-top: 0;
+        }
+        .panel-correcta.abierto {
+            max-height: 400px;
+            opacity: 1;
+            margin-top: 16px;
+        }
+
+        /* Animación de carga */
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .animate-pulse-soft { animation: pulse-soft 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+<div class="max-w-5xl mx-auto space-y-8">
+    
+    <!-- Header Médico -->
+    <header class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div class="flex items-center gap-4">
+            <div class="bg-emerald-100 p-3 rounded-xl">
+                <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+            </div>
+            <div>
+                <h1 class="text-2xl font-bold text-slate-800 tracking-tight">Archivo Clínico</h1>
+                <p class="text-sm text-slate-500 font-medium mt-1">Base de datos de exámenes y prácticas</p>
+            </div>
+        </div>
+        <a href="index.html" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm px-5 py-2.5 rounded-lg transition-colors border border-slate-300 flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Volver al Panel
+        </a>
+    </header>
+
+    <!-- Vistas -->
+    <div id="vista-materias" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="col-span-full text-center py-10 text-slate-500 font-medium animate-pulse-soft">
+            Cargando expedientes médicos...
+        </div>
+    </div>
+
+    <div id="vista-preguntas" class="hidden space-y-6"></div>
+
+</div>
+
+<script>
+const URL_SERVIDOR = "https://api.nova-sync.xyz";
+let adminToken = null;
+
+// Iniciar sesión automáticamente si ya hay token o pedir contraseña
+window.onload = async () => {
+    const pass = prompt("🔒 Autenticación Médica\n\nIntroduce la contraseña de administrador:");
+    if (!pass) return location.href = 'index.html';
+    
+    try {
+        const res = await fetch(`${URL_SERVIDOR}/api/admin/login`, {
+            method: 'POST', 
+            headers: {'Content-Type':'application/json'}, 
+            body: JSON.stringify({ password: pass })
+        });
+        const data = await res.json();
+        if (data.token) {
+            adminToken = data.token;
+            cargarMaterias();
+        } else {
+            alert("Contraseña incorrecta.");
+            location.href = 'index.html';
+        }
+    } catch(e) { 
+        alert("Error de conexión con el servidor central."); 
+    }
+};
+
+async function cargarMaterias() {
+    const cont = document.getElementById('vista-materias');
+    try {
+        const res = await fetch(`${URL_SERVIDOR}/api/admin/examenes`, {
+            headers: { 'Authorization': `Bearer ${adminToken}` }
+        });
+        const preguntas = await res.json();
+        
+        if (!preguntas.length) {
+            cont.innerHTML = '<div class="col-span-full text-center py-10 text-slate-500 font-medium">Aún no hay exámenes registrados en el sistema.</div>';
+            return;
+        }
+
+        const materias = {};
+        preguntas.forEach(p => { materias[p.materia] = (materias[p.materia] || 0) + 1; });
+
+        cont.innerHTML = Object.entries(materias).map(([mat, count]) => `
+            <div onclick="abrirMateria('${mat}')" class="card-medica card-materia p-6 cursor-pointer flex flex-col justify-between h-40">
+                <div class="flex items-start justify-between">
+                    <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-100">
+                        <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
+                    </div>
+                    <span class="bg-emerald-50 text-emerald-700 text-xs font-bold px-3 py-1 rounded-full border border-emerald-100">${count} preguntas</span>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-slate-700 line-clamp-2">${mat}</h3>
+                </div>
+            </div>
+        `).join('');
+    } catch(e) { 
+        cont.innerHTML = '<div class="col-span-full text-center text-red-500 py-10">Error al cargar la base de datos.</div>'; 
+    }
+}
+
+async function abrirMateria(materia) {
+    document.getElementById('vista-materias').classList.add('hidden');
+    const cont = document.getElementById('vista-preguntas');
+    cont.classList.remove('hidden');
+    cont.innerHTML = '<div class="text-center py-10 text-slate-500 animate-pulse-soft">Cargando expediente...</div>';
+
+    const res = await fetch(`${URL_SERVIDOR}/api/admin/examenes`, {
+        headers: { 'Authorization': `Bearer ${adminToken}` }
+    });
+    const preguntas = (await res.json()).filter(p => p.materia === materia);
+
+    cont.innerHTML = `
+        <div class="flex items-center gap-4 mb-2">
+            <button onclick="location.reload()" class="text-slate-500 hover:text-slate-800 transition-colors flex items-center gap-1 font-medium text-sm">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                Volver a Especialidades
+            </button>
+        </div>
+        
+        <div class="flex items-center gap-3 mb-6 bg-white p-4 rounded-xl shadow-sm border border-slate-200">
+            <div class="bg-emerald-100 p-2 rounded-lg">
+                <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+            </div>
+            <h2 class="text-xl font-bold text-slate-800">${materia}</h2>
+        </div>
+        
+        <div class="space-y-6">
+            ${preguntas.map((p, i) => `
+                <div class="card-medica p-6" id="p${i}">
+                    <div class="mb-5">
+                        <span class="bg-slate-100 text-slate-600 font-bold text-xs px-2 py-1 rounded border border-slate-200 mb-2 inline-block">PREGUNTA ${i + 1}</span>
+                        <h3 class="text-lg text-slate-800 font-medium leading-snug">${p.texto_pregunta}</h3>
+                    </div>
+                    
+                    <div class="space-y-3">
+                        ${p.alternativas.map((alt, j) => `
+                            <div class="alternativa flex items-start gap-3" data-idx="${j}" data-c="${p.correcta}" onclick="responder(this)">
+                                <span class="bg-white text-slate-500 font-bold text-xs w-6 h-6 flex items-center justify-center rounded border border-slate-300 shadow-sm mt-0.5">${String.fromCharCode(65+j)}</span>
+                                <span>${alt}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div class="mt-5 pt-4 border-t border-slate-100 flex justify-end">
+                        <button onclick="verCorrecta('p${i}')" class="text-sm font-medium text-blue-600 hover:text-blue-800 flex items-center gap-2 px-3 py-1.5 rounded-lg hover:bg-blue-50 transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                            Ver Respuesta Correcta
+                        </button>
+                    </div>
+                    
+                    <div class="panel-correcta" id="panel-p${i}">
+                        <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-4 flex items-start gap-3">
+                            <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <div>
+                                <h4 class="text-emerald-800 font-bold text-sm mb-1">Respuesta Correcta</h4>
+                                <p class="text-emerald-700">${p.alternativas[p.correcta]}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('')}
+        </div>
+    `;
+}
+
+function responder(el) {
+    const cont = el.closest('[id^="p"]');
+    const alts = cont.querySelectorAll('.alternativa');
+    if (alts[0].classList.contains('bloqueada')) return;
+    
+    const idxElegido = parseInt(el.dataset.idx);
+    const idxCorrecta = parseInt(el.dataset.c);
+    
+    alts.forEach((a, i) => {
+        a.classList.add('bloqueada');
+        if (i === idxCorrecta) a.classList.add('correcta');
+        else if (i === idxElegido) a.classList.add('incorrecta');
+    });
+    
+    document.getElementById('panel-' + cont.id).classList.add('abierto');
+}
+
+function verCorrecta(id) {
+    const cont = document.getElementById(id);
+    const alts = cont.querySelectorAll('.alternativa');
+    const idxCorrecta = parseInt(alts[0].dataset.c);
+    
+    alts.forEach((a, i) => {
+        a.classList.add('bloqueada');
+        if (i === idxCorrecta) a.classList.add('correcta');
+    });
+    
+    document.getElementById('panel-' + id).classList.add('abierto');
+}
+</script>
+</body>
+</html>
