@@ -170,20 +170,19 @@
             animation: olaArcadeRojo 0.5s steps(10, end) forwards;
         }
 
-        /* EFECTO DE VIBRACIÓN PARA LA CALABAZA */
+                /* VIBRACIÓN CORTA E INTENSA */
         @keyframes vibrar {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            20% { transform: translate(-6px, 4px) rotate(-4deg); }
-            40% { transform: translate(6px, -4px) rotate(4deg); }
-            60% { transform: translate(-4px, -2px) rotate(-2deg); }
-            80% { transform: translate(4px, 2px) rotate(2deg); }
-            100% { transform: translate(0, 0) rotate(0deg); }
+            0% { transform: translate(0, 0); }
+            20% { transform: translate(-1.5px, 1.5px); }
+            40% { transform: translate(1.5px, -1.5px); }
+            60% { transform: translate(-1.5px, -1px); }
+            80% { transform: translate(1.5px, 1px); }
+            100% { transform: translate(0, 0); }
         }
-
+        
         .vibrar-calabaza {
-            animation: vibrar 0.08s infinite linear;
+            animation: vibrar 0.04s infinite linear; /* 0.04s la hace vibrar súper rápido */
         }
-
         /* EFECTO DE TEMBLOR GLOBAL */
         @keyframes tiembleGeneral {
             0% { transform: translate(0px, 0px) rotate(0deg); }
@@ -322,15 +321,6 @@
             transform: scale(1.005); /* Crece un milímetro al pasar el mouse */
         }
 
-        /* Animación de entrada para los logs */
-        @keyframes fadeInLog {
-            from { opacity: 0; transform: translateX(-10px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        
-        #contenedor-logs > div {
-            animation: fadeInLog 0.3s ease forwards;
-        }
 
                 /* Quitar la barra de scroll blanca y hacerla invisible o oscura */
         body::-webkit-scrollbar {
@@ -345,6 +335,22 @@
         }
         body::-webkit-scrollbar-thumb:hover {
             background: #dc2626;
+        }
+
+                /* Estilo para la barra de scroll de la tabla de usuarios */
+        .overflow-x-auto::-webkit-scrollbar {
+            height: 8px;
+        }
+        .overflow-x-auto::-webkit-scrollbar-track {
+            background: #0a0a0a;
+            border-top: 1px solid #262626;
+        }
+        .overflow-x-auto::-webkit-scrollbar-thumb {
+            background: #dc2626;
+            border: 1px solid #ef4444;
+        }
+        .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+            background: #f87171;
         }
         
     </style>
@@ -1002,7 +1008,7 @@ document.body.style.overflow = '';
                     root.classList.remove('modo-invertido');
                     document.body.classList.remove('temblor-pantalla');
                 }
-            }, 250);
+            }, 600);
         }
 
         function actualizarEfectosVisuales(activo, reproducirAnimacion = false) {
