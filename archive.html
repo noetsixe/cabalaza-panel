@@ -70,11 +70,12 @@
 
                 /* Arreglo para que el modo oscuro respete la estética */
         body.dark-mode .med-card, 
-        body.dark-mode header, 
-        body.dark-mode .bg-white {
-            background-color: var(--med-card) !important;
-            border-color: var(--med-border) !important;
-        }
+body.dark-mode header, 
+body.dark-mode .bg-white,
+body.dark-mode .bg-med-card {  /* 👈 AÑADE ESTA LÍNEA */
+    background-color: var(--med-card) !important;
+    border-color: var(--med-border) !important;
+}
 
         body.dark-mode .text-slate-500, 
         body.dark-mode .text-slate-400 { 
