@@ -44,10 +44,10 @@
             --med-card: #ffffff;
         }
 
-        /* MODO OSCURO CORREGIDO */
+        /* MODO OSCURO */
         body.dark-mode {
             --med-bg: #0f172a;
-            --med-blue: #93c5fd; /* Azul claro para que se lea en oscuro */
+            --med-blue: #93c5fd; /* Azul claro para textos */
             --med-jade: #2dd4bf;
             --med-text: #f8fafc;
             --med-border: #334155;
@@ -61,120 +61,153 @@
             -webkit-font-smoothing: antialiased;
             min-height: 100vh;
             transition: background-color 0.4s ease, color 0.4s ease;
+            background-image: radial-gradient(circle at 50% 0%, var(--med-card) 0%, var(--med-bg) 80%);
         }
 
-        /* Forzar colores oscuros en elementos blancos */
-        body.dark-mode .bg-white { background-color: var(--med-card) !important; color: var(--med-text) !important; border-color: var(--med-border) !important; }
-        body.dark-mode .text-slate-500, body.dark-mode .text-slate-400 { color: #94a3b8 !important; }
-        body.dark-mode .border-slate-100 { border-color: var(--med-border) !important; }
-        body.dark-mode button.bg-white { background-color: var(--med-border) !important; color: var(--med-text) !important; }
-        
-        /* Botones en modo oscuro */
-        body.dark-mode .btn-primary { background-color: var(--med-blue); color: #0f172a; }
-        body.dark-mode .btn-primary:hover { background-color: #60a5fa; }
+        /* Forzar colores oscuros en las tarjetas y contenedores blancos */
+        .med-card, header, .bg-white {
+            background-color: var(--med-card) !important;
+            border-color: var(--med-border) !important;
+            color: var(--med-text) !important;
+        }
 
-        /* Estructura General */
+        /* Forzar textos grises a que se lean en oscuro */
+        .text-slate-500, .text-slate-400 { color: var(--med-text) !important; opacity: 0.7; }
+        .border-slate-100 { border-color: var(--med-border) !important; }
+
+        /* Botones en modo oscuro */
+        body.dark-mode button.bg-med-card {
+            background-color: var(--med-card) !important;
+            color: var(--med-blue) !important;
+            border-color: var(--med-border) !important;
+        }
+
+        /* Animaciones */
+        @keyframes float-med { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
+        .animate-float { animation: float-med 5s ease-in-out infinite; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-up { animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+
         .med-card {
+            border: 1px solid var(--med-border);
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.05);
+        }
+        .med-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--med-jade);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Alternativas */
+        .alternativa {
             background: var(--med-card);
             border: 1px solid var(--med-border);
-            border-radius: 12px;
+            border-radius: 8px;
+            padding: 18px 24px;
+            cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 2px 10px -2px rgba(0, 0, 0, 0.05);
+            font-size: 15px;
+            color: var(--med-text);
+            font-weight: 500;
         }
-        .med-card:hover { border-color: var(--med-jade); box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1); }
-
-        /* Inputs */
-        .input-med { background: transparent; border-bottom: 2px dashed transparent; color: var(--med-text); font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; outline: none; width: 100%; transition: all 0.3s; }
-        .input-med:focus { border-bottom: 2px dashed var(--med-jade); }
-        .input-med-sub { background: transparent; border-bottom: 1px solid transparent; color: var(--med-jade); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; outline: none; width: 100%; transition: all 0.3s; }
-        .input-med-sub:focus { border-bottom: 1px solid var(--med-blue); }
-
-        /* MODO SIMULADOR (Compacto) */
-        #modo-simulador { position: fixed; inset: 0; background: var(--med-bg); z-index: 99999; display: none; flex-direction: column; overflow: hidden; }
-        #modo-simulador.activo { display: flex; }
-        
-        .sim-content { max-w-3xl mx-auto w-full p-4 md:p-6 flex flex-col h-full justify-center; }
-        
-        .alternativa { background: var(--med-card); border: 1px solid var(--med-border); border-radius: 8px; padding: 12px 20px; cursor: pointer; transition: all 0.2s; font-size: 14px; color: var(--med-text); }
-        .alternativa:hover:not(.bloqueada) { border-color: var(--med-jade); background: var(--med-bg); }
-        .alternativa.correcta { background: rgba(49, 151, 149, 0.15); border-color: var(--med-jade); color: var(--med-jade); font-weight: 600; }
-        .alternativa.incorrecta { background: rgba(229, 62, 62, 0.15); border-color: #e53e3e; color: #feb2b2; }
+        .alternativa:hover:not(.bloqueada) { background: var(--med-bg); border-color: var(--med-jade); }
+        .alternativa.correcta { background: #e6fffa; border-color: #319795; color: #234e52; font-weight: 600; }
+        body.dark-mode .alternativa.correcta { background: rgba(49, 151, 149, 0.2); color: #81e6d9; }
+        .alternativa.incorrecta { background: #fff5f5; border-color: #e53e3e; color: #742a2a; }
+        body.dark-mode .alternativa.incorrecta { background: rgba(229, 62, 62, 0.2); color: #feb2b2; }
         .alternativa.bloqueada { cursor: default; }
 
-        .panel-correcta { max-height: 0; overflow: hidden; transition: all 0.4s ease; opacity: 0; }
-        .panel-correcta.abierto { max-height: 200px; opacity: 1; margin-top: 16px; }
+        /* Inputs */
+        .input-med { background: transparent; border-bottom: 2px dashed transparent; color: var(--med-text); font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; outline: none; width: 100%; transition: all 0.3s; }
+        .input-med:hover, .input-med:focus { border-bottom: 2px dashed var(--med-jade); }
+        .input-med-sub { background: transparent; border-bottom: 1px solid transparent; color: var(--med-jade); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; outline: none; width: 100%; transition: all 0.3s; }
+        .input-med-sub:hover, .input-med-sub:focus { border-bottom: 1px solid var(--med-blue); }
 
-        /* MODO BANCO (Compacto) */
-        .banco-item { border-bottom: 1px solid var(--med-border); padding: 16px 0; }
-        .banco-item:last-child { border-bottom: none; }
-        
-        .banco-alternativa { padding: 6px 12px; border-radius: 6px; font-size: 13px; color: var(--med-text); transition: all 0.2s; display: flex; justify-content: space-between; align-items: center; }
-        .banco-alternativa:hover { background: var(--med-bg); }
-        .banco-alternativa.correcta { background: rgba(49, 151, 149, 0.1); color: var(--med-jade); font-weight: 600; border: 1px solid rgba(49, 151, 149, 0.3); }
+        /* Panel respuesta */
+        .panel-correcta { max-height: 0; overflow: hidden; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0; }
+        .panel-correcta.abierto { max-height: 400px; opacity: 1; margin-top: 24px; }
+
+        /* Modo Simulador (Fullscreen) */
+        #modo-simulador {
+            position: fixed; inset: 0; background: var(--med-bg); z-index: 99999;
+            display: none; flex-direction: column; overflow-y: auto;
+        }
+        #modo-simulador.activo { display: flex; }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-6 md:p-12">
 
 <!-- MODO OSCURO BOTÓN -->
 <button onclick="toggleDarkMode()" id="btn-dark" class="fixed top-6 left-6 bg-med-card border border-med-border p-3 rounded-full shadow-lg z-50 hover:scale-110 transition-all text-med-blue">
     <svg id="icon-dark" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
 </button>
 
-<div class="max-w-6xl mx-auto space-y-8 mt-8">
+<div class="max-w-6xl mx-auto space-y-10 mt-10">
     
     <!-- HEADER -->
-    <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-6 border-b border-med-border animate-fade-up">
-        <div class="flex items-center gap-4">
-            <div class="w-16 h-16 rounded-xl bg-med-card border border-med-border flex items-center justify-center shadow-sm animate-float relative">
-                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMjI3IiBoZWlnaHQ9IjI1MDAiIHZpZXdCb3g9IjAgMCA4MS45IDkxLjkyMSI+PHBhdGggZmlsbD0iIzBiMTMyYiIgZD0iTTgxLjQxMiAxNC42NTJjLTMuNTg0IDAtMTkuMTYyLTkuMDM2LTE5LjE2Mi05LjAzNnMtNi4wNzYtMy4yNzEtOS45NzEtMy4yNzEtNC44NTIgMi45MzctNS42MDcgMy42OTFjLS42NTEuNjUyLTEuODU2LjE4LTIuMTc2LjAzOGE0IDQgMCAwIDAgLjU2Mi0yLjAyNiA0LjA0NyA0LjA0NyAwIDEgMC04LjA5NiAwYzAgLjcyNy4yMDggMS4zOTkuNTQyIDEuOTg4aC0uMDE4cy0xLjUwMy43NTUtMi4yNTkgMC0xLjcxNC0zLjY5MS01LjYwOC0zLjY5MWMtMy44OTQgMC05Ljk3MSAzLjI3MS05Ljk3MSAzLjI3MVM0LjA3MSAxNC42NTIuNDg4IDE0LjY1MmMwIDAtMS44NzEgMS43MTMgMS43MTMgMS43MTMgMCAwIDEuMDkyIDIuOTYxIDQuMjg1IDQuMjg1IDAgMCAuMDc3IDIuNzI2IDQuNzUgMi43MjYgMCAwIC45MzUgNC44MjkgNS45MiA0LjgyOSAwIDAgMS4wOSA0LjM2MiA5LjY1OCA0LjM2MiAwIDAgLjc3OSA1LjI5NyA2LjM4OCA2LjM4OCAwIDAtOC40MTIgNS40NTMgMi4zMzYgMTMuODYzIDAgMC03LjAxMSA0LjY3NS45MzYgMTAuMjgzIDAgMC0zLjU4MyA0LjA0OS45MzUgOC41NjYgMCAwLTMuMTk1IDMuNjYyLjYyMyA3LjQ3OSAwIDAtMS42MzYgMi4yNiAxLjA5MSA0Ljk4NCAwIDAtLjMxMiA3Ljc5IDEuNDAxIDcuNzloLjg1MWMxLjcxNCAwIDEuNDAyLTcuNzkgMS40MDItNy43OSAyLjcyNy0yLjcyNiAxLjA5LTQuOTg0IDEuMDktNC45ODQgMy44MTgtMy44MTUuNjIzLTcuNDc5LjYyMy03LjQ3OSA0LjUxOC00LjUxOC45MzctOC41NjYuOTM3LTguNTY2IDcuOTQ0LTUuNjA4LjkzNC0xMC4yODMuOTM0LTEwLjI4MyAxMC43NS04LjQxMSAyLjMzOC0xMy44NjMgMi4zMzgtMTMuODYzIDUuNjA3LTEuMDkgNi4zODctNi4zODggNi4zODctNi4zODggOC41NjggMCA5LjY1OC00LjM2MiA5LjY1OC00LjM2MiA0Ljk4NiAwIDUuOTItNC44MjkgNS45Mi00LjgyOSA0LjY3NCAwIDQuNzUyLTIuNzI2IDQuNzUyLTIuNzI2IDMuMTkzLTEuMzI0IDQuMjg1LTQuMjg1IDQuMjg1LTQuMjg1IDMuNTgyLjAwMSAxLjcxMS0xLjcxMyAxLjcxMS0xLjcxM3oiLz48Y2lyY2xlIGN4PSI0MS4wMDciIGN5PSI0LjI2NiIgcj0iMy4xMTUiIGZpbGw9IiNmZmYiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMzQuODA2IDExLjAzNXMuMTgxLTcuMDQ2LTQuOTctNy4wNDZjLTUuMTQ5IDAtNi43MyAxLjU4MS02LjczIDEuNTgxczEuMzEgMi40ODQgMi4zMDQgMi40ODQgMi40MzktMS44OTYgMi40MzktMS44OTYgMS40NDUtLjYzMyAxLjg5NiAxLjYyNmMuNDUxIDIuMjU4IDEuMTc0IDIuNzEgMi40MzggMi43MSAxLjI2NS0uMDAxIDEuNzE5LjU0MSAyLjYyMy41NDF6TTM5LjU5NCAxMC4wNDFzLjA5MS0xLjgwNy0xLjA4NC0xLjgwN2MtMS4xNzYgMC0xLjgwOCAxLjUzNi0xLjgwOCAyLjE2OCAwIC42MzIgMS4xNzQgMi43MDkgMi4wNzcgMi43MDlzLjg2Ni0yLjM5OS44MTUtMy4wN3pNMzYuODg1IDEzLjY1NXMyLjkzNyAxLjA4NCAyLjkzNyAyLjkzNmMtLjAwMSAxLjg1Mi0zLjc3LTEuNjkyLTIuOTM3LTIuOTM2ek0zOC4yMzggMTkuMjU2cy0uNTQyLTEuMTI5LTEuMTI5LTEuMTI5LS4yMjYuODU3LS41ODcgMS4yMmMtLjM2MS4zNjEuNTg3IDEuMDM4IDEuNzE2LS4wOTF6TTM5LjY4NCAyMy4xNDFzLTEuMTc0LS44MTMtMS4xNzQtMS4xNzQuNDUxLS4wOSAwIC4zNjFjLS40NTIuNDUxLS4yNzIgMi4yNTggMS4xNzQuODEzek0zOC40NDkgMjcuMzkzcy0uMzc1IDIuNjI1LTMuODc1IDIuNjI1LTIuMzc1LTEuMTI1LTIuMzc1LTEuMTI1LS45MS0xLjYzNS0uMTktMS43MThjLjcxOC0uMDgzIDYuNDQtLjQ4NCA2LjQ0LjIxOHpNMTkuOTI3IDYuOTI5bC03LjAwNCAzLjkxNHMuNDExIDIuNTc0IDQuMTE5LjkyNyA1LjgxOS0zLjc1OSA1LjgxOS0zLjc1OS0uNDYzLTIuMTY0LTIuOTM0LTEuMDgyek0xMC4yNDYgMTIuMzg3TDMuNTUyIDE1LjU4czEuMzM5IDMuNzA4IDQuMjIzIDIuMzY5IDUuMzAzLTMuNzU5IDUuMzAzLTMuNzU5LTEuMTYyLTIuNTk5LTIuODMyLTEuODAzek0yMy43MzcgOS44MTJsLTUuMzU1IDMuODExczEuODU1IDEuOTU3IDMuODEyLjkyN2MxLjk1Ni0xLjAzIDYuNzk3LTUuNjY1IDYuNzk3LTUuNjY1cy0uMjA1LTEuNzUxLTEuNDQtLjUxNGwtMS43NTIgMS43NXMtMS42MjctLjYxOC0yLjA2Mi0uMzA5ek0xNS40OTkgMTUuMTY4bC03LjIxIDQuOTQzczIuNDc0IDMuMjg2IDQuOTQzIDEuMTMzYzIuNjU5LTIuMzE3IDYuNDc5LTQuODQgNi40NzktNC44NHMtMi43Ny0xLjIzNi00LjIxMi0xLjIzNnpNMjEuMjY2IDE3LjAyMWwtOC41NDggNi4xOHMzLjI5NiAzLjcwNyA1LjE0OCAxLjg1NGMxLjg1NC0xLjg1MyA1LjYyNi01LjYzNCA1LjYyNi01LjYzNHMtLjE2Ny0yLjQtMi4yMjYtMi40ek0yNS45IDE5LjQ5NGwtNy40NjcgNy40NjZzMi4yNjYgMy4xOTMgNC4zNzcgMS4wODFjMi4xMS0yLjExMSA1LjM1NC02LjkgNS4zNTQtNi45cy0xLjQ5Mi0yLjQxOS0yLjI2NC0xLjY0N3pNMzIuMzY3IDEyLjQ1NGwtNS4xMyA1LjIzMXMxLjU0MiAyLjgxOCAzLjAwMS45NTRjMS40Ni0xLjg2NSAzLjU0Ny00Ljg2NyAzLjU0Ny00Ljg2N3MtLjMyMy0xLjMxOC0xLjQxOC0xLjMxOHpNMzAuOTc4IDIwLjY5N2wtNy40NCA4LjQ2N3MyLjM0NyAyLjY1MyA0LjIyOS4wOGMxLjg4Mi0yLjU3MyA1LjAzLTcuNjQ0IDUuMDMtNy42NDRzLS4wNTItMS4yMDktMS44MTktLjkwM3pNMzUuMTc4IDE1LjE0NmwtMi43NjcgMy41MzRzMS40MjEgMS44NDMgMi41MzUuMjY5YzEuMTE0LTEuNTc1IDEuMDc1LTIuNDk3IDEuMDc1LTIuNDk3cy4wNDEtMS40NTktLjg0My0xLjMwNnpNMzUuNjM5IDIwLjg3bC0zLjA3MyAzLjYxMXMyLjM4MS44MDYgMi44ODEtLjE1NCAxLjM4My0yLjQyIDEuMzgzLTIuNDItLjIzMS0xLjI2OC0xLjE5MS0xLjAzN3pNMjguMTQ4IDExLjM4MmwtNC44MzkgMy45NTZzMS42MTIgMi45MTkgMy4zOCAxLjE1MmMxLjc2Ny0xLjc2NyAzLjkxNy00LjE0OCAzLjkxNy00LjE0OHMtLjkyMS0xLjYxMy0yLjQ1OC0uOTZ6TTQ3LjIzOCAxMS4wMzVzLS4xOC03LjA0NiA0Ljk2OS03LjA0NmM1LjE1IDAgNi43MyAxLjU4MSA2LjczIDEuNTgxcy0xLjMxIDIuNDg0LTIuMzAzIDIuNDg0Yy0uOTk0IDAtMi40MzktMS44OTYtMi40MzktMS44OTZzLTEuNDQ3LS42MzMtMS44OTggMS42MjZjLS40NSAyLjI1OC0xLjE3NCAyLjcxLTIuNDM4IDIuNzEtMS4yNjUtLjAwMS0xLjcxNy41NDEtMi42MjEuNTQxek00Mi40NTEgMTAuMDQxcy0uMDkyLTEuODA3IDEuMDg0LTEuODA3YzEuMTc0IDAgMS44MDggMS41MzYgMS44MDggMi4xNjggMCAuNjMyLTEuMTc1IDIuNzA5LTIuMDc4IDIuNzA5LS45MDQuMDAxLS44NjUtMi4zOTktLjgxNC0zLjA3ek00NS4xNiAxMy42NTVzLTIuOTM2IDEuMDg0LTIuOTM2IDIuOTM2YzAgMS44NTIgMy43Ny0xLjY5MiAyLjkzNi0yLjkzNnpNNDMuODA2IDE5LjI1NnMuNTQxLTEuMTI5IDEuMTI5LTEuMTI5Yy41ODYgMCAuMjI1Ljg1Ny41ODYgMS4yMi4zNjEuMzYxLS41ODYgMS4wMzgtMS43MTUtLjA5MXpNNDIuMzYxIDIzLjE0MXMxLjE3NC0uODEzIDEuMTc0LTEuMTc0LS40NTMtLjA5IDAgLjM2MWMuNDUxLjQ1MS4yNzEgMi4yNTgtMS4xNzQuODEzek00My41OTUgMjcuMzkzcy4zNzUgMi42MjUgMy44NzUgMi42MjUgMi4zNzUtMS4xMjUgMi4zNzUtMS4xMjUuOTA5LTEuNjM1LjE5LTEuNzE4LTYuNDQtLjQ4NC02LjQ0LjIxOHpNNjIuMTE3IDYuOTI5bDcuMDA0IDMuOTE0cy0uNDEyIDIuNTc0LTQuMTE5LjkyN2MtMy43MDktMS42NDctNS44MTktMy43NTktNS44MTktMy43NTlzLjQ2My0yLjE2NCAyLjkzNC0xLjA4MnpNNzEuNzk4IDEyLjM4N2w2LjY5MyAzLjE5MnMtMS4zMzggMy43MDgtNC4yMjMgMi4zNjljLTIuODgzLTEuMzM5LTUuMzA0LTMuNzU5LTUuMzA0LTMuNzU5czEuMTY0LTIuNTk4IDIuODM0LTEuODAyeiIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik01OC4zMDYgOS44MTJsNS4zNTQgMy44MTFzLTEuODU0IDEuOTU3LTMuODExLjkyN2MtMS45NTctMS4wMy02Ljc5Ny01LjY2NS02Ljc5Ny01LjY2NXMuMjA1LTEuNzUxIDEuNDQtLjUxNGwxLjc1IDEuNzVzMS42MzEtLjYxOCAyLjA2NC0uMzA5ek02Ni41NDQgMTUuMTY4bDcuMjExIDQuOTQzcy0yLjQ2NyAzLjI4LTQuOTQyIDEuMTMzYy0yLjY3NC0yLjMxNy02LjM5Mi00LjYyNi02LjM5Mi00LjYyNnMyLjY4Mi0xLjQ1IDQuMTIzLTEuNDV6TTYwLjc3OSAxNy4wMjFsOC41NDcgNi4xOHMtMy4yOTUgMy43MDctNS4xNDcgMS44NTRjLTEuODU0LTEuODUzLTUuNjY2LTUuMzU1LTUuNjY2LTUuMzU1cy4yMDYtMi42NzkgMi4yNjYtMi42Nzl6TTU2LjE0NCAxOS40OTRsNy40NjcgNy40NjZzLTIuMjY2IDMuMTkzLTQuMzc3IDEuMDgxYy0yLjExMS0yLjExMS01LjM1NS02LjktNS4zNTUtNi45czEuNDk0LTIuNDE5IDIuMjY1LTEuNjQ3ek00OS42NzcgMTIuNDU0bDUuMTI5IDUuMjMxcy0xLjU0MSAyLjgxOC0zIC45NTRjLTEuNDYxLTEuODY1LTMuNTUtNC44NjctMy41NS00Ljg2N3MuMzI2LTEuMzE4IDEuNDIxLTEuMzE4ek01MS41MTMgMjAuNDQ3bDcuMjIzIDguNDg5cy0yLjU3NCAyLjg4MS00LjQ1Ny4zMDhjLTEuODgxLTIuNTc0LTUuMDMxLTcuNjQ0LTUuMDMxLTcuNjQ0cy40OTgtMS40NTkgMi4yNjUtMS4xNTN6TTQ2Ljg2NyAxNS4xNDZsMi43NjcgMy41MzRzLTEuNDIzIDEuODQzLTIuNTM1LjI2OWMtMS4xMTUtMS41NzUtMS4wNzYtMi40OTctMS4wNzYtMi40OTdzLS4wNDEtMS40NTkuODQ0LTEuMzA2ek00Ni40MDYgMjAuODdsMy4wNzIgMy42MTFzLTIuMzgxLjgwNi0yLjg4MS0uMTU0LTEuMzg0LTIuNDItMS4zODQtMi40Mi4yMzItMS4yNjggMS4xOTMtMS4wMzd6TTUzLjg5NiAxMS4zODJsNC44NCAzLjk1NnMtMS42MTMgMi45MTktMy4zODEgMS4xNTJjLTEuNzY3LTEuNzY3LTMuOTE4LTQuMTQ4LTMuOTE4LTQuMTQ4cy45MjItMS42MTMgMi40NTktLjk2ek0zMi44NTIgMjcuODI0cy03LjY4OCAxLjQxNS0zLjg1NCA3LjMwOGMzLjgzNCA1Ljg5MyAxOC4xNzYgMy4xNCAxOC4xNzYgMTAuMDgzIDAgMi45MTEtMy42MiA1LjQ2OS0zLjYyIDUuNDY5czEuNTI2IDEuMSAyLjA2MSAxLjYzM2MwIDAgNC42MTUtMy4zMzggNC42MTUtNi45NTggMC0zLjYyMi0zLjk3OC01LjY4MS05Ljg3MS03LjE3Mi01Ljg5NS0xLjQ5MS0xMC42ODgtMy4wOTUtMTAuNjg4LTYuMjg0czMuMTgxLTQuMDc5IDMuMTgxLTQuMDc5ek0zNi4zMTEgNTMuNTkzcy42MzkuNDk4IDEuNjMzLjg1NGMwIDAtMS43NzUuNDk3LTEuNzc1IDMuMTk0IDAgMi42OTggOC41OTIgNS4yNTYgOC41OTIgOS4wOSAwIDIuNzY5LTIuMjAxIDQuNjkzLTIuMjAxIDQuNjkzcy0uMjEzLS45MzItLjc4MS0uOTMyYzAgMCAxLjYzNS0xLjk4OSAxLjYzNS0zLjMzNyAwLTEuMzUxLTEuOTE4LTMuMzM5LTQuMzMzLTQuNTQ2cy01LjQ2Ny0zLjE5NC01LjQ2Ny01Ljc1Yy0uMDAxLTIuNTU2IDIuNjk3LTMuMjY2IDIuNjk3LTMuMjY2ek0zOC44MjcgNzIuOTc5cy4yODYuNTMuNzg0IDEuMDI4YzAgMC0uNzQ1LjQ2MS0uNzQ1IDEuNTk5IDAgMS4xMzcgMy43MjggNC4wNDkgMy43MjggNC44NjMgMCAuODE1LS4wMTMgMS4yMS0uMjk4IDEuMjEtLjI4NiAwIC4wNTYtLjQ3NS0uNDQtLjk3MS0uNDk2LS40OTUtNC4yNzYtMy4xOTUtNC4yNzYtNS41OTktLjAwMS0xLjU4OCAxLjI0Ny0yLjEzIDEuMjQ3LTIuMTN6Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTQ5LjMwNCAyOC4zNzFzMy4zNjggMS40MzcgMi45MTggMy4zMTdjLS40NTEgMS44OC0zLjE2IDUuMzg2LTcuNjcyIDUuOTQxIDAgMCAxLjc2OC42MzkgMi4zMzEgMS4yMDMgMCAwIDYuOTk0LTIuMDMxIDYuOTk0LTYuNDY4LjAwMS00LjQzNy00LjU3MS0zLjk5My00LjU3MS0zLjk5M3pNMzUuMDc1IDQwLjI2MnMxLjYzNS45MzcgMi4xNjEuOTM3YzAgMC0yLjkxNC4wNDItMi45MTQgNC4wMjhzMTMuNDYyIDcuMjIxIDEzLjQ2MiAxMi4zMzRjMCAyLjc4LTMuNzg3IDUuMDY0LTMuNzg3IDUuMDY0cy0uNjQ5LS43NzktMS4yNTItLjc3OWMwIDAgMS45NTUtMS44MDYgMS45NTUtNC41ODggMC0yLjc4MS02Ljc2OC01LjU2NC02Ljc2OC01LjU2NFMzMC45IDQ5LjIxMSAzMC45IDQ0LjY2MWMwLTQuMDk5IDQuMTc1LTQuMzk5IDQuMTc1LTQuMzk5ek0zOC4yODQgNjMuNTc1cy4zMjUuNjc2Ljc3NiAxLjEyN2MwIDAtMS4xMjguNjAzLTEuMTI4IDIuNTU4czUuNzE1IDUuNzE3IDUuNzE1IDcuOTczYzAgMS42NTMtMS40MjggMi41NTYtMS40MjggMi41NTZzLS4zNjUtLjkwMS0uNTI3LS45MDFjMCAwIC42MDEtLjYwMi42MDEtMS44MDVTNDAuNDE0IDcyIDM5LjU0OCA3MS4xMzVjLS44NjUtLjg2NC0yLjk1Mi0xLjQ5MS0zLjM0Ny00LjI0OS4wMDItMS41ODIgMi4wODMtMy4zMTEgMi4wODMtMy4zMTF6TTM5LjI4NiA3OS44MThsLjY3Ny42NzdzLS44NjMgMS44NDQtMS4zNTMgMS4zNTRjLS40ODktLjQ5LjY3Ni0yLjAzMS42NzYtMi4wMzF6Ii8+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9Ii44IiBkPSJNNDEuMDc0IDkuMDE4djI2Ljg3NU00MS4wNzQgNDIuMDE4djggTTQxLjA3NCA1NS41MTh2NC4zNzVNNDEuMDc0IDY2LjE0M3YyLjg3NU00MS4wNzQgNzQuNjQzdjEuNzUiLz48L3N2Zz4=" class="w-10 h-10 object-contain">
+    <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 pb-8 border-b-2 border-med-border animate-fade-up">
+        <div class="flex items-center gap-6">
+            <div class="w-24 h-24 rounded-2xl bg-white border border-med-border flex items-center justify-center shadow-lg animate-float relative">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMjI3IiBoZWlnaHQ9IjI1MDAiIHZpZXdCb3g9IjAgMCA4MS45IDkxLjkyMSI+PHBhdGggZmlsbD0iIzBiMTMyYiIgZD0iTTgxLjQxMiAxNC42NTJjLTMuNTg0IDAtMTkuMTYyLTkuMDM2LTE5LjE2Mi05LjAzNnMtNi4wNzYtMy4yNzEtOS45NzEtMy4yNzEtNC44NTIgMi45MzctNS42MDcgMy42OTFjLS42NTEuNjUyLTEuODU2LjE4LTIuMTc2LjAzOGE0IDQgMCAwIDAgLjU2Mi0yLjAyNiA0LjA0NyA0LjA0NyAwIDEgMC04LjA5NiAwYzAgLjcyNy4yMDggMS4zOTkuNTQyIDEuOTg4aC0uMDE4cy0xLjUwMy43NTUtMi4yNTkgMC0xLjcxNC0zLjY5MS01LjYwOC0zLjY5MWMtMy44OTQgMC05Ljk3MSAzLjI3MS05Ljk3MSAzLjI3MVM0LjA3MSAxNC42NTIuNDg4IDE0LjY1MmMwIDAtMS44NzEgMS43MTMgMS43MTMgMS43MTMgMCAwIDEuMDkyIDIuOTYxIDQuMjg1IDQuMjg1IDAgMCAuMDc3IDIuNzI2IDQuNzUgMi43MjYgMCAwIC45MzUgNC44MjkgNS45MiA0LjgyOSAwIDAgMS4wOSA0LjM2MiA5LjY1OCA0LjM2MiAwIDAgLjc3OSA1LjI5NyA2LjM4OCA2LjM4OCAwIDAtOC40MTIgNS40NTMgMi4zMzYgMTMuODYzIDAgMC03LjAxMSA0LjY3NS45MzYgMTAuMjgzIDAgMC0zLjU4MyA0LjA0OS45MzUgOC41NjYgMCAwLTMuMTk1IDMuNjYyLjYyMyA3LjQ3OSAwIDAtMS42MzYgMi4yNiAxLjA5MSA0Ljk4NCAwIDAtLjMxMiA3Ljc5IDEuNDAxIDcuNzloLjg1MWMxLjcxNCAwIDEuNDAyLTcuNzkgMS40MDItNy43OSAyLjcyNy0yLjcyNiAxLjA5LTQuOTg0IDEuMDktNC45ODQgMy44MTgtMy44MTUuNjIzLTcuNDc5LjYyMy03LjQ3OSA0LjUxOC00LjUxOC45MzctOC41NjYuOTM3LTguNTY2IDcuOTQ0LTUuNjA4LjkzNC0xMC4yODMuOTM0LTEwLjI4MyAxMC43NS04LjQxMSAyLjMzOC0xMy44NjMgMi4zMzgtMTMuODYzIDUuNjA3LTEuMDkgNi4zODctNi4zODggNi4zODctNi4zODggOC41NjggMCA5LjY1OC00LjM2MiA5LjY1OC00LjM2MiA0Ljk4NiAwIDUuOTItNC44MjkgNS45Mi00LjgyOSA0LjY3NCAwIDQuNzUyLTIuNzI2IDQuNzUyLTIuNzI2IDMuMTkzLTEuMzI0IDQuMjg1LTQuMjg1IDQuMjg1LTQuMjg1IDMuNTgyLjAwMSAxLjcxMS0xLjcxMyAxLjcxMS0xLjcxM3oiLz48Y2lyY2xlIGN4PSI0MS4wMDciIGN5PSI0LjI2NiIgcj0iMy4xMTUiIGZpbGw9IiNmZmYiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMzQuODA2IDExLjAzNXMuMTgxLTcuMDQ2LTQuOTctNy4wNDZjLTUuMTQ5IDAtNi43MyAxLjU4MS02LjczIDEuNTgxczEuMzEgMi40ODQgMi4zMDQgMi40ODQgMi40MzktMS44OTYgMi40MzktMS44OTYgMS40NDUtLjYzMyAxLjg5NiAxLjYyNmMuNDUxIDIuMjU4IDEuMTc0IDIuNzEgMi40MzggMi43MSAxLjI2NS0uMDAxIDEuNzE5LjU0MSAyLjYyMy41NDF6TTM5LjU5NCAxMC4wNDFzLjA5MS0xLjgwNy0xLjA4NC0xLjgwN2MtMS4xNzYgMC0xLjgwOCAxLjUzNi0xLjgwOCAyLjE2OCAwIC42MzIgMS4xNzQgMi43MDkgMi4wNzcgMi43MDlzLjg2Ni0yLjM5OS44MTUtMy4wN3pNMzYuODg1IDEzLjY1NXMyLjkzNyAxLjA4NCAyLjkzNyAyLjkzNmMtLjAwMSAxLjg1Mi0zLjc3LTEuNjkyLTIuOTM3LTIuOTM2ek0zOC4yMzggMTkuMjU2cy0uNTQyLTEuMTI5LTEuMTI5LTEuMTI5LS4yMjYuODU3LS41ODcgMS4yMmMtLjM2MS4zNjEuNTg3IDEuMDM4IDEuNzE2LS4wOTF6TTM5LjY4NCAyMy4xNDFzLTEuMTc0LS44MTMtMS4xNzQtMS4xNzQuNDUxLS4wOSAwIC4zNjFjLS40NTIuNDUxLS4yNzIgMi4yNTggMS4xNzQuODEzek0zOC40NDkgMjcuMzkzcy0uMzc1IDIuNjI1LTMuODc1IDIuNjI1LTIuMzc1LTEuMTI1LTIuMzc1LTEuMTI1LS45MS0xLjYzNS0uMTktMS43MThjLjcxOC0uMDgzIDYuNDQtLjQ4NCA2LjQ0LjIxOHpNMTkuOTI3IDYuOTI5bC03LjAwNCAzLjkxNHMuNDExIDIuNTc0IDQuMTE5LjkyNyA1LjgxOS0zLjc1OSA1LjgxOS0zLjc1OS0uNDYzLTIuMTY0LTIuOTM0LTEuMDgyek0xMC4yNDYgMTIuMzg3TDMuNTUyIDE1LjU4czEuMzM5IDMuNzA4IDQuMjIzIDIuMzY5IDUuMzAzLTMuNzU5IDUuMzAzLTMuNzU5LTEuMTYyLTIuNTk5LTIuODMyLTEuODAzek0yMy43MzcgOS44MTJsLTUuMzU1IDMuODExczEuODU1IDEuOTU3IDMuODEyLjkyN2MxLjk1Ni0xLjAzIDYuNzk3LTUuNjY1IDYuNzk3LTUuNjY1cy0uMjA1LTEuNzUxLTEuNDQtLjUxNGwtMS43NTIgMS43NXMtMS42MjctLjYxOC0yLjA2Mi0uMzA5ek0xNS40OTkgMTUuMTY4bC03LjIxIDQuOTQzczIuNDc0IDMuMjg2IDQuOTQzIDEuMTMzYzIuNjU5LTIuMzE3IDYuNDc5LTQuODQgNi40NzktNC44NHMtMi43Ny0xLjIzNi00LjIxMi0xLjIzNnpNMjEuMjY2IDE3LjAyMWwtOC41NDggNi4xOHMzLjI5NiAzLjcwNyA1LjE0OCAxLjg1NGMxLjg1NC0xLjg1MyA1LjYyNi01LjYzNCA1LjYyNi01LjYzNHMtLjE2Ny0yLjQtMi4yMjYtMi40ek0yNS45IDE5LjQ5NGwtNy40NjcgNy40NjZzMi4yNjYgMy4xOTMgNC4zNzcgMS4wODFjMi4xMS0yLjExMSA1LjM1NC02LjkgNS4zNTQtNi45cy0xLjQ5Mi0yLjQxOS0yLjI2NC0xLjY0N3pNMzIuMzY3IDEyLjQ1NGwtNS4xMyA1LjIzMXMxLjU0MiAyLjgxOCAzLjAwMS45NTRjMS40Ni0xLjg2NSAzLjU0Ny00Ljg2NyAzLjU0Ny00Ljg2N3MtLjMyMy0xLjMxOC0xLjQxOC0xLjMxOHpNMzAuOTc4IDIwLjY5N2wtNy40NCA4LjQ2N3MyLjM0NyAyLjY1MyA0LjIyOS4wOGMxLjg4Mi0yLjU3MyA1LjAzLTcuNjQ0IDUuMDMtNy42NDRzLS4wNTItMS4yMDktMS44MTktLjkwM3pNMzUuMTc4IDE1LjE0NmwtMi43NjcgMy41MzRzMS40MjEgMS44NDMgMi41MzUuMjY5YzEuMTE0LTEuNTc1IDEuMDc1LTIuNDk3IDEuMDc1LTIuNDk3cy4wNDEtMS40NTktLjg0My0xLjMwNnpNMzUuNjM5IDIwLjg3bC0zLjA3MyAzLjYxMXMyLjM4MS44MDYgMi44ODEtLjE1NCAxLjM4My0yLjQyIDEuMzgzLTIuNDItLjIzMS0xLjI2OC0xLjE5MS0xLjAzN3pNMjguMTQ4IDExLjM4MmwtNC44MzkgMy45NTZzMS42MTIgMi45MTkgMy4zOCAxLjE1MmMxLjc2Ny0xLjc2NyAzLjkxNy00LjE0OCAzLjkxNy00LjE0OHMtLjkyMS0xLjYxMy0yLjQ1OC0uOTZ6TTQ3LjIzOCAxMS4wMzVzLS4xOC03LjA0NiA0Ljk2OS03LjA0NmM1LjE1IDAgNi43MyAxLjU4MSA2LjczIDEuNTgxcy0xLjMxIDIuNDg0LTIuMzAzIDIuNDg0Yy0uOTk0IDAtMi40MzktMS44OTYtMi40MzktMS44OTZzLTEuNDQ3LS42MzMtMS44OTggMS42MjZjLS40NSAyLjI1OC0xLjE3NCAyLjcxLTIuNDM4IDIuNzEtMS4yNjUtLjAwMS0xLjcxNy41NDEtMi42MjEuNTQxek00Mi40NTEgMTAuMDQxcy0uMDkyLTEuODA3IDEuMDg0LTEuODA3YzEuMTc0IDAgMS44MDggMS41MzYgMS44MDggMi4xNjggMCAuNjMyLTEuMTc1IDIuNzA5LTIuMDc4IDIuNzA5LS45MDQuMDAxLS44NjUtMi4zOTktLjgxNC0zLjA3ek00NS4xNiAxMy42NTVzLTIuOTM2IDEuMDg0LTIuOTM2IDIuOTM2YzAgMS44NTIgMy43Ny0xLjY5MiAyLjkzNi0yLjkzNnpNNDMuODA2IDE5LjI1NnMuNTQxLTEuMTI5IDEuMTI5LTEuMTI5Yy41ODYgMCAuMjI1Ljg1Ny41ODYgMS4yMi4zNjEuMzYxLS41ODYgMS4wMzgtMS43MTUtLjA5MXpNNDIuMzYxIDIzLjE0MXMxLjE3NC0uODEzIDEuMTc0LTEuMTc0LS40NTMtLjA5IDAgLjM2MWMuNDUxLjQ1MS4yNzEgMi4yNTgtMS4xNzQuODEzek00My41OTUgMjcuMzkzcy4zNzUgMi42MjUgMy44NzUgMi42MjUgMi4zNzUtMS4xMjUgMi4zNzUtMS4xMjUuOTA5LTEuNjM1LjE5LTEuNzE4LTYuNDQtLjQ4NC02LjQ0LjIxOHpNNjIuMTE3IDYuOTI5bDcuMDA0IDMuOTE0cy0uNDEyIDIuNTc0LTQuMTE5LjkyN2MtMy43MDktMS42NDctNS44MTktMy43NTktNS44MTktMy43NTlzLjQ2My0yLjE2NCAyLjkzNC0xLjA4MnpNNzEuNzk4IDEyLjM4N2w2LjY5MyAzLjE5MnMtMS4zMzggMy43MDgtNC4yMjMgMi4zNjljLTIuODgzLTEuMzM5LTUuMzA0LTMuNzU5LTUuMzA0LTMuNzU5czEuMTY0LTIuNTk4IDIuODM0LTEuODAyeiIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik01OC4zMDYgOS44MTJsNS4zNTQgMy44MTFzLTEuODU0IDEuOTU3LTMuODExLjkyN2MtMS45NTctMS4wMy02Ljc5Ny01LjY2NS02Ljc5Ny01LjY2NXMuMjA1LTEuNzUxIDEuNDQtLjUxNGwxLjc1IDEuNzVzMS42MzEtLjYxOCAyLjA2NC0uMzA5ek02Ni41NDQgMTUuMTY4bDcuMjExIDQuOTQzcy0yLjQ2NyAzLjI4LTQuOTQyIDEuMTMzYy0yLjY3NC0yLjMxNy02LjM5Mi00LjYyNi02LjM5Mi00LjYyNnMyLjY4Mi0xLjQ1IDQuMTIzLTEuNDV6TTYwLjc3OSAxNy4wMjFsOC41NDcgNi4xOHMtMy4yOTUgMy43MDctNS4xNDcgMS44NTRjLTEuODU0LTEuODUzLTUuNjY2LTUuMzU1LTUuNjY2LTUuMzU1cy4yMDYtMi42NzkgMi4yNjYtMi42Nzl6TTU2LjE0NCAxOS40OTRsNy40NjcgNy40NjZzLTIuMjY2IDMuMTkzLTQuMzc3IDEuMDgxYy0yLjExMS0yLjExMS01LjM1NS02LjktNS4zNTUtNi45czEuNDk0LTIuNDE5IDIuMjY1LTEuNjQ3ek00OS42NzcgMTIuNDU0bDUuMTI5IDUuMjMxcy0xLjU0MSAyLjgxOC0zIC45NTRjLTEuNDYxLTEuODY1LTMuNTUtNC44NjctMy41NS00Ljg2N3MuMzI2LTEuMzE4IDEuNDIxLTEuMzE4ek01MS41MTMgMjAuNDQ3bDcuMjIzIDguNDg5cy0yLjU3NCAyLjg4MS00LjQ1Ny4zMDhjLTEuODgxLTIuNTc0LTUuMDMxLTcuNjQ0LTUuMDMxLTcuNjQ0cy40OTgtMS40NTkgMi4yNjUtMS4xNTN6TTQ2Ljg2NyAxNS4xNDZsMi43NjcgMy41MzRzLTEuNDIzIDEuODQzLTIuNTM1LjI2OWMtMS4xMTUtMS41NzUtMS4wNzYtMi40OTctMS4wNzYtMi40OTdzLS4wNDEtMS40NTkuODQ0LTEuMzA2ek00Ni40MDYgMjAuODdsMy4wNzIgMy42MTFzLTIuMzgxLjgwNi0yLjg4MS0uMTU0LTEuMzg0LTIuNDItMS4zODQtMi40Mi4yMzItMS4yNjggMS4xOTMtMS4wMzd6TTUzLjg5NiAxMS4zODJsNC44NCAzLjk1NnMtMS42MTMgMi45MTktMy4zODEgMS4xNTJjLTEuNzY3LTEuNzY3LTMuOTE4LTQuMTQ4LTMuOTE4LTQuMTQ4cy45MjItMS42MTMgMi40NTktLjk2ek0zMi44NTIgMjcuODI0cy03LjY4OCAxLjQxNS0zLjg1NCA3LjMwOGMzLjgzNCA1Ljg5MyAxOC4xNzYgMy4xNCAxOC4xNzYgMTAuMDgzIDAgMi45MTEtMy42MiA1LjQ2OS0zLjYyIDUuNDY5czEuNTI2IDEuMSAyLjA2MSAxLjYzM2MwIDAgNC42MTUtMy4zMzggNC42MTUtNi45NTggMC0zLjYyMi0zLjk3OC01LjY4MS05Ljg3MS03LjE3Mi01Ljg5NS0xLjQ5MS0xMC42ODgtMy4wOTUtMTAuNjg4LTYuMjg0czMuMTgxLTQuMDc5IDMuMTgxLTQuMDc5ek0zNi4zMTEgNTMuNTkzcy42MzkuNDk4IDEuNjMzLjg1NGMwIDAtMS43NzUuNDk3LTEuNzc1IDMuMTk0IDAgMi42OTggOC41OTIgNS4yNTYgOC41OTIgOS4wOSAwIDIuNzY5LTIuMjAxIDQuNjkzLTIuMjAxIDQuNjkzcy0uMjEzLS45MzItLjc4MS0uOTMyYzAgMCAxLjYzNS0xLjk4OSAxLjYzNS0zLjMzNyAwLTEuMzUxLTEuOTE4LTMuMzM5LTQuMzMzLTQuNTQ2cy01LjQ2Ny0zLjE5NC01LjQ2Ny01Ljc1Yy0uMDAxLTIuNTU2IDIuNjk3LTMuMjY2IDIuNjk3LTMuMjY2ek0zOC44MjcgNzIuOTc5cy4yODYuNTMuNzg0IDEuMDI4YzAgMC0uNzQ1LjQ2MS0uNzQ1IDEuNTk5IDAgMS4xMzcgMy43MjggNC4wNDkgMy43MjggNC44NjMgMCAuODE1LS4wMTMgMS4yMS0uMjk4IDEuMjEtLjI4NiAwIC4wNTYtLjQ3NS0uNDQtLjk3MS0uNDk2LS40OTUtNC4yNzYtMy4xOTUtNC4yNzYtNS41OTktLjAwMS0xLjU4OCAxLjI0Ny0yLjEzIDEuMjQ3LTIuMTN6Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTQ5LjMwNCAyOC4zNzFzMy4zNjggMS40MzcgMi45MTggMy4zMTdjLS40NTEgMS44OC0zLjE2IDUuMzg2LTcuNjcyIDUuOTQxIDAgMCAxLjc2OC42MzkgMi4zMzEgMS4yMDMgMCAwIDYuOTk0LTIuMDMxIDYuOTk0LTYuNDY4LjAwMS00LjQzNy00LjU3MS0zLjk5My00LjU3MS0zLjk5M3pNMzUuMDc1IDQwLjI2MnMxLjYzNS45MzcgMi4xNjEuOTM3YzAgMC0yLjkxNC4wNDItMi45MTQgNC4wMjhzMTMuNDYyIDcuMjIxIDEzLjQ2MiAxMi4zMzRjMCAyLjc4LTMuNzg3IDUuMDY0LTMuNzg3IDUuMDY0cy0uNjQ5LS43NzktMS4yNTItLjc3OWMwIDAgMS45NTUtMS44MDYgMS45NTUtNC41ODggMC0yLjc4MS02Ljc2OC01LjU2NC02Ljc2OC01LjU2NFMzMC45IDQ5LjIxMSAzMC45IDQ0LjY2MWMwLTQuMDk5IDQuMTc1LTQuMzk5IDQuMTc1LTQuMzk5ek0zOC4yODQgNjMuNTc1cy4zMjUuNjc2Ljc3NiAxLjEyN2MwIDAtMS4xMjguNjAzLTEuMTI4IDIuNTU4czUuNzE1IDUuNzE3IDUuNzE1IDcuOTczYzAgMS42NTMtMS40MjggMi41NTYtMS40MjggMi41NTZzLS4zNjUtLjkwMS0uNTI3LS45MDFjMCAwIC42MDEtLjYwMi42MDEtMS44MDVTNDAuNDE0IDcyIDM5LjU0OCA3MS4xMzVjLS44NjUtLjg2NC0yLjk1Mi0xLjQ5MS0zLjM0Ny00LjI0OS4wMDItMS41ODIgMi4wODMtMy4zMTEgMi4wODMtMy4zMTF6TTM5LjI4NiA3OS44MThsLjY3Ny42NzdzLS44NjMgMS44NDQtMS4zNTMgMS4zNTRjLS40ODktLjQ5LjY3Ni0yLjAzMS42NzYtMi4wMzF6Ii8+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9Ii44IiBkPSJNNDEuMDc0IDkuMDE4djI2Ljg3NU00MS4wNzQgNDIuMDE4djggTTQxLjA3NCA1NS41MTh2NC4zNzVNNDEuMDc0IDY2LjE0M3YyLjg3NU00MS4wNzQgNzQuNjQzdjEuNzUiLz48L3N2Zz4=" alt="Caduceo Médico" class="w-16 h-16 object-contain">
             </div>
             <div>
-                <h1 class="text-2xl md:text-3xl font-serif text-med-blue font-bold">Atlas Clínico</h1>
-                <p class="text-slate-500 text-xs mt-1">Repositorio Oficial de Exámenes</p>
+                <div class="flex items-center gap-3 mb-2">
+                    <span class="text-med-jade tracking-[0.2em] text-[10px] font-bold uppercase">Departamento Médico</span>
+                    <span class="h-px w-8 bg-med-jade"></span>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-serif text-med-blue tracking-tight font-bold">Atlas Clínico</h1>
+                <p class="text-slate-500 text-sm mt-1 font-medium">Repositorio Oficial de Exámenes.</p>
             </div>
         </div>
-        <a href="index.html" class="bg-med-card hover:bg-med-bg text-med-blue text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-lg border border-med-border transition-all flex items-center gap-2 shadow-sm">
-            ← Volver al Panel
+        <a href="index.html" class="bg-white hover:bg-slate-50 text-med-blue text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-lg border border-med-border transition-all flex items-center gap-2 shadow-sm">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Volver al Panel
         </a>
     </header>
 
     <!-- DASHBOARD -->
-    <div id="dashboard-stats" class="grid grid-cols-1 md:grid-cols-3 gap-4 animate-fade-up"></div>
+    <div id="dashboard-stats" class="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-up" style="animation-delay: 0.1s"></div>
 
     <!-- VISTAS -->
-    <div id="vista-examenes" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
-    <div id="vista-preguntas" class="hidden space-y-6"></div>
+    <div id="vista-examenes" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <div id="vista-preguntas" class="hidden space-y-8"></div>
 </div>
 
-<!-- MODO SIMULADOR -->
-<div id="modo-simulador">
-    <div class="sim-content">
+<!-- MODO SIMULADOR (Compacto) -->
+<div id="modo-simulador" class="fixed inset-0 bg-med-bg z-[99999] hidden flex-col overflow-hidden">
+    <div class="max-w-3xl mx-auto w-full p-4 md:p-6 flex flex-col h-full justify-center">
+        <!-- Barra superior del simulador -->
         <div class="flex justify-between items-center py-2 border-b border-med-border mb-4">
-            <h2 class="text-lg font-bold text-med-blue font-serif" id="sim-titulo">Examen</h2>
-            <div class="text-sm font-bold text-med-jade" id="sim-progreso">1 / 20</div>
-            <button onclick="cerrarSimulador()" class="text-slate-400 hover:text-red-500 transition-colors text-xl">✖</button>
+            <h2 class="text-lg font-bold text-med-blue font-serif" id="sim-titulo">Examen Simulado</h2>
+            <div class="text-sm font-bold text-med-jade tracking-wider" id="sim-progreso">1 / 20</div>
+            <button onclick="cerrarSimulador()" class="text-slate-500 hover:text-red-500 transition-colors">✖ Salir</button>
         </div>
 
-        <div class="flex-1 flex flex-col justify-center max-h-[80vh]">
+        <!-- Contenedor de la pregunta -->
+        <div class="flex-1 flex flex-col justify-center">
             <div class="mb-4">
-                <h3 class="text-lg text-med-text font-medium leading-relaxed" id="sim-pregunta"></h3>
+                <h3 class="text-lg md:text-xl text-med-text font-medium leading-relaxed" id="sim-pregunta">Cargando pregunta...</h3>
             </div>
             <div class="space-y-2" id="sim-alternativas"></div>
             
-            <div class="panel-correcta" id="sim-panel-respuesta">
-                <div class="bg-med-card border border-med-jade p-4 rounded-xl flex items-center gap-3 shadow-sm">
-                    <svg class="w-5 h-5 text-med-jade" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <!-- Panel de respuesta (oculto al inicio) -->
+            <div class="panel-correcta mt-4" id="sim-panel-respuesta">
+                <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl flex items-center gap-3">
+                    <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     <div>
-                        <h4 class="text-med-jade font-bold text-[10px] tracking-widest uppercase">Correcta</h4>
-                        <p class="text-med-text font-serif text-base" id="sim-texto-correcta"></p>
+                        <h4 class="text-emerald-800 font-bold text-[10px] tracking-widest uppercase">Respuesta Correcta</h4>
+                        <p class="text-emerald-950 font-serif text-base font-semibold" id="sim-texto-correcta"></p>
                     </div>
                 </div>
             </div>
         </div>
 
+        <!-- Botón Siguiente -->
         <div class="py-4 mt-2 border-t border-med-border flex justify-end">
-            <button id="btn-siguiente" onclick="siguientePregunta()" class="hidden bg-med-blue hover:bg-opacity-80 text-white font-bold py-3 px-8 rounded-lg transition-all text-sm tracking-wider shadow-md">
-                Siguiente →
+            <button id="btn-siguiente" onclick="siguientePregunta()" class="hidden bg-med-blue hover:bg-med-jade text-white font-bold py-3 px-8 rounded-lg transition-all text-sm tracking-wider shadow-md">
+                Siguiente Pregunta →
             </button>
         </div>
     </div>
@@ -187,6 +220,7 @@ let indexSimulador = 0;
 let puntajeSimulador = 0;
 let respondidaSimulador = false;
 
+// --- MODO OSCURO ---
 function toggleDarkMode() {
     document.body.classList.toggle('dark-mode');
     const isDark = document.body.classList.contains('dark-mode');
@@ -195,9 +229,14 @@ function toggleDarkMode() {
         ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>'
         : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
 }
-if (localStorage.getItem('darkMode') === 'true') toggleDarkMode();
 
-window.onload = () => cargarExamenes();
+if (localStorage.getItem('darkMode') === 'true') {
+    toggleDarkMode();
+}
+
+window.onload = () => {
+    cargarExamenes();
+};
 
 async function cargarExamenes() {
     const cont = document.getElementById('vista-examenes');
@@ -206,7 +245,7 @@ async function cargarExamenes() {
         const preguntas = await res.json();
         
         if (!preguntas.length) {
-            cont.innerHTML = '<div class="col-span-full text-center py-10 text-slate-500 font-serif text-sm bg-med-card border border-med-border rounded-xl">No hay exámenes en el archivo.</div>';
+            cont.innerHTML = '<div class="col-span-full text-center py-20 text-slate-400 font-serif italic text-lg bg-white border border-med-border rounded-xl">El archivo está vacío.</div>';
             document.getElementById('dashboard-stats').innerHTML = '';
             return;
         }
@@ -214,20 +253,22 @@ async function cargarExamenes() {
         const grupos = {};
         preguntas.forEach(p => {
             const id = p.grupo_id || 'antiguo';
-            if (!grupos[id]) grupos[id] = { id: id, total: 0, nombre: p.nombre_personalizado || 'Examen sin título', materia: p.materia_personalizada || p.materia || 'General', fecha: new Date().toLocaleDateString() };
+            if (!grupos[id]) {
+                grupos[id] = { id: id, total: 0, nombre: p.nombre_personalizado || 'Examen sin título', materia: p.materia_personalizada || p.materia || 'General', fecha: new Date().toLocaleDateString() };
+            }
             grupos[id].total++;
         });
 
         document.getElementById('dashboard-stats').innerHTML = `
-            <div class="med-card p-4 flex flex-col justify-center border-l-4 border-l-med-blue">
+            <div class="med-card p-6 flex flex-col justify-center border-l-4 border-l-med-blue">
                 <span class="text-[10px] font-bold tracking-widest text-slate-500 uppercase mb-1">Total Preguntas</span>
-                <span class="text-2xl font-serif text-med-blue font-bold">${preguntas.length}</span>
+                <span class="text-3xl font-serif text-med-blue font-bold">${preguntas.length}</span>
             </div>
-            <div class="med-card p-4 flex flex-col justify-center border-l-4 border-l-med-jade">
+            <div class="med-card p-6 flex flex-col justify-center border-l-4 border-l-med-jade">
                 <span class="text-[10px] font-bold tracking-widest text-slate-500 uppercase mb-1">Expedientes</span>
-                <span class="text-2xl font-serif text-med-blue font-bold">${Object.keys(grupos).length}</span>
+                <span class="text-3xl font-serif text-med-blue font-bold">${Object.keys(grupos).length}</span>
             </div>
-            <div class="med-card p-4 flex flex-col justify-center border-l-4 border-l-slate-400">
+            <div class="med-card p-6 flex flex-col justify-center border-l-4 border-l-slate-400">
                 <span class="text-[10px] font-bold tracking-widest text-slate-500 uppercase mb-1">Estado del Sistema</span>
                 <div class="flex items-center gap-2 mt-1">
                     <span class="w-2.5 h-2.5 rounded-full bg-med-jade animate-pulse"></span>
@@ -237,33 +278,43 @@ async function cargarExamenes() {
         `;
 
         cont.innerHTML = Object.entries(grupos).map(([id, data], index) => `
-            <div class="med-card p-5 flex flex-col justify-between h-56 group animate-fade-up relative" style="animation-delay: ${(index * 0.1) + 0.3}s">
+            <div class="med-card p-6 flex flex-col justify-between h-64 group animate-fade-up relative" style="animation-delay: ${(index * 0.1) + 0.3}s">
                 
-                <button onclick="eliminarExpediente('${id}')" class="absolute top-3 right-3 text-slate-400 hover:text-red-500 transition-colors p-2" title="Eliminar">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                <!-- Botón Eliminar (Esquina superior derecha) -->
+                <button onclick="eliminarExpediente('${id}')" class="absolute top-4 right-4 text-slate-400 hover:text-red-500 transition-colors p-2" title="Eliminar expediente">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                 </button>
 
-                <div class="flex justify-between items-start mb-2 pr-6">
-                    <span class="text-[10px] font-bold tracking-widest text-med-blue bg-med-bg border border-med-border px-2 py-1 rounded-sm">${data.total} PREGUNTAS</span>
+                <div class="flex justify-between items-start mb-4 border-b border-slate-100 pb-4 pr-10">
+                    <div class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-med-blue">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    </div>
+                    <span class="text-[10px] font-bold tracking-widest text-med-blue bg-slate-50 border border-slate-200 px-3 py-1 rounded-sm">${data.total} PREGUNTAS</span>
                 </div>
 
-                <div class="flex-1 mt-2">
-                    <input type="text" id="nombre-${id}" value="${data.nombre}" class="input-med" placeholder="Nombre del examen" onchange="guardarTitulo('${id}', this.value, 'nombre')">
-                    <input type="text" id="materia-${id}" value="${data.materia}" class="input-med-sub mt-1" placeholder="Especialidad" onchange="guardarTitulo('${id}', this.value, 'materia')">
-                    <p class="text-[9px] font-medium text-slate-500 mt-2 uppercase tracking-widest">Registrado: ${data.fecha}</p>
+                <div class="flex-1">
+                    <div class="flex items-center gap-2 mb-2">
+                        <input type="text" id="nombre-${id}" value="${data.nombre}" class="input-med" placeholder="Nombre del examen" onchange="guardarTitulo('${id}', this.value, 'nombre')">
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <input type="text" id="materia-${id}" value="${data.materia}" class="input-med-sub" placeholder="Especialidad" onchange="guardarTitulo('${id}', this.value, 'materia')">
+                    </div>
+                    <p class="text-[10px] font-medium text-slate-400 mt-4 uppercase tracking-widest">Registrado: ${data.fecha}</p>
                 </div>
                 
-                <div class="flex gap-2 mt-2">
-                    <button onclick="abrirSimulador('${id}')" class="flex-1 bg-med-blue hover:bg-opacity-80 text-white text-[10px] font-bold py-2 rounded-lg tracking-widest uppercase transition-all duration-300">
+                <div class="flex gap-2 mt-4">
+                    <button onclick="abrirSimulador('${id}')" class="flex-1 bg-med-blue hover:bg-slate-800 text-white text-xs font-bold py-2.5 rounded-lg tracking-widest uppercase transition-all duration-300 shadow-md">
                         Simulador
                     </button>
-                    <button onclick="abrirExamen('${id}')" class="flex-1 bg-med-card hover:bg-med-bg border border-med-border text-med-blue text-[10px] font-bold py-2 rounded-lg tracking-widest uppercase transition-all duration-300">
+                    <button onclick="abrirExamen('${id}')" class="flex-1 bg-med-card hover:bg-slate-50 border border-med-border text-med-blue text-xs font-bold py-2.5 rounded-lg tracking-widest uppercase transition-all duration-300 shadow-sm">
                         Banco
                     </button>
                 </div>
             </div>
         `).join('');
-    } catch(e) { cont.innerHTML = '<div class="col-span-full text-center text-red-500 py-10 text-sm">Error de conexión.</div>'; }
+    } catch(e) { 
+        cont.innerHTML = '<div class="col-span-full text-center text-red-500 py-10 font-serif">Error de conexión.</div>'; 
+    }
 }
 
 async function guardarTitulo(grupoId, nuevoTexto, tipo) {
@@ -275,15 +326,17 @@ async function guardarTitulo(grupoId, nuevoTexto, tipo) {
     } catch (e) { console.error(e); }
 }
 
+// --- ELIMINAR EXPEDIENTE ---
 async function eliminarExpediente(id) {
-    if (!confirm("¿Eliminar expediente por completo?")) return;
+    if (!confirm("¿Estás seguro de eliminar este expediente por completo?")) return;
     try {
         const res = await fetch(`${URL_SERVIDOR}/api/admin/examenes/${id}`, { method: 'DELETE' });
         if (res.ok) cargarExamenes();
-    } catch(e) { alert("Error"); }
+        else alert("Error al eliminar");
+    } catch(e) { alert("Error de conexión"); }
 }
 
-// --- MODO BANCO DE PREGUNTAS (Denso y Compacto) ---
+// --- MODO BANCO DE PREGUNTAS ---
 async function abrirExamen(grupoId) {
     document.getElementById('vista-examenes').classList.add('hidden');
     document.getElementById('dashboard-stats').classList.add('hidden');
@@ -294,25 +347,26 @@ async function abrirExamen(grupoId) {
     const preguntas = (await res.json()).filter(p => (p.grupo_id || 'antiguo') === grupoId);
 
     cont.innerHTML = `
-        <div class="flex items-center gap-4 mb-6">
-            <button onclick="location.reload()" class="bg-med-card hover:bg-med-bg text-med-blue text-[10px] font-bold uppercase tracking-widest px-4 py-2 rounded-lg border border-med-border transition-all shadow-sm">
-                ← Volver
+        <div class="flex items-center gap-4 mb-8 animate-fade-up">
+            <button onclick="location.reload()" class="bg-white hover:bg-slate-50 text-med-blue text-[10px] font-bold uppercase tracking-widest px-6 py-3 rounded-lg border border-med-border transition-all flex items-center gap-2 shadow-sm">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                Volver al Archivo
             </button>
             <h2 class="text-2xl font-serif text-med-blue font-bold">${preguntas[0].nombre_personalizado || 'Banco de Preguntas'}</h2>
         </div>
         
-        <div class="med-card p-6 space-y-2">
+        <div class="med-card p-6 md:p-8">
             ${preguntas.map((p, i) => `
-                <div class="banco-item">
+                <div class="border-b border-slate-100 py-4 last:border-0 group">
                     <div class="flex gap-3 mb-2">
-                        <span class="text-med-jade font-serif italic font-bold">${i + 1}.</span>
-                        <h3 class="text-sm text-med-text font-semibold">${p.texto_pregunta}</h3>
+                        <span class="text-med-blue font-serif italic text-lg font-bold">${i + 1}.</span>
+                        <h3 class="text-sm md:text-base text-med-text font-semibold">${p.texto_pregunta}</h3>
                     </div>
-                    <div class="space-y-1 pl-6">
+                    <div class="space-y-1 pl-8">
                         ${p.alternativas.map((alt, j) => `
-                            <div class="banco-alternativa ${j === p.correcta ? 'correcta' : ''}" id="alt-${p.id}-${j}">
-                                <span><span class="font-bold mr-2">${String.fromCharCode(65+j)}.</span>${alt}</span>
-                                <button onclick="marcarCorrecta('${p.id}', ${j}, ${i}, '${p.texto_pregunta.replace(/'/g, "\\'")}', ${JSON.stringify(p.alternativas).replace(/"/g, '&quot;')})" class="text-[9px] uppercase font-bold text-slate-500 hover:text-med-jade transition-colors ml-2 ${j === p.correcta ? 'text-med-jade' : 'opacity-0 hover:opacity-100'}">
+                            <div class="flex items-center justify-between p-2 rounded-lg hover:bg-slate-50 transition-colors ${j === p.correcta ? 'bg-emerald-50 border border-emerald-100 text-emerald-900 dark:bg-emerald-900/20 dark:text-emerald-100' : 'text-slate-600'}" id="alt-${p.id}-${j}">
+                                <span class="text-sm"><span class="font-bold mr-2">${String.fromCharCode(65+j)}.</span>${alt}</span>
+                                <button onclick="marcarCorrecta('${p.id}', ${j}, ${i}, '${p.texto_pregunta.replace(/'/g, "\\'")}', ${JSON.stringify(p.alternativas).replace(/"/g, '&quot;')})" class="text-[9px] uppercase font-bold text-slate-400 hover:text-med-jade transition-colors ml-2 ${j === p.correcta ? 'text-med-jade' : 'opacity-0 group-hover:opacity-100'}">
                                     ${j === p.correcta ? '✓ Correcta' : 'Marcar'}
                                 </button>
                             </div>
@@ -325,7 +379,7 @@ async function abrirExamen(grupoId) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// --- EDITAR RESPUESTA CORRECTA EN TIEMPO REAL ---
+// --- EDITAR RESPUESTA CORRECTA ---
 async function marcarCorrecta(preguntaId, idxAlternativa, indexVisual, textoPregunta, alternativasJSON) {
     if(!confirm("¿Cambiar la respuesta correcta a esta opción?")) return;
     
@@ -343,20 +397,20 @@ async function marcarCorrecta(preguntaId, idxAlternativa, indexVisual, textoPreg
                 const el = document.getElementById(`alt-${preguntaId}-${j}`);
                 const btn = el.querySelector('button');
                 if (j === idxAlternativa) {
-                    el.classList.add('correcta');
+                    el.classList.add('bg-emerald-50', 'border', 'border-emerald-100', 'text-emerald-900');
                     btn.innerHTML = '✓ Correcta';
                     btn.className = "text-[9px] uppercase font-bold text-med-jade ml-2";
                 } else {
-                    el.classList.remove('correcta');
+                    el.classList.remove('bg-emerald-50', 'border', 'border-emerald-100', 'text-emerald-900');
                     btn.innerHTML = 'Marcar';
-                    btn.className = "text-[9px] uppercase font-bold text-slate-500 hover:text-med-jade transition-colors ml-2 opacity-0 hover:opacity-100";
+                    btn.className = "text-[9px] uppercase font-bold text-slate-400 hover:text-med-jade transition-colors ml-2 opacity-0 group-hover:opacity-100";
                 }
             });
         } else { alert("Error al guardar"); }
     } catch(e) { alert("Error de conexión"); }
 }
 
-// --- MODO SIMULADOR ---
+// --- MODO SIMULADOR (EXAMEN) ---
 async function abrirSimulador(grupoId) {
     const res = await fetch(`${URL_SERVIDOR}/api/admin/examenes`);
     preguntasSimulador = (await res.json()).filter(p => (p.grupo_id || 'antiguo') === grupoId);
@@ -374,33 +428,7 @@ async function abrirSimulador(grupoId) {
 function cerrarSimulador() {
     document.getElementById('modo-simulador').classList.remove('activo');
     document.body.style.overflow = 'auto';
-    // Restauramos el HTML original del simulador si se completó el examen
-    if(document.querySelector('.sim-content')) {
-        document.querySelector('.sim-content').innerHTML = `
-            <div class="flex justify-between items-center py-2 border-b border-med-border mb-4">
-                <h2 class="text-lg font-bold text-med-blue font-serif" id="sim-titulo">Examen</h2>
-                <div class="text-sm font-bold text-med-jade" id="sim-progreso">1 / 20</div>
-                <button onclick="cerrarSimulador()" class="text-slate-400 hover:text-red-500 transition-colors text-xl">✖</button>
-            </div>
-            <div class="flex-1 flex flex-col justify-center max-h-[80vh]">
-                <div class="mb-4"><h3 class="text-lg text-med-text font-medium leading-relaxed" id="sim-pregunta"></h3></div>
-                <div class="space-y-2" id="sim-alternativas"></div>
-                <div class="panel-correcta" id="sim-panel-respuesta">
-                    <div class="bg-med-card border border-med-jade p-4 rounded-xl flex items-center gap-3 shadow-sm">
-                        <svg class="w-5 h-5 text-med-jade" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <div>
-                            <h4 class="text-med-jade font-bold text-[10px] tracking-widest uppercase">Correcta</h4>
-                            <p class="text-med-text font-serif text-base" id="sim-texto-correcta"></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="py-4 mt-2 border-t border-med-border flex justify-end">
-                <button id="btn-siguiente" onclick="siguientePregunta()" class="hidden bg-med-blue hover:bg-opacity-80 text-white font-bold py-3 px-8 rounded-lg transition-all text-sm tracking-wider shadow-md">Siguiente →</button>
-            </div>
-        `;
-    }
-    cargarExamenes();
+    cargarExamenes(); // Recargar por si acaso
 }
 
 function cargarPreguntaSimulador() {
@@ -412,8 +440,8 @@ function cargarPreguntaSimulador() {
     
     const altsCont = document.getElementById('sim-alternativas');
     altsCont.innerHTML = p.alternativas.map((alt, j) => `
-        <div class="alternativa" onclick="responderSimulador(this, ${j}, ${p.correcta})">
-            <span class="font-bold mr-2 text-med-blue">${String.fromCharCode(65+j)}.</span> ${alt}
+        <div class="alternativa w-full" onclick="responderSimulador(this, ${j}, ${p.correcta})">
+            <span class="font-serif text-med-blue font-bold mr-3">${String.fromCharCode(65+j)}.</span> ${alt}
         </div>
     `).join('');
     
@@ -453,15 +481,17 @@ function mostrarResultadoFinal() {
     const total = preguntasSimulador.length;
     const porcentaje = Math.round((puntajeSimulador / total) * 100);
     
-    document.querySelector('.sim-content').innerHTML = `
+    document.querySelector('#modo-simulador .max-w-3xl').innerHTML = `
         <div class="flex-1 flex flex-col justify-center items-center text-center animate-fade-up">
-            <div class="w-24 h-24 rounded-full border-4 border-med-jade flex items-center justify-center mb-6 bg-med-card shadow-lg">
-                <span class="text-3xl font-bold text-med-jade">${porcentaje}%</span>
+            <div class="w-32 h-32 rounded-full border-4 border-med-jade flex items-center justify-center mb-8 bg-emerald-50">
+                <span class="text-5xl font-bold text-med-jade">${porcentaje}%</span>
             </div>
-            <h2 class="text-2xl font-serif text-med-blue font-bold mb-2">Examen Completado</h2>
-            <p class="text-slate-500 mb-6 text-sm">Acertaste ${puntajeSimulador} de ${total} preguntas.</p>
+            <h2 class="text-3xl font-serif text-med-blue font-bold mb-4">Examen Completado</h2>
+            <p class="text-slate-500 mb-8">Has acertado ${puntajeSimulador} de ${total} preguntas.</p>
             
-            <button onclick="cerrarSimulador()" class="bg-med-blue text-white px-8 py-3 rounded-xl hover:bg-opacity-80 transition-colors text-sm font-bold shadow-md">Volver al Archivo</button>
+            <div class="flex gap-4">
+                <button onclick="cerrarSimulador()" class="bg-med-blue text-white px-8 py-3 rounded-xl hover:bg-slate-800 transition-colors">Volver al Archivo</button>
+            </div>
         </div>
     `;
 }
