@@ -538,6 +538,7 @@ let listaUsuariosCache = [];
         let intervaloActivos = null;
         let intervaloEstadoServidor = null;
         let intervaloEstadoTestSim = null;
+        let sesionExpirada = false;
 
         // INTERCEPTOR DE FETCH: adjunta la cabecera Authorization cuando exista token
                 const rawFetch = window.fetch.bind(window);
@@ -550,15 +551,18 @@ let listaUsuariosCache = [];
                 }
                 const respuesta = await rawFetch(input, { ...init, headers });
 
-                if (respuesta.status === 401 && adminToken) {
-                    adminToken = null;
-                    timersIniciados = false;
-                    clearInterval(intervaloLogs);
-                    clearInterval(intervaloActivos);
-                    clearInterval(intervaloEstadoServidor);
-                    clearInterval(intervaloEstadoTestSim);
-                    alert("La sesión ha caducado. Vuelve a introducir la contraseña.");
-                    location.reload();
+                    if (respuesta.status === 401 && adminToken && !url.endsWith('/api/admin/login')) {
+                    if (!sesionExpirada) {
+                        sesionExpirada = true;
+                        adminToken = null;
+                        timersIniciados = false;
+                        clearInterval(intervaloLogs);
+                        clearInterval(intervaloActivos);
+                        clearInterval(intervaloEstadoServidor);
+                        clearInterval(intervaloEstadoTestSim);
+                        alert("La sesión ha caducado. Vuelve a introducir la contraseña.");
+                        location.reload();
+                    }
                 }
 
                 return respuesta;
