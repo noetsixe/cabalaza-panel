@@ -44,15 +44,19 @@
             --med-card: #ffffff;
         }
 
-        /* MODO OSCURO */
+        /* MODO OSCURO (Gris pizarra elegante, sin azul marino chillón) */
         body.dark-mode {
-            --med-bg: #0f172a;
-            --med-blue: #93c5fd; /* Azul claro para textos */
-            --med-jade: #2dd4bf;
-            --med-text: #f8fafc;
+            --med-bg: #0f172a; /* Slate oscuro */
+            --med-blue: #f1f5f9; /* Blanco suave para títulos */
+            --med-jade: #14b8a6; /* Jade brillante */
+            --med-text: #cbd5e1; /* Gris claro para texto */
             --med-border: #334155;
-            --med-card: #1e293b;
+            --med-card: #1e293b; /* Tarjetas */
         }
+
+        /* Quitar barra de scroll de todo el sitio */
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+        html { scrollbar-width: none; -ms-overflow-style: none; }
 
         body {
             background-color: var(--med-bg);
@@ -64,40 +68,40 @@
             background-image: radial-gradient(circle at 50% 0%, var(--med-card) 0%, var(--med-bg) 80%);
         }
 
-        /* Forzar colores oscuros en las tarjetas y contenedores blancos */
+        /* Forzar colores en tarjetas y contenedores */
         .med-card, header, .bg-white {
             background-color: var(--med-card) !important;
             border-color: var(--med-border) !important;
             color: var(--med-text) !important;
         }
 
-        /* Forzar textos grises a que se lean en oscuro */
-        .text-slate-500, .text-slate-400 { color: var(--med-text) !important; opacity: 0.7; }
+        .text-slate-500, .text-slate-400 { color: #94a3b8 !important; }
         .border-slate-100 { border-color: var(--med-border) !important; }
 
-        /* Botones en modo oscuro */
-        body.dark-mode button.bg-med-card {
-            background-color: var(--med-card) !important;
-            color: var(--med-blue) !important;
-            border-color: var(--med-border) !important;
+        /* Animaciones Globales Suaves */
+        .med-card, .alternativa, button, input, .input-med, .input-med-sub {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        
+        button:hover, .med-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+        }
+        button:active {
+            transform: translateY(1px);
+            box-shadow: none;
         }
 
-        /* Animaciones */
         @keyframes float-med { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
         .animate-float { animation: float-med 5s ease-in-out infinite; }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade-up { animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+        
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-up { animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
 
         .med-card {
             border: 1px solid var(--med-border);
             border-radius: 16px;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.05);
-        }
-        .med-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--med-jade);
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
         }
 
         /* Alternativas */
@@ -105,36 +109,46 @@
             background: var(--med-card);
             border: 1px solid var(--med-border);
             border-radius: 8px;
-            padding: 18px 24px;
+            padding: 16px 24px;
             cursor: pointer;
-            transition: all 0.3s ease;
             font-size: 15px;
             color: var(--med-text);
             font-weight: 500;
         }
         .alternativa:hover:not(.bloqueada) { background: var(--med-bg); border-color: var(--med-jade); }
-        .alternativa.correcta { background: #e6fffa; border-color: #319795; color: #234e52; font-weight: 600; }
-        body.dark-mode .alternativa.correcta { background: rgba(49, 151, 149, 0.2); color: #81e6d9; }
-        .alternativa.incorrecta { background: #fff5f5; border-color: #e53e3e; color: #742a2a; }
-        body.dark-mode .alternativa.incorrecta { background: rgba(229, 62, 62, 0.2); color: #feb2b2; }
+        
+        /* Corrección Modo Oscuro: Alternativas */
+        .alternativa.correcta { background: rgba(16, 185, 129, 0.15); border-color: #10b981; color: #10b981; font-weight: 600; }
+        body.dark-mode .alternativa.correcta { background: rgba(20, 184, 166, 0.2); color: #14b8a6; border-color: #14b8a6; }
+        
+        .alternativa.incorrecta { background: rgba(239, 68, 68, 0.15); border-color: #ef4444; color: #ef4444; }
+        body.dark-mode .alternativa.incorrecta { background: rgba(239, 68, 68, 0.2); color: #f87171; border-color: #ef4444; }
+        
         .alternativa.bloqueada { cursor: default; }
 
         /* Inputs */
-        .input-med { background: transparent; border-bottom: 2px dashed transparent; color: var(--med-text); font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; outline: none; width: 100%; transition: all 0.3s; }
+        .input-med { background: transparent; border-bottom: 2px dashed transparent; color: var(--med-blue); font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; outline: none; width: 100%; }
         .input-med:hover, .input-med:focus { border-bottom: 2px dashed var(--med-jade); }
-        .input-med-sub { background: transparent; border-bottom: 1px solid transparent; color: var(--med-jade); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; outline: none; width: 100%; transition: all 0.3s; }
+        .input-med-sub { background: transparent; border-bottom: 1px solid transparent; color: var(--med-jade); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; outline: none; width: 100%; }
         .input-med-sub:hover, .input-med-sub:focus { border-bottom: 1px solid var(--med-blue); }
 
         /* Panel respuesta */
-        .panel-correcta { max-height: 0; overflow: hidden; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0; }
-        .panel-correcta.abierto { max-height: 400px; opacity: 1; margin-top: 24px; }
+        .panel-correcta { max-height: 0; overflow: hidden; transition: all 0.4s ease; opacity: 0; }
+        .panel-correcta.abierto { max-height: 200px; opacity: 1; margin-top: 16px; }
 
         /* Modo Simulador (Fullscreen) */
         #modo-simulador {
             position: fixed; inset: 0; background: var(--med-bg); z-index: 99999;
-            display: none; flex-direction: column; overflow-y: auto;
+            display: none; flex-direction: column;
         }
         #modo-simulador.activo { display: flex; }
+        
+        /* Corrección banco oscuro */
+        body.dark-mode .banco-alt.correcta {
+            background-color: rgba(20, 184, 166, 0.15) !important;
+            color: #5eead4 !important;
+            border-color: #14b8a6 !important;
+        }
     </style>
 </head>
 <body class="p-6 md:p-12">
@@ -175,8 +189,8 @@
     <div id="vista-preguntas" class="hidden space-y-8"></div>
 </div>
 
-<!-- MODO SIMULADOR (Compacto) -->
-<div id="modo-simulador" class="fixed inset-0 bg-med-bg z-[99999] hidden flex-col overflow-hidden">
+<!-- MODO SIMULADOR -->
+<div id="modo-simulador">
     <div class="max-w-3xl mx-auto w-full p-4 md:p-6 flex flex-col h-full justify-center">
         <!-- Barra superior del simulador -->
         <div class="flex justify-between items-center py-2 border-b border-med-border mb-4">
@@ -194,11 +208,11 @@
             
             <!-- Panel de respuesta (oculto al inicio) -->
             <div class="panel-correcta mt-4" id="sim-panel-respuesta">
-                <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl flex items-center gap-3">
-                    <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <div class="bg-emerald-50 dark:bg-[#122524] border border-emerald-200 dark:border-emerald-800 p-4 rounded-xl flex items-center gap-3">
+                    <svg class="w-5 h-5 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     <div>
-                        <h4 class="text-emerald-800 font-bold text-[10px] tracking-widest uppercase">Respuesta Correcta</h4>
-                        <p class="text-emerald-950 font-serif text-base font-semibold" id="sim-texto-correcta"></p>
+                        <h4 class="text-emerald-800 dark:text-emerald-500 font-bold text-[10px] tracking-widest uppercase">Respuesta Correcta</h4>
+                        <p class="text-emerald-950 dark:text-emerald-100 font-serif text-base font-semibold" id="sim-texto-correcta"></p>
                     </div>
                 </div>
             </div>
@@ -280,7 +294,7 @@ async function cargarExamenes() {
         cont.innerHTML = Object.entries(grupos).map(([id, data], index) => `
             <div class="med-card p-6 flex flex-col justify-between h-64 group animate-fade-up relative" style="animation-delay: ${(index * 0.1) + 0.3}s">
                 
-                <!-- Botón Eliminar (Esquina superior derecha) -->
+                <!-- Botón Eliminar -->
                 <button onclick="eliminarExpediente('${id}')" class="absolute top-4 right-4 text-slate-400 hover:text-red-500 transition-colors p-2" title="Eliminar expediente">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                 </button>
@@ -303,10 +317,10 @@ async function cargarExamenes() {
                 </div>
                 
                 <div class="flex gap-2 mt-4">
-                    <button onclick="abrirSimulador('${id}')" class="flex-1 bg-med-blue hover:bg-slate-800 text-white text-xs font-bold py-2.5 rounded-lg tracking-widest uppercase transition-all duration-300 shadow-md">
+                    <button onclick="abrirSimulador('${id}')" class="flex-1 bg-med-blue hover:bg-slate-800 text-white text-xs font-bold py-2.5 rounded-lg tracking-widest uppercase shadow-md">
                         Simulador
                     </button>
-                    <button onclick="abrirExamen('${id}')" class="flex-1 bg-med-card hover:bg-slate-50 border border-med-border text-med-blue text-xs font-bold py-2.5 rounded-lg tracking-widest uppercase transition-all duration-300 shadow-sm">
+                    <button onclick="abrirExamen('${id}')" class="flex-1 bg-med-card hover:bg-slate-50 border border-med-border text-med-blue text-xs font-bold py-2.5 rounded-lg tracking-widest uppercase shadow-sm">
                         Banco
                     </button>
                 </div>
@@ -364,7 +378,7 @@ async function abrirExamen(grupoId) {
                     </div>
                     <div class="space-y-1 pl-8">
                         ${p.alternativas.map((alt, j) => `
-                            <div class="flex items-center justify-between p-2 rounded-lg hover:bg-slate-50 transition-colors ${j === p.correcta ? 'bg-emerald-50 border border-emerald-100 text-emerald-900 dark:bg-emerald-900/20 dark:text-emerald-100' : 'text-slate-600'}" id="alt-${p.id}-${j}">
+                            <div class="flex items-center justify-between p-2 rounded-lg hover:bg-slate-50 transition-colors ${j === p.correcta ? 'bg-emerald-50 border border-emerald-100 text-emerald-900 dark:bg-emerald-900/20 dark:text-emerald-100 banco-alt correcta' : 'text-slate-600'}" id="alt-${p.id}-${j}">
                                 <span class="text-sm"><span class="font-bold mr-2">${String.fromCharCode(65+j)}.</span>${alt}</span>
                                 <button onclick="marcarCorrecta('${p.id}', ${j}, ${i}, '${p.texto_pregunta.replace(/'/g, "\\'")}', ${JSON.stringify(p.alternativas).replace(/"/g, '&quot;')})" class="text-[9px] uppercase font-bold text-slate-400 hover:text-med-jade transition-colors ml-2 ${j === p.correcta ? 'text-med-jade' : 'opacity-0 group-hover:opacity-100'}">
                                     ${j === p.correcta ? '✓ Correcta' : 'Marcar'}
@@ -381,7 +395,7 @@ async function abrirExamen(grupoId) {
 
 // --- EDITAR RESPUESTA CORRECTA ---
 async function marcarCorrecta(preguntaId, idxAlternativa, indexVisual, textoPregunta, alternativasJSON) {
-    if(!confirm("¿Cambiar la respuesta correcta a esta opción?")) return;
+    if(!confirm("¿Estás seguro de cambiar la respuesta correcta a esta opción?")) return;
     
     try {
         const res = await fetch(`${URL_SERVIDOR}/api/admin/examenes/pregunta/${preguntaId}`, {
@@ -397,11 +411,11 @@ async function marcarCorrecta(preguntaId, idxAlternativa, indexVisual, textoPreg
                 const el = document.getElementById(`alt-${preguntaId}-${j}`);
                 const btn = el.querySelector('button');
                 if (j === idxAlternativa) {
-                    el.classList.add('bg-emerald-50', 'border', 'border-emerald-100', 'text-emerald-900');
+                    el.classList.add('bg-emerald-50', 'border', 'border-emerald-100', 'text-emerald-900', 'banco-alt', 'correcta');
                     btn.innerHTML = '✓ Correcta';
                     btn.className = "text-[9px] uppercase font-bold text-med-jade ml-2";
                 } else {
-                    el.classList.remove('bg-emerald-50', 'border', 'border-emerald-100', 'text-emerald-900');
+                    el.classList.remove('bg-emerald-50', 'border', 'border-emerald-100', 'text-emerald-900', 'banco-alt', 'correcta');
                     btn.innerHTML = 'Marcar';
                     btn.className = "text-[9px] uppercase font-bold text-slate-400 hover:text-med-jade transition-colors ml-2 opacity-0 group-hover:opacity-100";
                 }
@@ -421,12 +435,16 @@ async function abrirSimulador(grupoId) {
     puntajeSimulador = 0;
     document.getElementById('sim-titulo').innerText = preguntasSimulador[0].nombre_personalizado || 'Examen';
     document.getElementById('modo-simulador').classList.add('activo');
+    document.getElementById('modo-simulador').classList.add('flex');
+    document.getElementById('modo-simulador').classList.remove('hidden');
     document.body.style.overflow = 'hidden';
     cargarPreguntaSimulador();
 }
 
 function cerrarSimulador() {
     document.getElementById('modo-simulador').classList.remove('activo');
+    document.getElementById('modo-simulador').classList.remove('flex');
+    document.getElementById('modo-simulador').classList.add('hidden');
     document.body.style.overflow = 'auto';
     cargarExamenes(); // Recargar por si acaso
 }
@@ -483,11 +501,11 @@ function mostrarResultadoFinal() {
     
     document.querySelector('#modo-simulador .max-w-3xl').innerHTML = `
         <div class="flex-1 flex flex-col justify-center items-center text-center animate-fade-up">
-            <div class="w-32 h-32 rounded-full border-4 border-med-jade flex items-center justify-center mb-8 bg-emerald-50">
+            <div class="w-32 h-32 rounded-full border-4 border-med-jade flex items-center justify-center mb-8 bg-emerald-50 dark:bg-emerald-900/20">
                 <span class="text-5xl font-bold text-med-jade">${porcentaje}%</span>
             </div>
             <h2 class="text-3xl font-serif text-med-blue font-bold mb-4">Examen Completado</h2>
-            <p class="text-slate-500 mb-8">Has acertado ${puntajeSimulador} de ${total} preguntas.</p>
+            <p class="text-slate-500 dark:text-slate-400 mb-8">Has acertado ${puntajeSimulador} de ${total} preguntas.</p>
             
             <div class="flex gap-4">
                 <button onclick="cerrarSimulador()" class="bg-med-blue text-white px-8 py-3 rounded-xl hover:bg-slate-800 transition-colors">Volver al Archivo</button>
