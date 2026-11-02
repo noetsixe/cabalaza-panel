@@ -1,29 +1,37 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atlas Clínico | Premium Archive</title>
     
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMjI3IiBoZWlnaHQ9IjI1MDAiIHZpZXdCb3g9IjAgMCA4MS45IDkxLjkyMSI+PHBhdGggZmlsbD0iIzBiMTMyYiIgZD0iTTgxLjQxMiAxNC42NTJjLTMuNTg0IDAtMTkuMTYyLTkuMDM2LTE5LjE2Mi05LjAzNnMtNi4wNzYtMy4yNzEtOS45NzEtMy4yNzEtNC44NTIgMi45MzctNS42MDcgMy42OTFjLS42NTEuNjUyLTEuODU2LjE4LTIuMTc2LjAzOGE0IDQgMCAwIDAgLjU2Mi0yLjAyNiA0LjA0NyA0LjA0NyAwIDEgMC04LjA5NiAwYzAgLjcyNy4yMDggMS4zOTkuNTQyIDEuOTg4aC0uMDE4cy0xLjUwMy43NTUtMi4yNTkgMC0xLjcxNC0zLjY5MS01LjYwOC0zLjY5MWMtMy44OTQgMC05Ljk3MSAzLjI3MS05Ljk3MSAzLjI3MVM0LjA3MSAxNC42NTIuNDg4IDE0LjY1MmMwIDAtMS44NzEgMS43MTMgMS43MTMgMS43MTMgMCAwIDEuMDkyIDIuOTYxIDQuMjg1IDQuMjg1IDAgMCAuMDc3IDIuNzI2IDQuNzUgMi43MjYgMCAwIC45MzUgNC44MjkgNS45MiA0LjgyOSAwIDAgMS4wOSA0LjM2MiA5LjY1OCA0LjM2MiAwIDAgLjc3OSA1LjI5NyA2LjM4OCA2LjM4OCAwIDAtOC40MTIgNS40NTMgMi4zMzYgMTMuODYzIDAgMC03LjAxMSA0LjY3NS45MzYgMTAuMjgzIDAgMC0zLjU4MyA0LjA0OS45MzUgOC41NjYgMCAwLTMuMTk1IDMuNjYyLjYyMyA3LjQ3OSAwIDAtMS42MzYgMi4yNiAxLjA5MSA0Ljk4NCAwIDAtLjMxMiA3Ljc5IDEuNDAxIDcuNzloLjg1MWMxLjcxNCAwIDEuNDAyLTcuNzkgMS40MDItNy43OSAyLjcyNy0yLjcyNiAxLjA5LTQuOTg0IDEuMDktNC45ODQgMy44MTgtMy44MTUuNjIzLTcuNDc5LjYyMy03LjQ3OSA0LjUxOC00LjUxOC45MzctOC41NjYuOTM3LTguNTY2IDcuOTQ0LTUuNjA4LjkzNC0xMC4yODMuOTM0LTEwLjI4MyAxMC43NS04LjQxMSAyLjMzOC0xMy44NjMgMi4zMzgtMTMuODYzIDUuNjA3LTEuMDkgNi4zODctNi4zODggNi4zODctNi4zODggOC41NjggMCA5LjY1OC00LjM2MiA5LjY1OC00LjM2MiA0Ljk4NiAwIDUuOTItNC44MjkgNS45Mi00LjgyOSA0LjY3NCAwIDQuNzUyLTIuNzI2IDQuNzUyLTIuNzI2IDMuMTkzLTEuMzI0IDQuMjg1LTQuMjg1IDQuMjg1LTQuMjg1IDMuNTgyLjAwMSAxLjcxMS0xLjcxMyAxLjcxMS0xLjcxM3oiLz48Y2lyY2xlIGN4PSI0MS4wMDciIGN5PSI0LjI2NiIgcj0iMy4xMTUiIGZpbGw9IiNmZmYiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMzQuODA2IDExLjAzNXMuMTgxLTcuMDQ2LTQuOTctNy4wNDZjLTUuMTQ5IDAtNi43MyAxLjU4MS02LjczIDEuNTgxczEuMzEgMi40ODQgMi4zMDQgMi40ODQgMi40MzktMS44OTYgMi40MzktMS44OTYgMS40NDUtLjYzMyAxLjg5NiAxLjYyNmMuNDUxIDIuMjU4IDEuMTc0IDIuNzEgMi40MzggMi43MSAxLjI2NS0uMDAxIDEuNzE5LjU0MSAyLjYyMy41NDF6TTM5LjU5NCAxMC4wNDFzLjA5MS0xLjgwNy0xLjA4NC0xLjgwN2MtMS4xNzYgMC0xLjgwOCAxLjUzNi0xLjgwOCAyLjE2OCAwIC42MzIgMS4xNzQgMi43MDkgMi4wNzcgMi43MDlzLjg2Ni0yLjM5OS44MTUtMy4wN3pNMzYuODg1IDEzLjY1NXMyLjkzNyAxLjA4NCAyLjkzNyAyLjkzNmMtLjAwMSAxLjg1Mi0zLjc3LTEuNjkyLTIuOTM3LTIuOTM2ek0zOC4yMzggMTkuMjU2cy0uNTQyLTEuMTI5LTEuMTI5LTEuMTI5LS4yMjYuODU3LS41ODcgMS4yMmMtLjM2MS4zNjEuNTg3IDEuMDM4IDEuNzE2LS4wOTF6TTM5LjY4NCAyMy4xNDFzLTEuMTc0LS44MTMtMS4xNzQtMS4xNzQuNDUxLS4wOSAwIC4zNjFjLS40NTIuNDUxLS4yNzIgMi4yNTggMS4xNzQuODEzek0zOC40NDkgMjcuMzkzcy0uMzc1IDIuNjI1LTMuODc1IDIuNjI1LTIuMzc1LTEuMTI1LTIuMzc1LTEuMTI1LS45MS0xLjYzNS0uMTktMS43MThjLjcxOC0uMDgzIDYuNDQtLjQ4NCA2LjQ0LjIxOHpNMTkuOTI3IDYuOTI5bC03LjAwNCAzLjkxNHMuNDExIDIuNTc0IDQuMTE5LjkyNyA1LjgxOS0zLjc1OSA1LjgxOS0zLjc1OS0uNDYzLTIuMTY0LTIuOTM0LTEuMDgyek0xMC4yNDYgMTIuMzg3TDMuNTUyIDE1LjU4czEuMzM5IDMuNzA4IDQuMjIzIDIuMzY5IDUuMzAzLTMuNzU5IDUuMzAzLTMuNzU5LTEuMTYyLTIuNTk5LTIuODMyLTEuODAzek0yMy43MzcgOS44MTJsLTUuMzU1IDMuODExczEuODU1IDEuOTU3IDMuODEyLjkyN2MxLjk1Ni0xLjAzIDYuNzk3LTUuNjY1IDYuNzk3LTUuNjY1cy0uMjA1LTEuNzUxLTEuNDQtLjUxNGwtMS43NTIgMS43NXMtMS42MjctLjYxOC0yLjA2Mi0uMzA5ek0xNS40OTkgMTUuMTY4bC03LjIxIDQuOTQzczIuNDc0IDMuMjg2IDQuOTQzIDEuMTMzYzIuNjU5LTIuMzE3IDYuNDc5LTQuODQgNi40NzktNC44NHMtMi43Ny0xLjIzNi00LjIxMi0xLjIzNnpNMjEuMjY2IDE3LjAyMWwtOC41NDggNi4xOHMzLjI5NiAzLjcwNyA1LjE0OCAxLjg1NGMxLjg1NC0xLjg1MyA1LjYyNi01LjYzNCA1LjYyNi01LjYzNHMtLjE2Ny0yLjQtMi4yMjYtMi40ek0yNS45IDE5LjQ5NGwtNy40NjcgNy40NjZzMi4yNjYgMy4xOTMgNC4zNzcgMS4wODFjMi4xMS0yLjExMSA1LjM1NC02LjkgNS4zNTQtNi45cy0xLjQ5Mi0yLjQxOS0yLjI2NC0xLjY0N3pNMzIuMzY3IDEyLjQ1NGwtNS4xMyA1LjIzMXMxLjU0MiAyLjgxOCAzLjAwMS45NTRjMS40Ni0xLjg2NSAzLjU0Ny00Ljg2NyAzLjU0Ny00Ljg2N3MtLjMyMy0xLjMxOC0xLjQxOC0xLjMxOHpNMzAuOTc4IDIwLjY5N2wtNy40NCA4LjQ2N3MyLjM0NyAyLjY1MyA0LjIyOS4wOGMxLjg4Mi0yLjU3MyA1LjAzLTcuNjQ0IDUuMDMtNy42NDRzLS4wNTItMS4yMDktMS44MTktLjkwM3pNMzUuMTc4IDE1LjE0NmwtMi43NjcgMy41MzRzMS40MjEgMS44NDMgMi41MzUuMjY5YzEuMTE0LTEuNTc1IDEuMDc1LTIuNDk3IDEuMDc1LTIuNDk3cy4wNDEtMS40NTktLjg0My0xLjMwNnpNMzUuNjM5IDIwLjg3bC0zLjA3MyAzLjYxMXMyLjM4MS44MDYgMi44ODEtLjE1NCAxLjM4My0yLjQyIDEuMzgzLTIuNDItLjIzMS0xLjI2OC0xLjE5MS0xLjAzN3pNMjguMTQ4IDExLjM4MmwtNC44MzkgMy45NTZzMS42MTIgMi45MTkgMy4zOCAxLjE1MmMxLjc2Ny0xLjc2NyAzLjkxNy00LjE0OCAzLjkxNy00LjE0OHMtLjkyMS0xLjYxMy0yLjQ1OC0uOTZ6TTQ3LjIzOCAxMS4wMzVzLS4xOC03LjA0NiA0Ljk2OS03LjA0NmM1LjE1IDAgNi43MyAxLjU4MSA2LjczIDEuNTgxcy0xLjMxIDIuNDg0LTIuMzAzIDIuNDg0Yy0uOTk0IDAtMi40MzktMS44OTYtMi40MzktMS44OTZzLTEuNDQ3LS42MzMtMS44OTggMS42MjZjLS40NSAyLjI1OC0xLjE3NCAyLjcxLTIuNDM4IDIuNzEtMS4yNjUtLjAwMS0xLjcxNy41NDEtMi42MjEuNTQxek00Mi40NTEgMTAuMDQxcy0uMDkyLTEuODA3IDEuMDg0LTEuODA3YzEuMTc0IDAgMS44MDggMS41MzYgMS44MDggMi4xNjggMCAuNjMyLTEuMTc1IDIuNzA5LTIuMDc4IDIuNzA5LS45MDQuMDAxLS44NjUtMi4zOTktLjgxNC0zLjA3ek00NS4xNiAxMy42NTVzLTIuOTM2IDEuMDg0LTIuOTM2IDIuOTM2YzAgMS44NTIgMy43Ny0xLjY5MiAyLjkzNi0yLjkzNnpNNDMuODA2IDE5LjI1NnMuNTQxLTEuMTI5IDEuMTI5LTEuMTI5Yy41ODYgMCAuMjI1Ljg1Ny41ODYgMS4yMi4zNjEuMzYxLS41ODYgMS4wMzgtMS43MTUtLjA5MXpNNDIuMzYxIDIzLjE0MXMxLjE3NC0uODEzIDEuMTc0LTEuMTc0LS40NTMtLjA5IDAgLjM2MWMuNDUxLjQ1MS4yNzEgMi4yNTgtMS4xNzQuODEzek00My41OTUgMjcuMzkzcy4zNzUgMi42MjUgMy44NzUgMi42MjUgMi4zNzUtMS4xMjUgMi4zNzUtMS4xMjUuOTA5LTEuNjM1LjE5LTEuNzE4LTYuNDQtLjQ4NC02LjQ0LjIxOHpNNjIuMTE3IDYuOTI5bDcuMDA0IDMuOTE0cy0uNDEyIDIuNTc0LTQuMTE5LjkyN2MtMy43MDktMS42NDctNS44MTktMy43NTktNS44MTktMy43NTlzLjQ2My0yLjE2NCAyLjkzNC0xLjA4MnpNNzEuNzk4IDEyLjM4N2w2LjY5MyAzLjE5MnMtMS4zMzggMy43MDgtNC4yMjMgMi4zNjljLTIuODgzLTEuMzM5LTUuMzA0LTMuNzU5LTUuMzA0LTMuNzU5czEuMTY0LTIuNTk4IDIuODM0LTEuODAyeiIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik01OC4zMDYgOS44MTJsNS4zNTQgMy44MTFzLTEuODU0IDEuOTU3LTMuODExLjkyN2MtMS45NTctMS4wMy02Ljc5Ny01LjY2NS02Ljc5Ny01LjY2NXMuMjA1LTEuNzUxIDEuNDQtLjUxNGwxLjc1IDEuNzVzMS42MzEtLjYxOCAyLjA2NC0uMzA5ek02Ni41NDQgMTUuMTY4bDcuMjExIDQuOTQzcy0yLjQ2NyAzLjI4LTQuOTQyIDEuMTMzYy0yLjY3NC0yLjMxNy02LjM5Mi00LjYyNi02LjM5Mi00LjYyNnMyLjY4Mi0xLjQ1IDQuMTIzLTEuNDV6TTYwLjc3OSAxNy4wMjFsOC41NDcgNi4xOHMtMy4yOTUgMy43MDctNS4xNDcgMS44NTRjLTEuODU0LTEuODUzLTUuNjY2LTUuMzU1LTUuNjY2LTUuMzU1cy4yMDYtMi42NzkgMi4yNjYtMi42Nzl6TTU2LjE0NCAxOS40OTRsNy40NjcgNy40NjZzLTIuMjY2IDMuMTkzLTQuMzc3IDEuMDgxYy0yLjExMS0yLjExMS01LjM1NS02LjktNS4zNTUtNi45czEuNDk0LTIuNDE5IDIuMjY1LTEuNjQ3ek00OS42NzcgMTIuNDU0bDUuMTI5IDUuMjMxcy0xLjU0MSAyLjgxOC0zIC45NTRjLTEuNDYxLTEuODY1LTMuNTUtNC44NjctMy41NS00Ljg2N3MuMzI2LTEuMzE4IDEuNDIxLTEuMzE4ek01MS41MTMgMjAuNDQ3bDcuMjIzIDguNDg5cy0yLjU3NCAyLjg4MS00LjQ1Ny4zMDhjLTEuODgxLTIuNTc0LTUuMDMxLTcuNjQ0LTUuMDMxLTcuNjQ0cy40OTgtMS40NTkgMi4yNjUtMS4xNTN6TTQ2Ljg2NyAxNS4xNDZsMi43NjcgMy41MzRzLTEuNDIzIDEuODQzLTIuNTM1LjI2OWMtMS4xMTUtMS41NzUtMS4wNzYtMi40OTctMS4wNzYtMi40OTdzLS4wNDEtMS40NTkuODQ0LTEuMzA2ek00Ni40MDYgMjAuODdsMy4wNzIgMy42MTFzLTIuMzgxLjgwNi0yLjg4MS0uMTU0LTEuMzg0LTIuNDItMS4zODQtMi40Mi4yMzItMS4yNjggMS4xOTMtMS4wMzd6TTUzLjg5NiAxMS4zODJsNC44NCAzLjk1NnMtMS42MTMgMi45MTktMy4zODEgMS4xNTJjLTEuNzY3LTEuNzY3LTMuOTE4LTQuMTQ4LTMuOTE4LTQuMTQ4cy45MjItMS42MTMgMi40NTktLjk2ek0zMi44NTIgMjcuODI0cy03LjY4OCAxLjQxNS0zLjg1NCA3LjMwOGMzLjgzNCA1Ljg5MyAxOC4xNzYgMy4xNCAxOC4xNzYgMTAuMDgzIDAgMi45MTEtMy42MiA1LjQ2OS0zLjYyIDUuNDY5czEuNTI2IDEuMSAyLjA2MSAxLjYzM2MwIDAgNC42MTUtMy4zMzggNC42MTUtNi45NTggMC0zLjYyMi0zLjk3OC01LjY4MS05Ljg3MS03LjE3Mi01Ljg5NS0xLjQ5MS0xMC42ODgtMy4wOTUtMTAuNjg4LTYuMjg0czMuMTgxLTQuMDc5IDMuMTgxLTQuMDc5ek0zNi4zMTEgNTMuNTkzcy42MzkuNDk4IDEuNjMzLjg1NGMwIDAtMS43NzUuNDk3LTEuNzc1IDMuMTk0IDAgMi42OTggOC41OTIgNS4yNTYgOC41OTIgOS4wOSAwIDIuNzY5LTIuMjAxIDQuNjkzLTIuMjAxIDQuNjkzcy0uMjEzLS45MzItLjc4MS0uOTMyYzAgMCAxLjYzNS0xLjk4OSAxLjYzNS0zLjMzNyAwLTEuMzUxLTEuOTE4LTMuMzM5LTQuMzMzLTQuNTQ2cy01LjQ2Ny0zLjE5NC01LjQ2Ny01Ljc1Yy0uMDAxLTIuNTU2IDIuNjk3LTMuMjY2IDIuNjk3LTMuMjY2ek0zOC44MjcgNzIuOTc5cy4yODYuNTMuNzg0IDEuMDI4YzAgMC0uNzQ1LjQ2MS0uNzQ1IDEuNTk5IDAgMS4xMzcgMy43MjggNC4wNDkgMy43MjggNC44NjMgMCAuODE1LS4wMTMgMS4yMS0uMjk4IDEuMjEtLjI4NiAwIC4wNTYtLjQ3NS0uNDQtLjk3MS0uNDk2LS40OTUtNC4yNzYtMy4xOTUtNC4yNzYtNS41OTktLjAwMS0xLjU4OCAxLjI0Ny0yLjEzIDEuMjQ3LTIuMTN6Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTQ5LjMwNCAyOC4zNzFzMy4zNjggMS40MzcgMi45MTggMy4zMTdjLS40NTEgMS44OC0zLjE2IDUuMzg2LTcuNjcyIDUuOTQxIDAgMCAxLjc2OC42MzkgMi4zMzEgMS4yMDMgMCAwIDYuOTk0LTIuMDMxIDYuOTk0LTYuNDY4LjAwMS00LjQzNy00LjU3MS0zLjk5My00LjU3MS0zLjk5M3pNMzUuMDc1IDQwLjI2MnMxLjYzNS45MzcgMi4xNjEuOTM3YzAgMC0yLjkxNC4wNDItMi45MTQgNC4wMjhzMTMuNDYyIDcuMjIxIDEzLjQ2MiAxMi4zMzRjMCAyLjc4LTMuNzg3IDUuMDY0LTMuNzg3IDUuMDY0cy0uNjQ5LS43NzktMS4yNTItLjc3OWMwIDAgMS45NTUtMS44MDYgMS45NTUtNC41ODggMC0yLjc4MS02Ljc2OC01LjU2NC02Ljc2OC01LjU2NFMzMC45IDQ5LjIxMSAzMC45IDQ0LjY2MWMwLTQuMDk5IDQuMTc1LTQuMzk5IDQuMTc1LTQuMzk5ek0zOC4yODQgNjMuNTc1cy4zMjUuNjc2Ljc3NiAxLjEyN2MwIDAtMS4xMjguNjAzLTEuMTI4IDIuNTU4czUuNzE1IDUuNzE3IDUuNzE1IDcuOTczYzAgMS42NTMtMS40MjggMi41NTYtMS40MjggMi41NTZzLS4zNjUtLjkwMS0uNTI3LS45MDFjMCAwIC42MDEtLjYwMi42MDEtMS44MDVTNDAuNDE0IDcyIDM5LjU0OCA3MS4xMzVjLS44NjUtLjg2NC0yLjk1Mi0xLjQ5MS0zLjM0Ny00LjI0OS4wMDItMS41ODIgMi4wODMtMy4zMTEgMi4wODMtMy4zMTF6TTM5LjI4NiA3OS44MThsLjY3Ny42NzdzLS44NjMgMS44NDQtMS4zNTMgMS4zNTRjLS40ODktLjQ5LjY3Ni0yLjAzMS42NzYtMi4wMzF6Ii8+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9Ii44IiBkPSJNNDEuMDc0IDkuMDE4djI2Ljg3NU00MS4wNzQgNDIuMDE4djggTTQxLjA3NCA1NS41MTh2NC4zNzVNNDEuMDc0IDY2LjE0M3YyLjg3NU00MS4wNzQgNzQuNjQzdjEuNzUiLz48L3N2Zz4=">
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMjI3IiBoZWlnaHQ9IjI1MDAiIHZpZXdCb3g9IjAgMCA4MS45IDkxLjkyMSI+PHBhdGggZmlsbD0iIzBiMTMyYiIgZD0iTTgxLjQxMiAxNC42NTJjLTMuNTg0IDAtMTkuMTYyLTkuMDM2LTE5LjE2Mi05LjAzNnMtNi4wNzYtMy4yNzEtOS45NzEtMy4yNzEtNC44NTIgMi45MzctNS42MDcgMy42OTFjLS42NTEuNjUyLTEuODU2LjE4LTIuMTc2LjAzOGE0IDQgMCAwIDAgLjU2Mi0yLjAyNiA0LjA0NyA0LjA0NyAwIDEgMC04LjA5NiAwYzAgLjcyNy4y0OCAxLjM5OS41NDIgMS45ODhoL meDAxOHMtMS41MDMuNzU1LTIsMjU5IDAtMS43MTQtMy42OTEtNS42MDgtMy42OTFjLTMuODk0IDAtOS45NzEgMy4yNzEtOS45NzEgMy4yNzJTMC40NzEgMTQuNjUyLjQ4OCAxNC42NTJjMCAwLTEuODcxIDEuNzEzIDEuNzEzIDEuNzEzIDAgMCAxLjA5MiAyLjk2MSA0LjI4NSA0LjI4NSAwIDAgLjA3NyAyLjcyNiA0Ljc1IDIuNzI2IDAgMCAuOTM1IDQuODI5IDUuOTIgNC44MjkgMCAwIDEuMDkgNC4zNjIgOS42NTggNC4zNjIgMCAwIC43NzkgNS4yOTcgNi4zODggNi4zODggMCAwLTguNDEyIDUuNDUzIDIuMzM2IDEzLjg2MyAwIDAtNy4wMTEgNC42NzUuOTM2IDEwLjI4MyAwIDAtMy41ODMgNC4wNDkuOTM1IDguNTY2IDAgMC0zLjE5NSAzLjY2Mi42MjMgNy40NzkgMCAwLTEuNjM2IDIuMjYgMS4wOTEgNC45ODQgMCAwLS4zMTIgNy43OSAxLjQwMSA3Ljc5aC44NTFjMS43MTQgMCAxLjQwMi03Ljc5IDEuNDAyLTcuNzkgMi43MjctMi43MjYgMS4wOS00Ljk4NCAxLjA5LTQuOTg0IDMuODE4LTMuODE1LjYyMy03LjQ3OS42MjMtNy40NzkgNC41MTgtNC41MTguOTM3LTguNTY2LjkzNy04LjU2NiA3Ljk0NC01LjYwOC45MzQtMTAuMjgzLjkzNC0xMC4yODMgMTAuNzUtOC40MTEgMi4zMzgtMTMuODYzIDIuMzM4LTEzLjg2MyA1LjYwNy0xLjA5IDYuMzg3LTYuMzg4IDYuMzg4LTYuMzg4IDguNTY4IDAgOS42NTgtNC4zNjIgOS42NTgtNC4zNjIgNC45ODYgMCA1LjkyLTQuODI5IDUuOTItNC44MjkgNC42NzQgMCA0Ljc1Mi0yLjcyNiA0Ljc1Mi0yLjcyNiAzLjE5My0xLjMyNCA0LjI4NS00LjI4NSA0LjI4NS00LjI4NSAzLjU4Mi4wMDEgMS43MTEtMS43MTMgMS43MTEtMS43MTN6Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTM0LjgwNiAxMS4wMzVzLjE4MS03LjA0Ni00Ljk3LTcuMDQ2Yy01LjE0OSAwLTYuNzMgMS41ODEtNi43MyAxLjU4MXMxLjMxIDIuNDg0IDIuMzA0IDIuNDg0IDIuNDM5LTEuODk2IDIuNDM5LTEuODk2IDEuNDQ1LS42MzMgMS44OTYgMS42MjZjLjQ1MSAyLjI1OCAxLjE3NCAyLjcxIDIuNDM4IDIuNzEgMS4yNjUtLjAwMSAxLjcxOS41NDEgMi42MjMuNTQxeE0zOS41OTQgMTAuMDQxcy4wOTEtMS44MDctMS4wODQtMS44MDdjLTEuMTc2IDAtMS44MDggMS41MzYtMS44MDggMi4xNjggMCAuNjMyIDEuMTc0IDIuNzA5IDIuMDc3IDIuNzA5cy44NjYtMi4zOTkuODE1LTMuMDd6TTM2Ljg4NSAxMy42NTVzMi45MzcgMS4wODQgMi45MzcgMi45MzZjLS4wMDEgMS44NTItMy43Ny0xLjY5Mi0yLjkzNy0yLjkzNnpNMzguMjM4IDE5LjI1NnMtLjU0Mi0xLjEyOS0xLjEyOS0xLjEyOS0uMjI2Ljg1Ny0uNTg3IDEuMjJjLS4zNjEuMzYxLjU4NyAxLjAzOCAxLjcxNi0uMDkxek0zOS42ODQgMjMuNDFzLTEuMTc0LS44MTMtMS4xNzQtMS4xNzQuNDUxLS4wOSAwIC4zNjFjLS40NTIuNDUxLS4yNzIgMi4yNTggMS4xNzQuODEzek0zOC40NDkgMjcuMzkzcy0uMzc1IDIuNjI1LTMuODc1IDIuNjI1LTIuMzc1LTEuMTI1LTIuMzc1LTEuMTI1LS45MS0xLjYzNS0uMTktMS43MThjLjcxOC0uMDgzIDYuNDQtLjQ4NCA2LjQ0LjIxOHpNMTkuOTI3IDYuOTI5bC03LjAwNCAzLjkxNHMuNDExIDIuNTc0IDQuMTE5LjkyNyA1LjgxOS0zLjc1OSA1LjgxOS0zLjc1OS0uNDYzLTIuMTY0LTIuOTM0LTEuMDgyek0xMC4yNDYgMTIuMzg3TDMuNTUyIDE1LjU4czEuMzM5IDMuNzA4IDQuMjIzIDIuMzY5IDUuMzAzLTMuNzU5IDUuMzAzLTMuNzU5LTEuMTYyLTIuNTk5LTIuODMyLTEuODAzek0yMy43MzcgOS44MTJsLTUuMzU1IDMuODExczEuODU1IDEuOTU3IDMuODEyLjkyN2MxLjk1Ni0xLjAzIDYuNzk3LTUuNjY1IDYuNzk3LTUuNjY1cy0uMjA1LTEuNzUxLTEuNDQtLjUxNGwtMS43NTIgMS43NXMtMS42MjctLjYxOC0yLjA2Mi0uMzA5ek0xNS40OTkgMTUuMTY4bC03LjIxIDQuOTQzczIuNDc0IDMuMjg2IDQuOTQzIDEuMTMzYzIuNjU5LTIuMzE3IDYuNDc5LTQuODQgNi40NzktNC44NHMtMi43Ny0xLjIzNi00LjIxMi0xLjIzNnpNMjEuMjY2IDE3LjAyMWwtOC41NDggNi4xOHMzLjI5NiAzLjcwNyA1LjE4OCAxLjg1NGMxLjg1NC0xLjg1MyA1LjYyNi01LjYzNCA1LjYyNi01LjYzNHMtLjE2Ny0yLjQtMi4yMjYtMi40ek0yNS45IDE5LjQ5NGwtNy40NjcgNy40NjZzMi4yNjYgMy4xOTMgNC4zNzcgMS4wODFjMi4xMS0yLjExMSA1LjM1NC02LjkgNS4zNTQtNi45cy0xLjQ5Mi0yLjQxOS0yLjI2NC0xLjY0N3pNMzIuMzY3IDEyLjQ1NGwtNS4xMyA1LjIzMXMxLjU0MiAyLjgxOCAzLjAwMS45NTRjMS40Ni0xLjg2NSAzLjU0Ny00Ljg2NyAzLjU0Ny00Ljg2N3MtLjMyMy0xLjMxOC0xLjQxOC0xLjMxOHpNMzAuOTc4IDIwLjY5N2wtNy40NCA4LjQ2N3MyLjM0NyAyLjY1MyA0LjIyOS4wOGMxLjg4Mi0yLjU3MyA1LjAzLTcuNjQ0IDUuMDMtNy42NDRzLS4wNTItMS4yMDktMS44MTktLjkwM3pNMzUuMTc4IDE1LjE0NmwtMi43NjcgMy41MzRzMS40MjEgMS44NDMgMi41MzUuMjY5YzEuMTE0LTEuNTc1IDEuMDc1LTIuNDk3IDEuMDc1LTIuNDk3cy4wNDEtMS40NTktLjg0My0xLjMwNnpNMzUuNjM5IDIwLjg3bC0zLjA3MyAzLjYxMXMyLjM4MS44MDYgMi44ODEtLjE1NCAxLjM4My0yLjQyIDEuMzgzLTIuNDItLjIzMS0xLjA2OC0xLjE5MS0xLjAzN3pNMjguMTQ4IDExLjM4MmwtNC44MzkgMy45NTZzMS42MTIgMi45MTkgMy4zOCAxLjE1MmMxLjc2Ny0xLjc2NyAzLjkxNy00LjE4OCAzLjkxNy00LjE0OHMtLjkyMS0xLjYxMy0yLjQ1OC0uOTZ6TTQ3LjIzOCAxMS4wMzVzLS4xOC03LjA0NiA0Ljk2OS03LjA0NmM1LjE1IDAgNi43MyAxLjU4MSA2LjczIDEuNTgxcy0xLjMxIDIuNDg0LTIuMzAzIDIuNDg0Yy0uOTk0IDAtMi40MzktMS44OTYtMi40MzktMS44OTZzLTEuNDQ3LS42MzMtMS44OTggMS42MjZjLS40NSAyLjI1OC0xLjE3NCAyLjcxLTIuNDM4IDIuNzEtMS4yNjUtLjAwMS0xLjcxNy41NDEtMi42MjEuNTQxek00Mi40NTEgMTAuMDQxcy0uMDkyLTEuODA3IDEuMDg0LTEuODA3YzEuMTc4IDAgMS44MDggMS41MzYgMS44MDggMi4xNjggMCAuNjMyLTEuMTc1IDIuNzA5LTIuMDc4IDIuNzA5LS45MDQuMDAxLS44NjUtMi4zOTktLjgxNC0zLjA3ek00NS4xNiAxMy42NTVzLTIuOTM2IDEuMDg0LTIuOTM2IDIuOTM2YzAgMS44NTIgMy43Ny0xLjY5MiAyLjkzNi0yLjkzNnpNNDMuODA2IDE5LjI1NnMuNTQxLTEuMTI5IDEuMTI5LTEuMTI5Yy41ODYgMCAuMjI1Ljg1Ny41ODYgMS4yMi4zNjEuMzYxLS41ODYgMS4wMzgtMS43MTUtLjA5MXpNNDIuMzYxIDIzLjE0MXMxLjE3NC0uODEzIDEuMTc0LTEuMTc0LS40NTMtLjA5IDAgLjM2MWMuNDUxLjQ1MS4yNzEgMi4yNTgtMS4xNzQuODEzek00My41OTUgMjcuMzkzcy4zNzUgMi42MjUgMy44NzUgMi42MjUgMi4zNzUtMS4xMjUgMi4zNzUtMS4xMjUuOTA5LTEuNjM1LjE5LTEuNzE4LTYuNDQtLjQ4NC02LjQ0LjIxOHpNNjIuMTE3IDYuOTI5bDcuMDA0IDMuOTE4cy0uNDEyIDIuNTc0LTQuMTE5LjkyN2MtMy43MDktMS42NDctNS44MTktMy43NTktNS44MTktMy43NTlzLjQ2My0yLjE2NCAyLjkzNC0xLjA4MnpNNzEuNzk4IDEyLjM4N2w2LjY5MyAzLjE5MnMtMS4zMzggMy43MDgtNC4yMjMgMi4zNjljLTIuODgzLTEuMzM5LTUuMzA0LTMuNzU5LTUuMzA0LTMuNzU5czEuMTY0LTIuNTk4IDIuODM0LTEuODAyeiIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik01OC4zMDYgOS44MTJsNS4zNTQgMy44MTFzLTEuODU0IDEuOTU3LTMuODExLjkyN2MtMS45NTctMS4wMy02Ljc5Ny01LjY2NS02Ljc5Ny01LjY2NXMuMjA1LTEuNzUxIDEuNDQtLjUxNGwxLjc1IDEuNzVzMS42MzEtLjYxOCAyLjA2NC0uMzA5ek02Ni41NDQgMTUuMTY4bDcuMjExIDQuOTQzcy0yLjQ2NyAzLjI4LTQuOTQyIDEuMTMzYy0yLjY3NC0yLjMxNy02LjM5Mi00LjYyNi02LjM5Mi00LjYyNnMyLjY4Mi0xLjQ1IDQuMTIzLTEuNDV6TTYwLjc3OSAxNy4wMjFsOC41NDcgNi4xOHMtMy4yOTUgMy43MDctNS4xNDcgMS44NTRjLTEuODU0LTEuODUzLTUuNjY2LTUuMzU1LTUuNjY2LTUuMzU1cy4yMDYtMi42NzkgMi4yNjYtMi42Nzl6TTU2LjE0NCAxOS40OTRsNy40NjcgNy40NjZzLTIuMjY2IDMuMTkzLTQuMzc3IDEuMDgxYy0yLjExMS0yLjExMS01LjM1NS02LjktNS4zNTUtNi45czEuNDk0LTIuNDE5IDIuMjY1LTEuNC40N3pNMjkuNjc3IDEyLjQ1NGw1LjEyOSA1LjIzMXMtMS41NDEgMi44MTgtMyAuOTU0Yy0xLjQ2MS0xLjg2NS0zLjU1LTQuODY3LTMuNTUtNC44NjdzLjMyNi0xLjMxOCAxLjQyMS0xLjMxOHpNNTEuNTEzIDIwLjQ0N2w3LjIyMyA4LjQ4OXMtMi41NzQgMi44ODEtNC40NTcuMzA4Yy0xLjg4MS0yLjU3NC01LjAzMS03LjY0NC01LjAzMS03LjY0NHMuNDk4LTEuNDU5IDIuMjY1LTEuMTUzeE00Ni44NjcgMTUuMTQ2bDIuNzY3IDMuNTM0cy0xLjQyMyAxLjg0My0yLjUzNS4yNjljLTEuMTE1LTEuNTc1LTEuMDc2LTIuNDk3LTEuMDc2LTIuNDk3cy0uMDQxLTEuNDU5Ljg0NC0xLjMwNnpNNDYuNDA2IDIwLjg3bDMuMDcyIDMuNjExcy0yLjM4MS44MDYtMi44ODEtLjE1NC0xLjM4NC0yLjQyLTEuMzg0LTIuNDIuMjMyLTEuMjY4IDEuMTkzLTEuMDM3ek01My44OTYgMTEuMzgybDQuODQgMy45NTZzLTEuNjEzIDIuOTE5LTMuMzgxIDEuMTUyYy0xLjc2Ny0xLjc2Ny0zLjkxOC00LjE0OC0zLjkxOC00LjE0OHMuOTIyLTEuNjEzIDIuNDU5LS45NnpNMzIuODUyIDI3LjgyNHMtNy42ODggMS40MTUtMy44NTQgNy4zMDhjMy44MzQgNS44OTMgMTguMTc2IDMuMTQgMTguMTc2IDEwLjA4MyAwIDIuOTExLTMuNjIgNS40NjktMy42MiA1LjQ2OXMxLjUyNiAxLjEgMi4wNjEgMS42MzNjMCAwIDQuNjE1LTMuMzM4IDQuNjE1LTYuOTU4IDAtMy42MjItMy45NzgtNS42ODEtOS44NzEtNy4xNzItNS44OTUtMS40OTEtMTAuNjg4LTMuMDk1LTEwLjY4OC02LjI4NHMzLjE4MS00LjA3OSAzLjE4MS00LjA3OXpNMzYuMzExIDUzLjU5M3MuNjM5LjQ5OCAxLjYzMy44NTRjMCAwLTEuNzc1LjQ5Ny0xLjc3NSAzLjE5NCAwIDIuNjk4IDguNTkyIDUuMjU2IDguNTkyIDkuMDkgMCAyLjc2OS0yLjIwMSA0LjY5My0yLjIwMSA0LjY5M3MtLjIxMy0uOTMyLS43ODEtLjkzMmMwIDAgMS42MzUtMS45ODkgMS42MzUtMy4zMzcgMC0xLjM1MS0xLjkxOC0zLjMzOS00LjMzMy00LjU0NnMtNS40NjctMy4xOTQtNS40NjctNS43NWMtLjAwMS0yLjU1NiAyLjY5Ny0zLjI2NiAyLjY5Ny0zLjI2NnpNMzguODI3IDcyLjk3OXMuMjg2LjUzLjc4NCAxLjAyOGMwIDAtLjc0NS40NjEtLjc0NSAxLjU5OSAwIDEuMTM3IDMuNzI4IDQuMDQ5IDMuNzI4IDQuODYzIDAgLjgxNS0uMDEzIDEuMjEtLjI5OCAxLjIxLS4yODYgMCAuMDU2LS40NzUtLjQ0LS45NzEtLjQ5Ni0uNDk1LTQuMjc2LTMuMTk1LTQuMjc2LTUuNTk5LS4wMDEtMS41ODggMS4yNDctMi4xMyAxLjI0Ny0yLjEzeCIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik00OS4zMDQgMjguMzcxczMuMzY4IDEuNDM3IDIuOTE4IDMuMzE3Yy0uNDUxIDEuODgtMy4xNiA1LjM4Ni03LjY3MiA1Ljk0MSAwIDAgMS43NjguNjM5IDIuMzMxIDEuMjAzIDAgMCA2Ljk5NC0yLjAzMSA2Ljk5NC02LjQ2OC4wMDEtNC40MzctNC41NzEtMy45OTMtNC41NzEtMy45OTN6TTM1LjA3NSA0MC4yNjJzMS42MzUuOTM3IDIuMTYxLjkzN2MwIDAtMi45MTQuMDQyLTIuOTE0IDQuMDI4czEzLjQ2MiA3LjIyMSAxMy40NjIgMTIuMzM0YzAgMi43OC0zLjc4NyA1LjA2NC0zLjc4NyA1LjA2NHMtLjY0OS0uNzc5LTEuMjUyLS43NzljMCAwIDEuOTU1LTEuODA2IDEuOTU1LTQuNTg4IDAtMi43ODEtNi43NjgtNS41NjQtNi43NjgtNS41NjRTMzAuOSA0OS4yMTEgMzAuOSA0NC42NjFjMC00LjA5OSA0LjE3NS00LjM5OSA0LjE3NS00LjM5OXpNMzguMjg0IDYzLjU3NXMuMzI1LjY3Ni43NzYgMS4xMjdjMCAwLTEuMTI4LjYwMy0xLjEyOCAyLjU1OHM1LjcxNSA1LjcxNyA1LjcxNSA3Ljk3M2MwIDEuNjUzLTEuNDI4IDIuNTU2LTEuNDI4IDIuNTU2cy0uMzY1LS45MDEtLjUyNy0uOTAxYzAgMCAuNjAxLS42MDIuNjAxLTEuODA1UzQwLjQxNCA3MiAzOS41NDggNzEuMTM1Yy0uODY1LS44NjQtMi45NTItMS40OTEtMy4zNDctNC4yNDkuMDAyLTEuNTgyIDIuMDgzLTMuMzExIDIuMDgzLTMuMzExek0zOS4yODYgNzkuODE4bC42NzcuNjc3cy0uODYzIDEuODQ0LTEuMzUzIDEuMzU0Yy0uNDg5LS40OS42NzYtMi4wMzEuNjc2LTIuMDMxeiIvPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2ZmZiIgc3Ryb2tlLXdpZHRoPSIuOCIgZD0iTTQxLjA3NCA5LjAxOHYyNi44NzVNNDEuMDc0IDQyLjAxOHY4IE00MS4wNzQgNTUuNTE4djQuMzc1TTQxLjA3NCA2Ni4xNDN2Mi44NzVNNDEuMDc0IDc0LjY0M3YxLjc1Ii8+PC9zdmc+">
     
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
     
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        'med-bg': 'var(--med-bg)',
-                        'med-blue': 'var(--med-blue)',
-                        'med-jade': 'var(--med-jade)',
-                        'med-text': 'var(--med-text)',
-                        'med-border': 'var(--med-border)',
-                        'med-card': 'var(--med-card)',
+                        med: {
+                            bg: 'var(--med-bg)',
+                            blue: 'var(--med-blue)',
+                            jade: 'var(--med-jade)',
+                            text: 'var(--med-text)',
+                            subtext: 'var(--med-subtext)',
+                            border: 'var(--med-border)',
+                            card: 'var(--med-card)',
+                            cardhover: 'var(--med-card-hover)',
+                            accent: 'var(--med-accent)'
+                        }
                     },
                     fontFamily: {
                         'sans': ['Plus Jakarta Sans', 'sans-serif'],
@@ -35,178 +43,298 @@
     </script>
 
     <style>
+        /* VARIABLES DE TEMA (MODO CLARO POR DEFECTO) */
         :root {
-            --med-bg: #f9fbff;
+            --med-bg: #f8fafc;
             --med-blue: #0b132b;
-            --med-jade: #319795;
-            --med-text: #1e293b;
+            --med-jade: #0d9488;
+            --med-text: #0f172a;
+            --med-subtext: #64748b;
             --med-border: #e2e8f0;
             --med-card: #ffffff;
+            --med-card-hover: #ffffff;
+            --med-accent: #f1f5f9;
+            --shadow-subtle: 0 10px 25px -5px rgba(15, 23, 42, 0.05);
+            --shadow-hover: 0 20px 35px -10px rgba(13, 148, 136, 0.12);
         }
 
-        /* MODO OSCURO */
+        /* MODO OSCURO "RICO" (DARK MODE PROFUNDO & ELEGANTE) */
         body.dark-mode {
-            --med-bg: #0f172a;
-            --med-blue: #93c5fd; /* Azul claro para textos */
-            --med-jade: #2dd4bf;
-            --med-text: #f8fafc;
-            --med-border: #334155;
-            --med-card: #1e293b;
+            --med-bg: #090d16;        /* Azul noche ultra profundo */
+            --med-blue: #60a5fa;      /* Azul brillante y legible */
+            --med-jade: #2dd4bf;      /* Turquesa vívido */
+            --med-text: #f1f5f9;      /* Lectura nitida slate-100 */
+            --med-subtext: #94a3b8;   /* Texto secundario legibilidad excelente */
+            --med-border: #1e293b;    /* Bordes bien contrastados */
+            --med-card: #131b2e;      /* Tarjeta elevación azul marino */
+            --med-card-hover: #19243d;/* Hover sutil de tarjeta */
+            --med-accent: #1e293b;
+            --shadow-subtle: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+            --shadow-hover: 0 20px 40px -10px rgba(45, 212, 191, 0.15);
         }
 
+        /* BASES & TRANSICIONES DE MODO */
         body {
             background-color: var(--med-bg);
             color: var(--med-text);
             font-family: 'Plus Jakarta Sans', sans-serif;
             -webkit-font-smoothing: antialiased;
             min-height: 100vh;
-            transition: background-color 0.4s ease, color 0.4s ease;
-            background-image: radial-gradient(circle at 50% 0%, var(--med-card) 0%, var(--med-bg) 80%);
+            transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            background-image: radial-gradient(circle at 50% 0%, var(--med-card) 0%, var(--med-bg) 75%);
+            background-attachment: fixed;
         }
 
-        /* Forzar colores oscuros en las tarjetas y contenedores blancos */
-        .med-card, header, .bg-white {
-            background-color: var(--med-card) !important;
-            border-color: var(--med-border) !important;
-            color: var(--med-text) !important;
+        /* ANIMACIONES FLUIDAS */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.08); }
+        }
+        @keyframes floatMed {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-6px) rotate(1deg); }
         }
 
-        /* Forzar textos grises a que se lean en oscuro */
-        .text-slate-500, .text-slate-400 { color: var(--med-text) !important; opacity: 0.7; }
-        .border-slate-100 { border-color: var(--med-border) !important; }
-
-        /* Botones en modo oscuro */
-        body.dark-mode button.bg-med-card {
-            background-color: var(--med-card) !important;
-            color: var(--med-blue) !important;
-            border-color: var(--med-border) !important;
+        .animate-fade-up {
+            animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        .animate-float {
+            animation: floatMed 6s ease-in-out infinite;
+        }
+        .animate-pulse-glow {
+            animation: pulseGlow 3s ease-in-out infinite;
         }
 
-        /* Animaciones */
-        @keyframes float-med { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-8px); } }
-        .animate-float { animation: float-med 5s ease-in-out infinite; }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade-up { animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
-
+        /* ESTILOS DE TARJETAS Y CONTENEDORES CON ADAPTABILIDAD TOTAL MODO OSCURO */
         .med-card {
+            background-color: var(--med-card);
             border: 1px solid var(--med-border);
             border-radius: 16px;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.05);
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: var(--shadow-subtle);
         }
         .med-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-6px) scale(1.01);
+            background-color: var(--med-card-hover);
             border-color: var(--med-jade);
-            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--shadow-hover);
         }
 
-        /* Alternativas */
+        /* INPUTS EDITABLES ULTRA ELEGANTES */
+        .input-med {
+            background: transparent;
+            border-bottom: 2px dashed transparent;
+            color: var(--med-text);
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            outline: none;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        .input-med:hover, .input-med:focus {
+            border-bottom-color: var(--med-jade);
+            background: rgba(13, 148, 136, 0.04);
+            padding-left: 4px;
+        }
+        .input-med-sub {
+            background: transparent;
+            border-bottom: 1px solid transparent;
+            color: var(--med-jade);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            outline: none;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        .input-med-sub:hover, .input-med-sub:focus {
+            border-bottom-color: var(--med-blue);
+        }
+
+        /* OPCIONES DE ALTERNATIVAS PARA EL SIMULADOR */
         .alternativa {
             background: var(--med-card);
-            border: 1px solid var(--med-border);
-            border-radius: 8px;
-            padding: 18px 24px;
+            border: 1.5px solid var(--med-border);
+            border-radius: 12px;
+            padding: 14px 20px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 15px;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            font-size: 0.95rem;
             color: var(--med-text);
             font-weight: 500;
+            display: flex;
+            align-items: center;
         }
-        .alternativa:hover:not(.bloqueada) { background: var(--med-bg); border-color: var(--med-jade); }
-        .alternativa.correcta { background: #e6fffa; border-color: #319795; color: #234e52; font-weight: 600; }
-        body.dark-mode .alternativa.correcta { background: rgba(49, 151, 149, 0.2); color: #81e6d9; }
-        .alternativa.incorrecta { background: #fff5f5; border-color: #e53e3e; color: #742a2a; }
-        body.dark-mode .alternativa.incorrecta { background: rgba(229, 62, 62, 0.2); color: #feb2b2; }
-        .alternativa.bloqueada { cursor: default; }
+        .alternativa:hover:not(.bloqueada) {
+            background: var(--med-accent);
+            border-color: var(--med-jade);
+            transform: translateX(4px);
+        }
+        .alternativa.correcta {
+            background: rgba(13, 148, 136, 0.12) !important;
+            border-color: var(--med-jade) !important;
+            color: var(--med-jade) !important;
+            font-weight: 700;
+        }
+        .alternativa.incorrecta {
+            background: rgba(239, 68, 68, 0.12) !important;
+            border-color: #ef4444 !important;
+            color: #ef4444 !important;
+        }
+        .alternativa.bloqueada {
+            cursor: default;
+        }
 
-        /* Inputs */
-        .input-med { background: transparent; border-bottom: 2px dashed transparent; color: var(--med-text); font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700; outline: none; width: 100%; transition: all 0.3s; }
-        .input-med:hover, .input-med:focus { border-bottom: 2px dashed var(--med-jade); }
-        .input-med-sub { background: transparent; border-bottom: 1px solid transparent; color: var(--med-jade); font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; outline: none; width: 100%; transition: all 0.3s; }
-        .input-med-sub:hover, .input-med-sub:focus { border-bottom: 1px solid var(--med-blue); }
+        /* PANEL EXPANDIBLE */
+        .panel-correcta {
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        .panel-correcta.abierto {
+            max-height: 250px;
+            opacity: 1;
+            transform: translateY(0);
+            margin-top: 16px;
+        }
 
-        /* Panel respuesta */
-        .panel-correcta { max-height: 0; overflow: hidden; transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); opacity: 0; }
-        .panel-correcta.abierto { max-height: 400px; opacity: 1; margin-top: 24px; }
-
-        /* Modo Simulador (Fullscreen) */
+        /* MODAL SIMULADOR */
         #modo-simulador {
-            position: fixed; inset: 0; background: var(--med-bg); z-index: 99999;
-            display: none; flex-direction: column; overflow-y: auto;
+            position: fixed;
+            inset: 0;
+            background: var(--med-bg);
+            z-index: 99999;
+            display: none;
+            flex-direction: column;
+            overflow-y: auto;
+            backdrop-filter: blur(8px);
+            transition: opacity 0.3s ease;
         }
-        #modo-simulador.activo { display: flex; }
+        #modo-simulador.activo {
+            display: flex;
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        /* SCROLLBAR PERSONALIZADA */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--med-bg);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--med-border);
+            border-radius: 9999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--med-jade);
+        }
     </style>
 </head>
-<body class="p-6 md:p-12">
+<body class="p-4 sm:p-6 md:p-12 transition-colors duration-400">
 
-<!-- MODO OSCURO BOTÓN -->
-<button onclick="toggleDarkMode()" id="btn-dark" class="fixed top-6 left-6 bg-med-card border border-med-border p-3 rounded-full shadow-lg z-50 hover:scale-110 transition-all text-med-blue">
-    <svg id="icon-dark" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+<!-- BOTÓN MODO OSCURO -->
+<button onclick="toggleDarkMode()" id="btn-dark" aria-label="Cambiar Tema" class="fixed top-5 left-5 bg-med-card border border-med-border p-3.5 rounded-full shadow-lg z-50 hover:scale-110 active:scale-95 transition-all text-med-blue hover:border-med-jade group">
+    <svg id="icon-dark" class="w-5 h-5 transition-transform duration-500 group-hover:rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+    </svg>
 </button>
 
-<div class="max-w-6xl mx-auto space-y-10 mt-10">
+<div class="max-w-6xl mx-auto space-y-8 mt-6 sm:mt-10">
     
-    <!-- HEADER -->
-    <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 pb-8 border-b-2 border-med-border animate-fade-up">
-        <div class="flex items-center gap-6">
-            <div class="w-24 h-24 rounded-2xl bg-white border border-med-border flex items-center justify-center shadow-lg animate-float relative">
-                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMjI3IiBoZWlnaHQ9IjI1MDAiIHZpZXdCb3g9IjAgMCA4MS45IDkxLjkyMSI+PHBhdGggZmlsbD0iIzBiMTMyYiIgZD0iTTgxLjQxMiAxNC42NTJjLTMuNTg0IDAtMTkuMTYyLTkuMDM2LTE5LjE2Mi05LjAzNnMtNi4wNzYtMy4yNzEtOS45NzEtMy4yNzEtNC44NTIgMi45MzctNS42MDcgMy42OTFjLS42NTEuNjUyLTEuODU2LjE4LTIuMTc2LjAzOGE0IDQgMCAwIDAgLjU2Mi0yLjAyNiA0LjA0NyA0LjA0NyAwIDEgMC04LjA5NiAwYzAgLjcyNy4yMDggMS4zOTkuNTQyIDEuOTg4aC0uMDE4cy0xLjUwMy43NTUtMi4yNTkgMC0xLjcxNC0zLjY5MS01LjYwOC0zLjY5MWMtMy44OTQgMC05Ljk3MSAzLjI3MS05Ljk3MSAzLjI3MVM0LjA3MSAxNC42NTIuNDg4IDE0LjY1MmMwIDAtMS44NzEgMS43MTMgMS43MTMgMS43MTMgMCAwIDEuMDkyIDIuOTYxIDQuMjg1IDQuMjg1IDAgMCAuMDc3IDIuNzI2IDQuNzUgMi43MjYgMCAwIC45MzUgNC44MjkgNS45MiA0LjgyOSAwIDAgMS4wOSA0LjM2MiA5LjY1OCA0LjM2MiAwIDAgLjc3OSA1LjI5NyA2LjM4OCA2LjM4OCAwIDAtOC40MTIgNS40NTMgMi4zMzYgMTMuODYzIDAgMC03LjAxMSA0LjY3NS45MzYgMTAuMjgzIDAgMC0zLjU4MyA0LjA0OS45MzUgOC41NjYgMCAwLTMuMTk1IDMuNjYyLjYyMyA3LjQ3OSAwIDAtMS42MzYgMi4yNiAxLjA5MSA0Ljk4NCAwIDAtLjMxMiA3Ljc5IDEuNDAxIDcuNzloLjg1MWMxLjcxNCAwIDEuNDAyLTcuNzkgMS40MDItNy43OSAyLjcyNy0yLjcyNiAxLjA5LTQuOTg0IDEuMDktNC45ODQgMy44MTgtMy44MTUuNjIzLTcuNDc5LjYyMy03LjQ3OSA0LjUxOC00LjUxOC45MzctOC41NjYuOTM3LTguNTY2IDcuOTQ0LTUuNjA4LjkzNC0xMC4yODMuOTM0LTEwLjI4MyAxMC43NS04LjQxMSAyLjMzOC0xMy44NjMgMi4zMzgtMTMuODYzIDUuNjA3LTEuMDkgNi4zODctNi4zODggNi4zODctNi4zODggOC41NjggMCA5LjY1OC00LjM2MiA5LjY1OC00LjM2MiA0Ljk4NiAwIDUuOTItNC44MjkgNS45Mi00LjgyOSA0LjY3NCAwIDQuNzUyLTIuNzI2IDQuNzUyLTIuNzI2IDMuMTkzLTEuMzI0IDQuMjg1LTQuMjg1IDQuMjg1LTQuMjg1IDMuNTgyLjAwMSAxLjcxMS0xLjcxMyAxLjcxMS0xLjcxM3oiLz48Y2lyY2xlIGN4PSI0MS4wMDciIGN5PSI0LjI2NiIgcj0iMy4xMTUiIGZpbGw9IiNmZmYiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMzQuODA2IDExLjAzNXMuMTgxLTcuMDQ2LTQuOTctNy4wNDZjLTUuMTQ5IDAtNi43MyAxLjU4MS02LjczIDEuNTgxczEuMzEgMi40ODQgMi4zMDQgMi40ODQgMi40MzktMS44OTYgMi40MzktMS44OTYgMS40NDUtLjYzMyAxLjg5NiAxLjYyNmMuNDUxIDIuMjU4IDEuMTc0IDIuNzEgMi40MzggMi43MSAxLjI2NS0uMDAxIDEuNzE5LjU0MSAyLjYyMy41NDF6TTM5LjU5NCAxMC4wNDFzLjA5MS0xLjgwNy0xLjA4NC0xLjgwN2MtMS4xNzYgMC0xLjgwOCAxLjUzNi0xLjgwOCAyLjE2OCAwIC42MzIgMS4xNzQgMi43MDkgMi4wNzcgMi43MDlzLjg2Ni0yLjM5OS44MTUtMy4wN3pNMzYuODg1IDEzLjY1NXMyLjkzNyAxLjA4NCAyLjkzNyAyLjkzNmMtLjAwMSAxLjg1Mi0zLjc3LTEuNjkyLTIuOTM3LTIuOTM2ek0zOC4yMzggMTkuMjU2cy0uNTQyLTEuMTI5LTEuMTI5LTEuMTI5LS4yMjYuODU3LS41ODcgMS4yMmMtLjM2MS4zNjEuNTg3IDEuMDM4IDEuNzE2LS4wOTF6TTM5LjY4NCAyMy4xNDFzLTEuMTc0LS44MTMtMS4xNzQtMS4xNzQuNDUxLS4wOSAwIC4zNjFjLS40NTIuNDUxLS4yNzIgMi4yNTggMS4xNzQuODEzek0zOC40NDkgMjcuMzkzcy0uMzc1IDIuNjI1LTMuODc1IDIuNjI1LTIuMzc1LTEuMTI1LTIuMzc1LTEuMTI1LS45MS0xLjYzNS0uMTktMS43MThjLjcxOC0uMDgzIDYuNDQtLjQ4NCA2LjQ0LjIxOHpNMTkuOTI3IDYuOTI5bC03LjAwNCAzLjkxNHMuNDExIDIuNTc0IDQuMTE5LjkyNyA1LjgxOS0zLjc1OSA1LjgxOS0zLjc1OS0uNDYzLTIuMTY0LTIuOTM0LTEuMDgyek0xMC4yNDYgMTIuMzg3TDMuNTUyIDE1LjU4czEuMzM5IDMuNzA4IDQuMjIzIDIuMzY5IDUuMzAzLTMuNzU5IDUuMzAzLTMuNzU5LTEuMTYyLTIuNTk5LTIuODMyLTEuODAzek0yMy43MzcgOS44MTJsLTUuMzU1IDMuODExczEuODU1IDEuOTU3IDMuODEyLjkyN2MxLjk1Ni0xLjAzIDYuNzk3LTUuNjY1IDYuNzk3LTUuNjY1cy0uMjA1LTEuNzUxLTEuNDQtLjUxNGwtMS43NTIgMS43NXMtMS42MjctLjYxOC0yLjA2Mi0uMzA5ek0xNS40OTkgMTUuMTY4bC03LjIxIDQuOTQzczIuNDc0IDMuMjg2IDQuOTQzIDEuMTMzYzIuNjU5LTIuMzE3IDYuNDc5LTQuODQgNi40NzktNC44NHMtMi43Ny0xLjIzNi00LjIxMi0xLjIzNnpNMjEuMjY2IDE3LjAyMWwtOC41NDggNi4xOHMzLjI5NiAzLjcwNyA1LjE0OCAxLjg1NGMxLjg1NC0xLjg1MyA1LjYyNi01LjYzNCA1LjYyNi01LjYzNHMtLjE2Ny0yLjQtMi4yMjYtMi40ek0yNS45IDE5LjQ5NGwtNy40NjcgNy40NjZzMi4yNjYgMy4xOTMgNC4zNzcgMS4wODFjMi4xMS0yLjExMSA1LjM1NC02LjkgNS4zNTQtNi45cy0xLjQ5Mi0yLjQxOS0yLjI2NC0xLjY0N3pNMzIuMzY3IDEyLjQ1NGwtNS4xMyA1LjIzMXMxLjU0MiAyLjgxOCAzLjAwMS45NTRjMS40Ni0xLjg2NSAzLjU0Ny00Ljg2NyAzLjU0Ny00Ljg2N3MtLjMyMy0xLjMxOC0xLjQxOC0xLjMxOHpNMzAuOTc4IDIwLjY5N2wtNy40NCA4LjQ2N3MyLjM0NyAyLjY1MyA0LjIyOS4wOGMxLjg4Mi0yLjU3MyA1LjAzLTcuNjQ0IDUuMDMtNy42NDRzLS4wNTItMS4yMDktMS44MTktLjkwM3pNMzUuMTc4IDE1LjE0NmwtMi43NjcgMy41MzRzMS40MjEgMS44NDMgMi41MzUuMjY5YzEuMTE0LTEuNTc1IDEuMDc1LTIuNDk3IDEuMDc1LTIuNDk3cy4wNDEtMS40NTktLjg0My0xLjMwNnpNMzUuNjM5IDIwLjg3bC0zLjA3MyAzLjYxMXMyLjM4MS44MDYgMi44ODEtLjE1NCAxLjM4My0yLjQyIDEuMzgzLTIuNDItLjIzMS0xLjI2OC0xLjE5MS0xLjAzN3pNMjguMTQ4IDExLjM4MmwtNC44MzkgMy45NTZzMS42MTIgMi45MTkgMy4zOCAxLjE1MmMxLjc2Ny0xLjc2NyAzLjkxNy00LjE0OCAzLjkxNy00LjE0OHMtLjkyMS0xLjYxMy0yLjQ1OC0uOTZ6TTQ3LjIzOCAxMS4wMzVzLS4xOC03LjA0NiA0Ljk2OS03LjA0NmM1LjE1IDAgNi43MyAxLjU4MSA2LjczIDEuNTgxcy0xLjMxIDIuNDg0LTIuMzAzIDIuNDg0Yy0uOTk0IDAtMi40MzktMS44OTYtMi40MzktMS44OTZzLTEuNDQ3LS42MzMtMS44OTggMS42MjZjLS40NSAyLjI1OC0xLjE3NCAyLjcxLTIuNDM4IDIuNzEtMS4yNjUtLjAwMS0xLjcxNy41NDEtMi42MjEuNTQxek00Mi40NTEgMTAuMDQxcy0uMDkyLTEuODA3IDEuMDg0LTEuODA3YzEuMTc0IDAgMS44MDggMS41MzYgMS44MDggMi4xNjggMCAuNjMyLTEuMTc1IDIuNzA5LTIuMDc4IDIuNzA5LS45MDQuMDAxLS44NjUtMi4zOTktLjgxNC0zLjA3ek00NS4xNiAxMy42NTVzLTIuOTM2IDEuMDg0LTIuOTM2IDIuOTM2YzAgMS44NTIgMy43Ny0xLjY5MiAyLjkzNi0yLjkzNnpNNDMuODA2IDE5LjI1NnMuNTQxLTEuMTI5IDEuMTI5LTEuMTI5Yy41ODYgMCAuMjI1Ljg1Ny41ODYgMS4yMi4zNjEuMzYxLS41ODYgMS4wMzgtMS43MTUtLjA5MXpNNDIuMzYxIDIzLjE0MXMxLjE3NC0uODEzIDEuMTc0LTEuMTc0LS40NTMtLjA5IDAgLjM2MWMuNDUxLjQ1MS4yNzEgMi4yNTgtMS4xNzQuODEzek00My41OTUgMjcuMzkzcy4zNzUgMi42MjUgMy44NzUgMi42MjUgMi4zNzUtMS4xMjUgMi4zNzUtMS4xMjUuOTA5LTEuNjM1LjE5LTEuNzE4LTYuNDQtLjQ4NC02LjQ0LjIxOHpNNjIuMTE3IDYuOTI5bDcuMDA0IDMuOTE0cy0uNDEyIDIuNTc0LTQuMTE5LjkyN2MtMy43MDktMS42NDctNS44MTktMy43NTktNS44MTktMy43NTlzLjQ2My0yLjE2NCAyLjkzNC0xLjA4MnpNNzEuNzk4IDEyLjM4N2w2LjY5MyAzLjE5MnMtMS4zMzggMy43MDgtNC4yMjMgMi4zNjljLTIuODgzLTEuMzM5LTUuMzA0LTMuNzU5LTUuMzA0LTMuNzU5czEuMTY0LTIuNTk4IDIuODM0LTEuODAyeiIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik01OC4zMDYgOS44MTJsNS4zNTQgMy44MTFzLTEuODU0IDEuOTU3LTMuODExLjkyN2MtMS45NTctMS4wMy02Ljc5Ny01LjY2NS02Ljc5Ny01LjY2NXMuMjA1LTEuNzUxIDEuNDQtLjUxNGwxLjc1IDEuNzVzMS42MzEtLjYxOCAyLjA2NC0uMzA5ek02Ni41NDQgMTUuMTY4bDcuMjExIDQuOTQzcy0yLjQ2NyAzLjI4LTQuOTQyIDEuMTMzYy0yLjY3NC0yLjMxNy02LjM5Mi00LjYyNi02LjM5Mi00LjYyNnMyLjY4Mi0xLjQ1IDQuMTIzLTEuNDV6TTYwLjc3OSAxNy4wMjFsOC41NDcgNi4xOHMtMy4yOTUgMy43MDctNS4xNDcgMS44NTRjLTEuODU0LTEuODUzLTUuNjY2LTUuMzU1LTUuNjY2LTUuMzU1cy4yMDYtMi42NzkgMi4yNjYtMi42Nzl6TTU2LjE0NCAxOS40OTRsNy40NjcgNy40NjZzLTIuMjY2IDMuMTkzLTQuMzc3IDEuMDgxYy0yLjExMS0yLjExMS01LjM1NS02LjktNS4zNTUtNi45czEuNDk0LTIuNDE5IDIuMjY1LTEuNjQ3ek00OS42NzcgMTIuNDU0bDUuMTI5IDUuMjMxcy0xLjU0MSAyLjgxOC0zIC45NTRjLTEuNDYxLTEuODY1LTMuNTUtNC44NjctMy41NS00Ljg2N3MuMzI2LTEuMzE4IDEuNDIxLTEuMzE4ek01MS41MTMgMjAuNDQ3bDcuMjIzIDguNDg5cy0yLjU3NCAyLjg4MS00LjQ1Ny4zMDhjLTEuODgxLTIuNTc0LTUuMDMxLTcuNjQ0LTUuMDMxLTcuNjQ0cy40OTgtMS40NTkgMi4yNjUtMS4xNTN6TTQ2Ljg2NyAxNS4xNDZsMi43NjcgMy41MzRzLTEuNDIzIDEuODQzLTIuNTM1LjI2OWMtMS4xMTUtMS41NzUtMS4wNzYtMi40OTctMS4wNzYtMi40OTdzLS4wNDEtMS40NTkuODQ0LTEuMzA2ek00Ni40MDYgMjAuODdsMy4wNzIgMy42MTFzLTIuMzgxLjgwNi0yLjg4MS0uMTU0LTEuMzg0LTIuNDItMS4zODQtMi40Mi4yMzItMS4yNjggMS4xOTMtMS4wMzd6TTUzLjg5NiAxMS4zODJsNC44NCAzLjk1NnMtMS42MTMgMi45MTktMy4zODEgMS4xNTJjLTEuNzY3LTEuNzY3LTMuOTE4LTQuMTQ4LTMuOTE4LTQuMTQ4cy45MjItMS42MTMgMi40NTktLjk2ek0zMi44NTIgMjcuODI0cy03LjY4OCAxLjQxNS0zLjg1NCA3LjMwOGMzLjgzNCA1Ljg5MyAxOC4xNzYgMy4xNCAxOC4xNzYgMTAuMDgzIDAgMi45MTEtMy42MiA1LjQ2OS0zLjYyIDUuNDY5czEuNTI2IDEuMSAyLjA2MSAxLjYzM2MwIDAgNC42MTUtMy4zMzggNC42MTUtNi45NTggMC0zLjYyMi0zLjk3OC01LjY4MS05Ljg3MS03LjE3Mi01Ljg5NS0xLjQ5MS0xMC42ODgtMy4wOTUtMTAuNjg4LTYuMjg0czMuMTgxLTQuMDc5IDMuMTgxLTQuMDc5ek0zNi4zMTEgNTMuNTkzcy42MzkuNDk4IDEuNjMzLjg1NGMwIDAtMS43NzUuNDk3LTEuNzc1IDMuMTk0IDAgMi42OTggOC41OTIgNS4yNTYgOC41OTIgOS4wOSAwIDIuNzY5LTIuMjAxIDQuNjkzLTIuMjAxIDQuNjkzcy0uMjEzLS45MzItLjc4MS0uOTMyYzAgMCAxLjYzNS0xLjk4OSAxLjYzNS0zLjMzNyAwLTEuMzUxLTEuOTE4LTMuMzM5LTQuMzMzLTQuNTQ2cy01LjQ2Ny0zLjE5NC01LjQ2Ny01Ljc1Yy0uMDAxLTIuNTU2IDIuNjk3LTMuMjY2IDIuNjk3LTMuMjY2ek0zOC44MjcgNzIuOTc5cy4yODYuNTMuNzg0IDEuMDI4YzAgMC0uNzQ1LjQ2MS0uNzQ1IDEuNTk5IDAgMS4xMzcgMy43MjggNC4wNDkgMy43MjggNC44NjMgMCAuODE1LS4wMTMgMS4yMS0uMjk4IDEuMjEtLjI4NiAwIC4wNTYtLjQ3NS0uNDQtLjk3MS0uNDk2LS40OTUtNC4yNzYtMy4xOTUtNC4yNzYtNS41OTktLjAwMS0xLjU4OCAxLjI0Ny0yLjEzIDEuMjQ3LTIuMTN6Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTQ5LjMwNCAyOC4zNzFzMy4zNjggMS40MzcgMi45MTggMy4zMTdjLS40NTEgMS44OC0zLjE2IDUuMzg2LTcuNjcyIDUuOTQxIDAgMCAxLjc2OC42MzkgMi4zMzEgMS4yMDMgMCAwIDYuOTk0LTIuMDMxIDYuOTk0LTYuNDY4LjAwMS00LjQzNy00LjU3MS0zLjk5My00LjU3MS0zLjk5M3pNMzUuMDc1IDQwLjI2MnMxLjYzNS45MzcgMi4xNjEuOTM3YzAgMC0yLjkxNC4wNDItMi45MTQgNC4wMjhzMTMuNDYyIDcuMjIxIDEzLjQ2MiAxMi4zMzRjMCAyLjc4LTMuNzg3IDUuMDY0LTMuNzg3IDUuMDY0cy0uNjQ5LS43NzktMS4yNTItLjc3OWMwIDAgMS45NTUtMS44MDYgMS45NTUtNC41ODggMC0yLjc4MS02Ljc2OC01LjU2NC02Ljc2OC01LjU2NFMzMC45IDQ5LjIxMSAzMC45IDQ0LjY2MWMwLTQuMDk5IDQuMTc1LTQuMzk5IDQuMTc1LTQuMzk5ek0zOC4yODQgNjMuNTc1cy4zMjUuNjc2Ljc3NiAxLjEyN2MwIDAtMS4xMjguNjAzLTEuMTI4IDIuNTU4czUuNzE1IDUuNzE3IDUuNzE1IDcuOTczYzAgMS42NTMtMS40MjggMi41NTYtMS40MjggMi41NTZzLS4zNjUtLjkwMS0uNTI3LS45MDFjMCAwIC42MDEtLjYwMi42MDEtMS44MDVTNDAuNDE0IDcyIDM5LjU0OCA3MS4xMzVjLS44NjUtLjg2NC0yLjk1Mi0xLjQ5MS0zLjM0Ny00LjI0OS4wMDItMS41ODIgMi4wODMtMy4zMTEgMi4wODMtMy4zMTF6TTM5LjI4NiA3OS44MThsLjY3Ny42NzdzLS44NjMgMS44NDQtMS4zNTMgMS4zNTRjLS40ODktLjQ5LjY3Ni0yLjAzMS42NzYtMi4wMzF6Ii8+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9Ii44IiBkPSJNNDEuMDc0IDkuMDE4djI2Ljg3NU00MS4wNzQgNDIuMDE4djggTTQxLjA3NCA1NS41MTh2NC4zNzVNNDEuMDc0IDY2LjE0M3YyLjg3NU00MS4wNzQgNzQuNjQzdjEuNzUiLz48L3N2Zz4=" alt="Caduceo Médico" class="w-16 h-16 object-contain">
+    <!-- HEADER PRINCIPAL -->
+    <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 pb-8 border-b border-med-border animate-fade-up">
+        <div class="flex items-center gap-5 sm:gap-6">
+            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-med-card border border-med-border flex items-center justify-center shadow-lg animate-float shrink-0 p-3">
+                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMjI3IiBoZWlnaHQ9IjI1MDAiIHZpZXdCb3g9IjAgMCA4MS45IDkxLjkyMSI+PHBhdGggZmlsbD0iIzBiMTMyYiIgZD0iTTgxLjQxMiAxNC42NTJjLTMuNTg0IDAtMTkuMTYyLTkuMDM2LTE5LjE2Mi05LjAzNnMtNi4wNzYtMy4yNzEtOS45NzEtMy4yNzEtNC44NTIgMi45MzctNS42MDcgMy42OTFjLS42NTEuNjUyLTEuODU2LjE4LTIuMTc2LjAzOGE0IDQgMCAwIDAgLjU2Mi0yLjAyNiA4LjA0NyA0LjA0NyAwIDEgMC04LjA5NiAwYzAgLjcyNy4yMDggMS4zOTkuNTQyIDEuOTg4aC0uMDE4cy0xLjUwMy43NTUtMi4yNTkgMC0xLjcxNC0zLjY5MS01LjYwOC0zLjY5MWMtMy44OTQgMC05Ljk3MSAzLjI3MS05Ljk3MSAzLjI3MVM0LjA3MSAxNC42NTIuNDg4IDE0LjY1MmMwIDAtMS44NzEgMS43MTMgMS43MTMgMS43MTMgMCAwIDEuMDkyIDIuOTYxIDQuMjg1IDQuMjg1IDAgMCAuMDc3IDIuNzI2IDQuNzUgMi43MjYgMCAwIC45MDUgNC44MjkgNS45MiA0LjgyOSAwIDAgMS4wOSA0LjM2MiA5LjY1OCA0LjM2MiAwIDAgLjc3OSA1LjI5NyA2LjM4OCA2LjM4OCAwIDAtOC40MTIgNS40NTMgMi4zMzYgMTMuODYzIDAgMC03LjAxMSA0LjY3NS45MTYgMTAuMjgzIDAgMC0zLjU4MyA0LjA0OS45MzUgOC41NjYgMCAwLTMuMTk1IDMuNjYyLjYyMyA3LjQ3OSAwIDAtMS42MzYgMi4yNiAxLjA5MSA0Ljk4NCAwIDAtLjMxMiA3Ljc5IDEuNDAxIDcuNzloLjg1MWMxLjcxNCAwIDEuNDAyLTcuNzkgMS40MDItNy43OSAyLjcyNy0yLjcyNiAxLjA5LTQuOTg0IDEuODktNC45ODQgMy44MTgtMy44MTUuNjIzLTcuNDc5LjYyMy03LjQ3OSA0LjUxOC00LjUxOC45MzctOC41NjYuOTM3LTguNTY2IDcuOTQ0LTUuNjA4LjkzNC0xMC4yODMuOTM0LTEwLjI4MyAxMC43NS04LjQxMSAyLjMzOC0xMy44NjMgMi4zMzgtMTMuODYzIDUuNjA3LTEuMDkgNi4zODctNi4zODggNi4zODctNi4zODggOC41NjggMCA5LjY1OC00LjM2MiA5LjY1OC00LjM2MiA0Ljk4NiAwIDUuOTItNC44MjkgNS45Mi00LjgyOSA0LjY3NCAwIDQuNzUyLTIuNzI2IDQuNzUyLTIuNzI2IDMuMTkzLTEuMzI0IDQuMjg1LTQuMjg1IDQuMjg1LTQuMjg1IDMuNTgyLjAwMSAxLjcxMS0xLjcxMyAxLjcxMS0xLjcxM3oiLz48Y2lyY2xlIGN4PSI0MS4wMDciIGN5PSI0LjI2NiIgcj0iMy4xMTUiIGZpbGw9IiNmZmYiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMzQuODA2IDExLjAzNXMuMTgxLTcuMDQ2LTQuOTctNy4wNDZjLTUuMTQ5IDAtNi43MyAxLjU4MS02LjczIDEuNTgxczEuMzEgMi40ODQgMi4zMDQgMi40ODQgMi40MzktMS44OTYgMi40MzktMS44OTYgMS40NDUtLjYzMyAxLjg5NiAxLjYyNmMuNDUxIDIuMjU4IDEuMTc0IDIuNzEgMi40MzggMi43MSAxLjI2NS0uMDAxIDEuNzE5LjU0MSAyLjYyMy41NDF6TTM5LjU5NCAxMC4wNDFzLjA5MS0xLjgwNy0xLjA4NC0xLjgwN2MtMS4xNzYgMC0xLjgwOCAxLjUzNi0xLjgwOCAyLjE2OCAwIC42MzIgMS4xNzQgMi43MDkgMi4wNzcgMi43MDlzLjg2Ni0yLjM5OS44MTUtMy4wN3pNMzYuODg1IDEzLjY1NXMyLjkzNyAxLjA4NCAyLjkzNyAyLjkzNmMtLjAwMSAxLjg1Mi0zLjc3LTEuNjkyLTIuOTM3LTIuOTM2ek0zOC4yMzggMTkuMjU2cy0uNTQyLTEuMTI5LTEuMTI5LTEuMTI5LS4yMjYuODU3LS41ODcgMS4yMmMtLjM2MS4zNjEuNTg3IDEuMDM4IDEuNzE2LS4wOTF6TTM5LjY4NCAyMy4xNDFzLTEuMTc0LS44MTMtMS4xNzQtMS4xNzQuNDUxLS4wOSAwIC4zNjFjLS40NTIuNDUxLS4yNzIgMi4yNTggMS4xNzQuODEzek0zOC40NDkgMjcuMzkzcy0uMzc1IDIuNjI1LTMuODc1IDIuNjI1LTIuMzc1LTEuMTI1LTIuMzc1LTEuMTI1LS45MS0xLjYzNS0uMTktMS43MThjLjcxOC0uMDgzIDYuNDQtLjQ4NCA2LjQ0LjIxOHpNMTkuOTI3IDYuOTI5bC03LjAwNCAzLjkxNHMuNDExIDIuNTc0IDQuMTE5LjkyNyA1LjgxOS0zLjc1OSA1LjgxOS0zLjc1OS0uNDYzLTIuMTY0LTIuOTM0LTEuMDgyek0xMC4yNDYgMTIuMzg3TDMuNTUyIDE1LjU4czEuMzM5IDMuNzA4IDQuMjIzIDIuMzY5IDUuMzAzLTMuNzU5IDUuMzAzLTMuNzU5LTEuMTYyLTIuNTk5LTIuODMyLTEuODAzek0yMy43MzcgOS44MTJsLTUuMzU1IDMuODExczEuODU1IDEuOTU3IDMuODEyLjkyN2MxLjk1Ni0xLjAzIDYuNzk3LTUuNjY1IDYuNzk3LTUuNjY1cy0uMjA1LTEuNzUxLTEuNDQtLjUxNGwtMS43NTIgMS43NXMtMS42MjctLjYxOC0yLjA2Mi0uMzA5ek0xNS40OTkgMTUuMTY4bC03LjIxIDQuOTQzczIuNDc0IDMuMjg2IDQuOTQzIDEuMTMzYzIuNjU5LTIuMzE3IDYuNDc5LTQuODQgNi40NzktNC44NHMtMi43Ny0xLjIzNi00LjIxMi0xLjIzNnpNMzEuMjY2IDE3LjAyMWwtOC41NDggNi4xOHMzLjI5NiAzLjcwNyA1LjE4OCAxLjg1NGMxLjg1NC0xLjg1MyA1LjYyNi01LjYzNCA1LjYyNi01LjYzNHMtLjE2Ny0yLjQtMi4yMjYtMi40ek0yNS45IDE5LjQ5NGwtNy40NjcgNy40NjZzMi4yNjYgMy4xOTMgNC4zNzcgMS4wODFjMi4xMS0yLjExMSA1LjM1NC02LjkgNS4zNTQtNi45cy0xLjQ5Mi0yLjQxOS0yLjI2NC0xLjY0N3pNMzIuMzY3IDEyLjQ1NGwtNS4xMyA1LjIzMXMxLjU0MiAyLjgxOCAzLjAwMS45NTRjMS40Ni0xLjg2NSAzLjU0Ny00Ljg2NyAzLjU0Ny00Ljg2N3MtLjMyMy0xLjMxOC0xLjQxOC0xLjMxOHpNMzAuOTc4IDIwLjY5N2wtNy40NCA4LjQ2N3MyLjM0NyAyLjY1MyA0LjIyOS4wOGMxLjg4Mi0yLjU3MyA1LjAzLTcuNjQ0IDUuMDMtNy42NDRzLS4wNTItMS4yMDktMS44MTktLjkwM3pNMzUuMTc4IDE1LjE0NmwtMi43NjcgMy41MzRzMS40MjEgMS44NDMgMi41MzUuMjY5YzEuMTE0LTEuNTc1IDEuMDc1LTIuNDk3IDEuMDc1LTIuNDk3cy4wNDEtMS40NTktLjg0My0xLjMwNnpNMzUuNjM5IDIwLjg3bC0zLjA3MyAzLjYxMXMyLjM4MS44MDYgMi44ODEtLjE1NCAxLjM4My0yLjQyIDEuMzgzLTIuNDItLjIzMS0xLjA2OC0xLjE5MS0xLjAzN3pNMjguMTQ4IDExLjM4MmwtNC44MzkgMy45NTZzMS42MTIgMi45MTkgMy4zOCAxLjE1MmMxLjc2Ny0xLjc2NyAzLjkxNy00LjE4OCAzLjkxNy00LjE4OHMtLjkyMS0xLjYxMy0yLjQ1OC0uOTZ6TTQ3LjIzOCAxMS4wMzVzLS4xOC03LjA0NiA0Ljk2OS03LjA0NmM1LjE1IDAgNi43MyAxLjU4MSA2LjczIDEuNTgxcy0xLjMxIDIuNDg0LTIuMzAzIDIuNDg0Yy0uOTk0IDAtMi40MzktMS44OTYtMi40MzktMS44OTZzLTEuNDQ3LS42MzMtMS44OTggMS42MjZjLS40NSAyLjI1OC0xLjE3NCAyLjcxLTIuNDM4IDIuNzEtMS4yNjUtLjAwMS0xLjcxNy41NDEtMi42MjEuNTQxek00Mi40NTEgMTAuMDQxcy0uMDkyLTEuODA3IDEuMDg0LTEuODA3YzEuMTc4IDAgMS44MDggMS41MzYgMS44MDggMi4xNjggMCAuNjMyLTEuMTc1IDIuNzA5LTIuMDc4IDIuNzA5LS45MDQuMDAxLS44NjUtMi4zOTktLjgxNC0zLjA3ek00NS4xNiAxMy42NTVzLTIuOTM2IDEuMDg0LTIuOTM2IDIuOTM2YzAgMS44NTIgMy43Ny0xLjY5MiAyLjkzNi0yLjkzNnpNNDMuODA2IDE5LjI1NnMuNTQxLTEuMTI5IDEuMTI5LTEuMTI5Yy41ODYgMCAuMjI1Ljg1Ny41ODYgMS4yMi4zNjEuMzYxLS41ODYgMS4wMzgtMS43MTUtLjA5MXpNNDIuMzYxIDIzLjE0MXMxLjE3NC0uODEzIDEuMTc0LTEuMTc0LS40NTMtLjA5IDAgLjM2MWMuNDUxLjQ1MS4yNzEgMi4yNTgtMS4xNzQuODEzek00My41OTUgMjcuMzkzcy4zNzUgMi42MjUgMy44NzUgMi42MjUgMi4zNzUtMS4xMjUgMi4zNzUtMS4xMjUuOTA5LTEuNjM1LjE5LTEuNzE4LTYuNDQtLjQ4NC02LjQ0LjIxOHpNNjIuMTE3IDYuOTI5bDcuMDA0IDMuOTE4cy0uNDEyIDIuNTc0LTQuMTE5LjkyN2MtMy43MDktMS42NDctNS44MTktMy43NTktNS44MTktMy43NTlzLjQ2My0yLjE2NCAyLjkzNC0xLjA4MnpNNzEuNzk4IDEyLjM4N2w2LjY5MyAzLjE5MnMtMS4zMzggMy43MDgtNC4yMjMgMi4zNjljLTIuODgzLTEuMzM5LTUuMzA0LTMuNzU5LTUuMzA0LTMuNzU5czEuMTY0LTIuNTk4IDIuODM0LTEuODAyeiIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik01OC4zMDYgOS44MTJsNS4zNTQgMy44MTFzLTEuODU0IDEuOTU3LTMuODExLjkyN2MtMS45NTctMS4wMy02Ljc5Ny01LjY2NS02Ljc5Ny01LjY2NXMuMjA1LTEuNzUxIDEuNDQtLjUxNGwxLjc1IDEuNzVzMS42MzEtLjYxOCAyLjA2NC0uMzA5ek02Ni41NDQgMTUuMTY4bDcuMjExIDQuOTQzcy0yLjQ2NyAzLjI4LTQuOTQyIDEuMTMzYy0yLjY3NC0yLjMxNy02LjM5Mi00LjYyNi02LjM5Mi00LjYyNnMyLjY4Mi0xLjQ1IDQuMTIzLTEuNDV6TTYwLjc3OSAxNy4wMjFsOC41NDcgNi4xOHMtMy4yOTUgMy43MDctNS4xNDcgMS44NTRjLTEuODU0LTEuODUzLTUuNjY2LTUuMzU1LTUuNjY2LTUuMzU1cy4yMDYtMi42NzkgMi4yNjYtMi42Nzl6TTU2LjE0NCAxOS40OTRsNy40NjcgNy40NjZzLTIuMjY2IDMuMTkzLTQuMzc3IDEuMDgxYy0yLjExMS0yLjExMS01LjM1NS02LjktNS4zNTUtNi45czEuNDk0LTIuNDE5IDIuMjY1LTEuNC40N3pNMjkuNjc3IDEyLjQ1NGw1LjEyOSA1LjIzMXMtMS41NDEgMi44MTgtMyAuOTU0Yy0xLjQ2MS0xLjg2NS0zLjU1LTQuODY3LTMuNTUtNC44NjdzLjMyNi0xLjMxOCAxLjQyMS0xLjMxOHpNNTEuNTEzIDIwLjQ0N2w3LjIyMyA4LjQ4OXMtMi41NzQgMi44ODEtNC40NTcuMzA4Yy0xLjg4MS0yLjU3NC01LjAzMS03LjY4NC01LjAzMS03LjY4NHMuNDk4LTEuNDU5IDIuMjY1LTEuMTUzeE00Ni44NjcgMTUuMTQ2bDIuNzY3IDMuNTM0cy0xLjQyMyAxLjg0My0yLjUzNS4yNjljLTEuMTE1LTEuNTc1LTEuMDc2LTIuNDk3LTEuMDc2LTIuNDk3cy0uMDQxLTEuNDU5Ljg0NC0xLjMwNnpNNDYuNDA2IDIwLjg3bDMuMDcyIDMuNjExcy0yLjM4MS44MDYtMi44ODEtLjE1NC0xLjM4NC0yLjQyLTEuMzg0LTIuNDIuMjMyLTEuMjY4IDEuMTkzLTEuMDM3ek01My44OTYgMTEuMzgybDQuODQgMy45NTZzLTEuNzczIDIuOTE5LTMuMzgxIDEuMTUyYy0xLjc2Ny0xLjc2Ny0zLjkxOC00LjE0OC0zLjkxOC00LjE4OHMuOTIyLTEuNjEzIDIuNDU5LS45NnpNMzIuODUyIDI3LjgyNHMtNy42ODggMS40MTUtMy44NTQgNy4zMDhjMy44MzQgNS44OTMgMTguMTc2IDMuMTQgMTguMTc2IDEwLjA4MyAwIDIuOTExLTMuNjIgNS40NjktMy42MiA1LjQ2OXMxLjUyNiAxLjEgMi4wNjEgMS42MzNjMCAwIDQuNjE1LTMuMzM4IDQuNjE1LTYuOTU4IDAtMy42MjItMy45NzgtNS42ODEtOS44NzEtNy4xNzItNS44OTUtMS40OTEtMTAuNjg4LTMuMDk1LTEwLjY4OC02LjI4NHMzLjE4MS00LjA3OSAzLjE4MS00LjA3OXpNMzYuMzExIDUzLjU5M3MuNjM5LjQ5OCAxLjYzMy44NTRjMCAwLTEuNzc1LjQ5Ny0xLjc3NSAzLjE5NCAwIDIuNjk4IDguNTkyIDUuMjU2IDguNTkyIDkuMDkgMCAyLjc2OS0yLjIwMSA0LjY5My0yLjIwMSA0LjY5M3MtLjIxMy0uOTMyLS43ODEtLjkzMmMwIDAgMS42MzUtMS45ODkgMS42MzUtMy4zMzcgMC0xLjM1MS0xLjkxOC0zLjMzOS00LjMzMy00LjU0NnMtNS40NjctMy4xOTQtNS40NjctNS43NWMtLjAwMS0yLjU1NiAyLjY5Ny0zLjI2NnAyLjY5Ny0zLjI2NnpNMzguODI3IDcyLjk3OXMuMjg2LjUzLjc4NCAxLjAyOGMwIDAtLjc4NS40NjEtLjc0NSAxLjU5OSAwIDEuMTM3IDMuNzI4IDQuMDQ5IDMuNzI4IDQuODYzIDAgLjgxNS0uMDEzIDEuMjEtLjI5OCAxLjIxLS4yODYgMCAuMDU2LS40NzUtLjQ0LS45NzEtLjQ5Ni0uNDk1LTQuMjc2LTMuMTk1LTQuMjc2LTUuNTk5LS4wMDEtMS41ODggMS4yNDctMi4xMyAxLjA0Ny0yLjEzeCIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik00OS4zMDQgMjguMzcxczMuMzY4IDEuNDM3IDIuOTE4IDMuMzE3Yy0uNDUxIDEuODgtMy4xNiA1LjM4Ni03LjY3MiA1Ljk0MSAwIDAgMS43NjguNjM5IDIuMzMxIDEuMjAzIDAgMCA2Ljk5NC0yLjAzMSA2Ljk5NC02LjQ2OC4wMDEtNC40MzctNC41NzEtMy45OTMtNC41NzEtMy45OTN6TTM5LjA3NSA0MC4yNjJzMS42MzUuOTM3IDIuMTYxLjkzN2MwIDAtMi45MTQuMDQyLTIuOTE0IDQuMDI4czEzLjQ2MiA3LjIyMSAxMy40NjIgMTIuMzM0YzAgMi43OC0zLjc4NyA1LjA2NC0zLjc4NyA1LjA2NHMtLjY0OS0uNzc5LTEuNTUyLS43NzljMCAwIDEuOTU1LTEuODA2IDEuOTU1LTQuNTg4IDAtMi43ODEtNi43NjgtNS41NjQtNi43NjgtNS41NjRTMzAuOSA0OS4yMTEgMzAuOSA0NC42NjFjMC00LjA5OSA0LjE3NS00LjM5OSA0LjE3NS00LjM5OXpNMzguMjg4IDYzLjU3NXMuMzI1LjY3Ni43NzYgMS4xMjdjMCAwLTEuMTI4LjYwMy0xLjEyOCAyLjU1OHM1LjcxNSA1LjcxNyA1LjcxNSA3Ljk3M2MwIDEuNjUzLTEuNDI4IDIuNTU2LTEuNDI4IDIuNTU2cy0uMzY1LS45MDEtLjUyNy0uOTAxYzAgMCAuNjAxLS42MDIuNjAxLTEuODA1UzQwLjQxNCA3MiAzOS41NDggNzEuMTM1Yy0uODY1LS44NjQtMi45NTItMS40OTEtMy4zNDctNC4yNDkuMDAyLTEuNTgyIDIuMDgzLTMuMzExIDIuMDgzLTMuMzExek0zOS4yODYgNzkuODE4bC42NzcuNjc3cy0uODYzMS44NDQtMS4zNTMgMS4zNTRjLS40ODktLjQ5LjY3Ni0yLjAzMS42NzYtMi4wMzF6Ii8+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9Ii44IiBkPSJNNDEuMDc0IDkuMDE4djI2jg3NU00MS4wNzQgNDIuMDE4djggTTQxLjA3NCA1NS41MTh2NC4zNzVNNDEuMDc0IDY2LjE0M3YyLjg3NU00MS4wNzQgNzQuNjQzdjEuNzUiLz48L3N2Zz4=" alt="Logo Caduceo" class="w-full h-full object-contain filter drop-shadow">
             </div>
             <div>
-                <div class="flex items-center gap-3 mb-2">
-                    <span class="text-med-jade tracking-[0.2em] text-[10px] font-bold uppercase">Departamento Médico</span>
-                    <span class="h-px w-8 bg-med-jade"></span>
+                <div class="flex items-center gap-2 mb-1.5">
+                    <span class="text-med-jade tracking-[0.2em] text-[10px] font-extrabold uppercase">Departamento Médico</span>
+                    <span class="h-px w-6 bg-med-jade inline-block opacity-60"></span>
                 </div>
-                <h1 class="text-4xl md:text-5xl font-serif text-med-blue tracking-tight font-bold">Atlas Clínico</h1>
-                <p class="text-slate-500 text-sm mt-1 font-medium">Repositorio Oficial de Exámenes.</p>
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-serif text-med-blue tracking-tight font-bold">Atlas Clínico</h1>
+                <p class="text-med-subtext text-xs sm:text-sm mt-1 font-medium">Repositorio Oficial & Banco Editable de Exámenes Médico-Clínicos.</p>
             </div>
         </div>
-        <a href="index.html" class="bg-white hover:bg-slate-50 text-med-blue text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-lg border border-med-border transition-all flex items-center gap-2 shadow-sm">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-            Volver al Panel
-        </a>
+
+        <button onclick="volverAlPanel()" id="btn-volver-top" class="hidden bg-med-card hover:bg-med-accent text-med-blue text-xs font-bold uppercase tracking-wider px-5 py-3 rounded-xl border border-med-border transition-all duration-300 flex items-center gap-2 shadow-sm hover:border-med-jade hover:-translate-y-0.5 active:scale-95 shrink-0">
+            <svg class="w-4 h-4 text-med-jade" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Volver al Archivo
+        </button>
     </header>
 
-    <!-- DASHBOARD -->
-    <div id="dashboard-stats" class="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-up" style="animation-delay: 0.1s"></div>
+    <!-- DASHBOARD ESTADÍSTICAS -->
+    <div id="dashboard-stats" class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 animate-fade-up" style="animation-delay: 0.1s"></div>
 
-    <!-- VISTAS -->
+    <!-- CONTENEDORES DE VISTA -->
     <div id="vista-examenes" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-    <div id="vista-preguntas" class="hidden space-y-8"></div>
+    <div id="vista-preguntas" class="hidden space-y-6"></div>
 </div>
 
-<!-- MODO SIMULADOR (Compacto) -->
+<!-- MODO SIMULADOR MODAL -->
 <div id="modo-simulador" class="fixed inset-0 bg-med-bg z-[99999] hidden flex-col overflow-hidden">
-    <div class="max-w-3xl mx-auto w-full p-4 md:p-6 flex flex-col h-full justify-center">
-        <!-- Barra superior del simulador -->
-        <div class="flex justify-between items-center py-2 border-b border-med-border mb-4">
-            <h2 class="text-lg font-bold text-med-blue font-serif" id="sim-titulo">Examen Simulado</h2>
-            <div class="text-sm font-bold text-med-jade tracking-wider" id="sim-progreso">1 / 20</div>
-            <button onclick="cerrarSimulador()" class="text-slate-500 hover:text-red-500 transition-colors">✖ Salir</button>
+    <div class="max-w-3xl mx-auto w-full p-4 sm:p-6 flex flex-col h-full justify-between">
+        <!-- BARRA SUPERIOR SIMULADOR -->
+        <div class="flex justify-between items-center py-3 border-b border-med-border">
+            <div class="flex items-center gap-3">
+                <span class="w-3 h-3 rounded-full bg-med-jade animate-pulse"></span>
+                <h2 class="text-base sm:text-lg font-bold text-med-blue font-serif" id="sim-titulo">Examen Simulado</h2>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="text-xs font-extrabold text-med-jade tracking-wider bg-med-accent border border-med-border px-3 py-1 rounded-full" id="sim-progreso">1 / 20</span>
+                <button onclick="cerrarSimulador()" class="text-med-subtext hover:text-red-500 transition-colors p-1 rounded-lg hover:bg-med-accent" title="Cerrar Simulador">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
         </div>
 
-        <!-- Contenedor de la pregunta -->
-        <div class="flex-1 flex flex-col justify-center">
-            <div class="mb-4">
-                <h3 class="text-lg md:text-xl text-med-text font-medium leading-relaxed" id="sim-pregunta">Cargando pregunta...</h3>
+        <!-- CONTENIDO PREGUNTA -->
+        <div class="flex-1 flex flex-col justify-center my-4 overflow-y-auto pr-1">
+            <div class="mb-6">
+                <span class="text-[10px] font-extrabold uppercase tracking-widest text-med-jade block mb-2">Caso / Reactivo Clínico</span>
+                <h3 class="text-lg sm:text-xl md:text-2xl text-med-text font-serif leading-relaxed" id="sim-pregunta">Cargando reactivo...</h3>
             </div>
-            <div class="space-y-2" id="sim-alternativas"></div>
             
-            <!-- Panel de respuesta (oculto al inicio) -->
-            <div class="panel-correcta mt-4" id="sim-panel-respuesta">
-                <div class="bg-emerald-50 border border-emerald-200 p-4 rounded-xl flex items-center gap-3">
-                    <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <div class="space-y-3" id="sim-alternativas"></div>
+            
+            <!-- EXPLICACIÓN / RESPUESTA -->
+            <div class="panel-correcta" id="sim-panel-respuesta">
+                <div class="bg-emerald-500/10 border border-emerald-500/30 p-4 rounded-xl flex items-start gap-3">
+                    <div class="p-1 bg-emerald-500/20 rounded-lg text-emerald-500 shrink-0 mt-0.5">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    </div>
                     <div>
-                        <h4 class="text-emerald-800 font-bold text-[10px] tracking-widest uppercase">Respuesta Correcta</h4>
-                        <p class="text-emerald-950 font-serif text-base font-semibold" id="sim-texto-correcta"></p>
+                        <h4 class="text-emerald-500 font-bold text-[10px] tracking-widest uppercase mb-1">Respuesta Correcta Confirmada</h4>
+                        <p class="text-med-text font-serif text-sm sm:text-base font-semibold" id="sim-texto-correcta"></p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Botón Siguiente -->
-        <div class="py-4 mt-2 border-t border-med-border flex justify-end">
-            <button id="btn-siguiente" onclick="siguientePregunta()" class="hidden bg-med-blue hover:bg-med-jade text-white font-bold py-3 px-8 rounded-lg transition-all text-sm tracking-wider shadow-md">
+        <!-- FOOTER ACCIONES -->
+        <div class="py-3 border-t border-med-border flex justify-between items-center">
+            <button onclick="cerrarSimulador()" class="text-xs font-bold text-med-subtext hover:text-med-text transition-colors">
+                Cancelar Simulación
+            </button>
+            <button id="btn-siguiente" onclick="siguientePregunta()" class="hidden bg-med-blue hover:opacity-90 text-white font-bold py-3 px-7 rounded-xl transition-all duration-300 text-xs tracking-wider uppercase shadow-lg hover:shadow-med-blue/20 hover:-translate-y-0.5 active:scale-95">
                 Siguiente Pregunta →
             </button>
         </div>
@@ -214,22 +342,81 @@
 </div>
 
 <script>
+/**
+ * CONFIGURACIÓN API REST / SUPABASE
+ * Soporta endpoint REST personalizado o Supabase PostgREST estándar.
+ */
 const URL_SERVIDOR = "https://api.nova-sync.xyz";
+const USE_SUPABASE_REST = false; // Cambiar a true si usas la API nativa REST de Supabase directamente
+
+// Datos locales de respaldo cuando falle la red / API externa
+const DATOS_FALLBACK_DEMO = [
+    {
+        id: "demo-1",
+        grupo_id: "exp-101",
+        nombre_personalizado: "Cardiología Clínica ENAV",
+        materia_personalizada: "Cardiología",
+        texto_pregunta: "¿Cuál es el hallazgo electrocardiógrafo patognomónico del infarto agudo de miocardio con elevación del segmento ST (IAMCEST)?",
+        alternativas: [
+            "Inversión simétrica de la onda T en V1-V3",
+            "Elevación del punto J y segmento ST > 1mm en dos derivaciones contiguas",
+            "Bloqueo completo de rama derecha previo",
+            "Depresión del intervalo PR únicamente"
+        ],
+        correcta: 1,
+        fecha_creacion: "2026-03-15"
+    },
+    {
+        id: "demo-2",
+        grupo_id: "exp-101",
+        nombre_personalizado: "Cardiología Clínica ENAV",
+        materia_personalizada: "Cardiología",
+        texto_pregunta: "¿Cuál es el tratamiento farmacológico de primera línea en la falla cardíaca reducida para disminuir la mortalidad?",
+        alternativas: [
+            "Digoxina sola",
+            "Furosemida a dosis altas",
+            "Inhibidores de SGLT2 + iECA/ARNI + Betabloqueantes + ARM",
+            "Amlodipino + Hidralazina"
+        ],
+        correcta: 2,
+        fecha_creacion: "2026-03-15"
+    },
+    {
+        id: "demo-3",
+        grupo_id: "exp-102",
+        nombre_personalizado: "Neurología & Casos Clínicos",
+        materia_personalizada: "Neurología",
+        texto_pregunta: "Paciente de 65 años presenta afasia súbita y hemiparesia derecha. La ventana de trombolisis con rt-PA intravenoso en ACV isquémico es de:",
+        alternativas: [
+            "Hasta 4.5 horas desde el inicio de síntomas",
+            "Hasta 12 horas",
+            "Hasta 24 horas siempre",
+            "Solo las primeras 2 horas"
+        ],
+        correcta: 0,
+        fecha_creacion: "2026-04-01"
+    }
+];
+
+let examenesGlobales = [];
 let preguntasSimulador = [];
 let indexSimulador = 0;
 let puntajeSimulador = 0;
 let respondidaSimulador = false;
+let grupoActualId = null;
 
-// --- MODO OSCURO ---
+// --- MODO OSCURO "RICO" CON PERSISTENCIA ---
 function toggleDarkMode() {
-    document.body.classList.toggle('dark-mode');
-    const isDark = document.body.classList.contains('dark-mode');
-    localStorage.setItem('darkMode', isDark);
+    const isDark = document.body.classList.toggle('dark-mode');
+    document.documentElement.classList.toggle('dark', isDark);
+    localStorage.setItem('darkMode', isDark ? 'true' : 'false');
+    
     document.getElementById('icon-dark').innerHTML = isDark 
-        ? '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>'
-        : '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>';
+        ? `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>`
+        : `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>`;
 }
 
+// Inicializar Modo Oscuro si está guardado
 if (localStorage.getItem('darkMode') === 'true') {
     toggleDarkMode();
 }
@@ -238,14 +425,41 @@ window.onload = () => {
     cargarExamenes();
 };
 
+function volverAlPanel() {
+    document.getElementById('vista-preguntas').classList.add('hidden');
+    document.getElementById('btn-volver-top').classList.add('hidden');
+    document.getElementById('vista-examenes').classList.remove('hidden');
+    document.getElementById('dashboard-stats').classList.remove('hidden');
+    cargarExamenes();
+}
+
+// --- CARGA DE EXPEDIENTES / EXÁMENES ---
 async function cargarExamenes() {
     const cont = document.getElementById('vista-examenes');
     try {
-        const res = await fetch(`${URL_SERVIDOR}/api/admin/examenes`);
-        const preguntas = await res.json();
+        const endpoint = USE_SUPABASE_REST ? `${URL_SERVIDOR}/rest/v1/examenes?select=*` : `${URL_SERVIDOR}/api/admin/examenes`;
         
-        if (!preguntas.length) {
-            cont.innerHTML = '<div class="col-span-full text-center py-20 text-slate-400 font-serif italic text-lg bg-white border border-med-border rounded-xl">El archivo está vacío.</div>';
+        let preguntas = [];
+        try {
+            const res = await fetch(endpoint);
+            if (res.ok) {
+                preguntas = await res.json();
+            } else {
+                throw new Error("Respuesta no OK");
+            }
+        } catch (fetchErr) {
+            console.warn("No se pudo conectar con el servidor externo. Usando almacenamiento local/demo.", fetchErr);
+            const guardados = localStorage.getItem('atlas_examenes_local');
+            preguntas = guardados ? JSON.parse(guardados) : DATOS_FALLBACK_DEMO;
+        }
+
+        examenesGlobales = preguntas;
+        
+        if (!preguntas || !preguntas.length) {
+            cont.innerHTML = `
+                <div class="col-span-full text-center py-16 text-med-subtext font-serif italic text-base bg-med-card border border-med-border rounded-2xl animate-fade-in">
+                    El repositorio de exámenes se encuentra vacío actualmente.
+                </div>`;
             document.getElementById('dashboard-stats').innerHTML = '';
             return;
         }
@@ -254,172 +468,341 @@ async function cargarExamenes() {
         preguntas.forEach(p => {
             const id = p.grupo_id || 'antiguo';
             if (!grupos[id]) {
-                grupos[id] = { id: id, total: 0, nombre: p.nombre_personalizado || 'Examen sin título', materia: p.materia_personalizada || p.materia || 'General', fecha: new Date().toLocaleDateString() };
+                grupos[id] = { 
+                    id: id, 
+                    total: 0, 
+                    nombre: p.nombre_personalizado || 'Examen Clínico', 
+                    materia: p.materia_personalizada || p.materia || 'Especialidad Médica', 
+                    fecha: p.fecha_creacion ? new Date(p.fecha_creacion).toLocaleDateString() : new Date().toLocaleDateString() 
+                };
             }
             grupos[id].total++;
         });
 
+        // Render Dashboard Stats
         document.getElementById('dashboard-stats').innerHTML = `
-            <div class="med-card p-6 flex flex-col justify-center border-l-4 border-l-med-blue">
-                <span class="text-[10px] font-bold tracking-widest text-slate-500 uppercase mb-1">Total Preguntas</span>
-                <span class="text-3xl font-serif text-med-blue font-bold">${preguntas.length}</span>
+            <div class="med-card p-5 flex flex-col justify-between border-l-4 border-l-med-blue relative overflow-hidden group">
+                <span class="text-[10px] font-extrabold tracking-widest text-med-subtext uppercase mb-1">Total Preguntas Registradas</span>
+                <span class="text-3xl font-serif text-med-blue font-bold group-hover:scale-105 transition-transform origin-left">${preguntas.length}</span>
+                <div class="absolute -right-2 -bottom-2 opacity-5 text-med-blue">
+                    <svg class="w-20 h-20" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                </div>
             </div>
-            <div class="med-card p-6 flex flex-col justify-center border-l-4 border-l-med-jade">
-                <span class="text-[10px] font-bold tracking-widest text-slate-500 uppercase mb-1">Expedientes</span>
-                <span class="text-3xl font-serif text-med-blue font-bold">${Object.keys(grupos).length}</span>
+            <div class="med-card p-5 flex flex-col justify-between border-l-4 border-l-med-jade relative overflow-hidden group">
+                <span class="text-[10px] font-extrabold tracking-widest text-med-subtext uppercase mb-1">Expedientes / Exámenes</span>
+                <span class="text-3xl font-serif text-med-blue font-bold group-hover:scale-105 transition-transform origin-left">${Object.keys(grupos).length}</span>
+                <div class="absolute -right-2 -bottom-2 opacity-5 text-med-jade">
+                    <svg class="w-20 h-20" fill="currentColor" viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg>
+                </div>
             </div>
-            <div class="med-card p-6 flex flex-col justify-center border-l-4 border-l-slate-400">
-                <span class="text-[10px] font-bold tracking-widest text-slate-500 uppercase mb-1">Estado del Sistema</span>
-                <div class="flex items-center gap-2 mt-1">
-                    <span class="w-2.5 h-2.5 rounded-full bg-med-jade animate-pulse"></span>
-                    <span class="text-sm font-bold text-med-jade tracking-wide uppercase">En Línea</span>
+            <div class="med-card p-5 flex flex-col justify-between border-l-4 border-l-emerald-500 relative overflow-hidden group">
+                <span class="text-[10px] font-extrabold tracking-widest text-med-subtext uppercase mb-1">Estado del Sistema</span>
+                <div class="flex items-center gap-2.5 mt-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-med-jade animate-pulse-glow"></span>
+                    <span class="text-xs font-bold text-med-jade tracking-wider uppercase">En Línea (Respuesta Rápida)</span>
                 </div>
             </div>
         `;
 
+        // Render Tarjetas de Examen
         cont.innerHTML = Object.entries(grupos).map(([id, data], index) => `
-            <div class="med-card p-6 flex flex-col justify-between h-64 group animate-fade-up relative" style="animation-delay: ${(index * 0.1) + 0.3}s">
+            <div class="med-card p-6 flex flex-col justify-between h-64 relative group animate-fade-up" style="animation-delay: ${(index * 0.08) + 0.15}s">
                 
-                <!-- Botón Eliminar (Esquina superior derecha) -->
-                <button onclick="eliminarExpediente('${id}')" class="absolute top-4 right-4 text-slate-400 hover:text-red-500 transition-colors p-2" title="Eliminar expediente">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                <!-- BOTÓN ELIMINAR EXPEDIENTE -->
+                <button onclick="eliminarExpediente('${id}')" class="absolute top-4 right-4 text-med-subtext hover:text-red-500 hover:bg-red-500/10 p-2 rounded-xl transition-all duration-300 opacity-60 group-hover:opacity-100" title="Eliminar expediente">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                 </button>
 
-                <div class="flex justify-between items-start mb-4 border-b border-slate-100 pb-4 pr-10">
-                    <div class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-med-blue">
+                <div class="flex justify-between items-start mb-3 border-b border-med-border pb-3 pr-10">
+                    <div class="w-9 h-9 rounded-xl bg-med-accent border border-med-border flex items-center justify-center text-med-jade">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                     </div>
-                    <span class="text-[10px] font-bold tracking-widest text-med-blue bg-slate-50 border border-slate-200 px-3 py-1 rounded-sm">${data.total} PREGUNTAS</span>
+                    <span class="text-[10px] font-extrabold tracking-widest text-med-jade bg-med-accent border border-med-border px-2.5 py-1 rounded-md">
+                        ${data.total} PREGUNTAS
+                    </span>
                 </div>
 
                 <div class="flex-1">
-                    <div class="flex items-center gap-2 mb-2">
-                        <input type="text" id="nombre-${id}" value="${data.nombre}" class="input-med" placeholder="Nombre del examen" onchange="guardarTitulo('${id}', this.value, 'nombre')">
+                    <div class="mb-1">
+                        <input type="text" id="nombre-${id}" value="${escapeHtml(data.nombre)}" class="input-med" placeholder="Nombre del examen" onchange="guardarTitulo('${id}', this.value, 'nombre')">
                     </div>
-                    <div class="flex items-center gap-2">
-                        <input type="text" id="materia-${id}" value="${data.materia}" class="input-med-sub" placeholder="Especialidad" onchange="guardarTitulo('${id}', this.value, 'materia')">
+                    <div>
+                        <input type="text" id="materia-${id}" value="${escapeHtml(data.materia)}" class="input-med-sub" placeholder="Especialidad" onchange="guardarTitulo('${id}', this.value, 'materia')">
                     </div>
-                    <p class="text-[10px] font-medium text-slate-400 mt-4 uppercase tracking-widest">Registrado: ${data.fecha}</p>
+                    <p class="text-[10px] font-medium text-med-subtext mt-3 uppercase tracking-widest">Creación: ${data.fecha}</p>
                 </div>
                 
-                <div class="flex gap-2 mt-4">
-                    <button onclick="abrirSimulador('${id}')" class="flex-1 bg-med-blue hover:bg-slate-800 text-white text-xs font-bold py-2.5 rounded-lg tracking-widest uppercase transition-all duration-300 shadow-md">
+                <div class="flex gap-2.5 mt-4">
+                    <button onclick="abrirSimulador('${id}')" class="flex-1 bg-med-blue hover:opacity-90 text-white text-xs font-bold py-2.5 rounded-xl tracking-widest uppercase transition-all duration-300 shadow-md hover:-translate-y-0.5 active:scale-95">
                         Simulador
                     </button>
-                    <button onclick="abrirExamen('${id}')" class="flex-1 bg-med-card hover:bg-slate-50 border border-med-border text-med-blue text-xs font-bold py-2.5 rounded-lg tracking-widest uppercase transition-all duration-300 shadow-sm">
-                        Banco
+                    <button onclick="abrirExamen('${id}')" class="flex-1 bg-med-card hover:bg-med-accent border border-med-border text-med-blue text-xs font-bold py-2.5 rounded-xl tracking-widest uppercase transition-all duration-300 shadow-sm hover:border-med-jade hover:-translate-y-0.5 active:scale-95">
+                        Banco (Editar)
                     </button>
                 </div>
             </div>
         `).join('');
     } catch(e) { 
-        cont.innerHTML = '<div class="col-span-full text-center text-red-500 py-10 font-serif">Error de conexión.</div>'; 
+        console.error(e);
     }
 }
 
+// --- ACTUALIZAR TITULO Y MATERIA ---
 async function guardarTitulo(grupoId, nuevoTexto, tipo) {
     try {
         const body = {};
         if (tipo === 'nombre') body.nombre_personalizado = nuevoTexto;
         if (tipo === 'materia') body.materia_personalizada = nuevoTexto;
-        await fetch(`${URL_SERVIDOR}/api/admin/examenes/${grupoId}`, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-    } catch (e) { console.error(e); }
+
+        // Actualización local
+        examenesGlobales.forEach(p => {
+            if ((p.grupo_id || 'antiguo') === grupoId) {
+                if (tipo === 'nombre') p.nombre_personalizado = nuevoTexto;
+                if (tipo === 'materia') p.materia_personalizada = nuevoTexto;
+            }
+        });
+        localStorage.setItem('atlas_examenes_local', JSON.stringify(examenesGlobales));
+
+        const endpoint = USE_SUPABASE_REST 
+            ? `${URL_SERVIDOR}/rest/v1/examenes?grupo_id=eq.${grupoId}` 
+            : `${URL_SERVIDOR}/api/admin/examenes/${grupoId}`;
+
+        await fetch(endpoint, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(body)
+        }).catch(() => {});
+    } catch (e) { 
+        console.error("Error al actualizar título:", e); 
+    }
 }
 
-// --- ELIMINAR EXPEDIENTE ---
+// --- ELIMINAR EXPEDIENTE COMPLETO ---
 async function eliminarExpediente(id) {
-    if (!confirm("¿Estás seguro de eliminar este expediente por completo?")) return;
+    if (!confirm("¿Deseas eliminar permanentemente este expediente y todas sus preguntas asociadas?")) return;
     try {
-        const res = await fetch(`${URL_SERVIDOR}/api/admin/examenes/${id}`, { method: 'DELETE' });
-        if (res.ok) cargarExamenes();
-        else alert("Error al eliminar");
-    } catch(e) { alert("Error de conexión"); }
+        examenesGlobales = examenesGlobales.filter(p => (p.grupo_id || 'antiguo') !== id);
+        localStorage.setItem('atlas_examenes_local', JSON.stringify(examenesGlobales));
+
+        const endpoint = USE_SUPABASE_REST 
+            ? `${URL_SERVIDOR}/rest/v1/examenes?grupo_id=eq.${id}` 
+            : `${URL_SERVIDOR}/api/admin/examenes/${id}`;
+
+        await fetch(endpoint, { method: 'DELETE' }).catch(() => {});
+        cargarExamenes();
+    } catch(e) { 
+        cargarExamenes();
+    }
 }
 
-// --- MODO BANCO DE PREGUNTAS ---
+// --- MODO BANCO DE PREGUNTAS (COMPACTO Y TOTALMENTE EDITABLE) ---
 async function abrirExamen(grupoId) {
+    grupoActualId = grupoId;
     document.getElementById('vista-examenes').classList.add('hidden');
     document.getElementById('dashboard-stats').classList.add('hidden');
+    document.getElementById('btn-volver-top').classList.remove('hidden');
+    
     const cont = document.getElementById('vista-preguntas');
     cont.classList.remove('hidden');
     
-    const res = await fetch(`${URL_SERVIDOR}/api/admin/examenes`);
-    const preguntas = (await res.json()).filter(p => (p.grupo_id || 'antiguo') === grupoId);
+    const preguntas = examenesGlobales.filter(p => (p.grupo_id || 'antiguo') === grupoId);
+
+    if (!preguntas.length) {
+        cont.innerHTML = `<div class="text-center py-10 text-med-subtext">No hay preguntas registradas en este expediente.</div>`;
+        return;
+    }
+
+    const tituloExamen = preguntas[0].nombre_personalizado || 'Banco de Preguntas';
 
     cont.innerHTML = `
-        <div class="flex items-center gap-4 mb-8 animate-fade-up">
-            <button onclick="location.reload()" class="bg-white hover:bg-slate-50 text-med-blue text-[10px] font-bold uppercase tracking-widest px-6 py-3 rounded-lg border border-med-border transition-all flex items-center gap-2 shadow-sm">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                Volver al Archivo
-            </button>
-            <h2 class="text-2xl font-serif text-med-blue font-bold">${preguntas[0].nombre_personalizado || 'Banco de Preguntas'}</h2>
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 animate-fade-up">
+            <div>
+                <span class="text-[10px] font-extrabold uppercase tracking-widest text-med-jade block mb-1">Editor Activo del Banco</span>
+                <h2 class="text-2xl font-serif text-med-blue font-bold">${escapeHtml(tituloExamen)}</h2>
+            </div>
+            <span class="text-xs font-bold text-med-subtext bg-med-card border border-med-border px-3 py-1.5 rounded-xl shadow-sm">
+                ${preguntas.length} Preguntas Editables
+            </span>
         </div>
         
-        <div class="med-card p-6 md:p-8">
-            ${preguntas.map((p, i) => `
-                <div class="border-b border-slate-100 py-4 last:border-0 group">
-                    <div class="flex gap-3 mb-2">
-                        <span class="text-med-blue font-serif italic text-lg font-bold">${i + 1}.</span>
-                        <h3 class="text-sm md:text-base text-med-text font-semibold">${p.texto_pregunta}</h3>
-                    </div>
-                    <div class="space-y-1 pl-8">
-                        ${p.alternativas.map((alt, j) => `
-                            <div class="flex items-center justify-between p-2 rounded-lg hover:bg-slate-50 transition-colors ${j === p.correcta ? 'bg-emerald-50 border border-emerald-100 text-emerald-900 dark:bg-emerald-900/20 dark:text-emerald-100' : 'text-slate-600'}" id="alt-${p.id}-${j}">
-                                <span class="text-sm"><span class="font-bold mr-2">${String.fromCharCode(65+j)}.</span>${alt}</span>
-                                <button onclick="marcarCorrecta('${p.id}', ${j}, ${i}, '${p.texto_pregunta.replace(/'/g, "\\'")}', ${JSON.stringify(p.alternativas).replace(/"/g, '&quot;')})" class="text-[9px] uppercase font-bold text-slate-400 hover:text-med-jade transition-colors ml-2 ${j === p.correcta ? 'text-med-jade' : 'opacity-0 group-hover:opacity-100'}">
-                                    ${j === p.correcta ? '✓ Correcta' : 'Marcar'}
-                                </button>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `).join('')}
+        <div class="space-y-4">
+            ${preguntas.map((p, i) => renderTarjetaPreguntaCompacta(p, i)).join('')}
         </div>
     `;
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// --- EDITAR RESPUESTA CORRECTA ---
-async function marcarCorrecta(preguntaId, idxAlternativa, indexVisual, textoPregunta, alternativasJSON) {
-    if(!confirm("¿Cambiar la respuesta correcta a esta opción?")) return;
+// RENDERIZAR TARJETA COMPACTA EDITABLE POR PREGUNTA
+function renderTarjetaPreguntaCompacta(p, i) {
+    const alternativas = Array.isArray(p.alternativas) ? p.alternativas : JSON.parse(p.alternativas || '[]');
     
-    try {
-        const res = await fetch(`${URL_SERVIDOR}/api/admin/examenes/pregunta/${preguntaId}`, {
-            method: 'PATCH',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ correcta: idxAlternativa })
-        });
-        
-        if (res.ok) {
-            // Actualizar la interfaz visual
-            const alternativasArray = JSON.parse(alternativasJSON.replace(/&quot;/g, '"'));
-            alternativasArray.forEach((_, j) => {
-                const el = document.getElementById(`alt-${preguntaId}-${j}`);
-                const btn = el.querySelector('button');
-                if (j === idxAlternativa) {
-                    el.classList.add('bg-emerald-50', 'border', 'border-emerald-100', 'text-emerald-900');
-                    btn.innerHTML = '✓ Correcta';
-                    btn.className = "text-[9px] uppercase font-bold text-med-jade ml-2";
-                } else {
-                    el.classList.remove('bg-emerald-50', 'border', 'border-emerald-100', 'text-emerald-900');
-                    btn.innerHTML = 'Marcar';
-                    btn.className = "text-[9px] uppercase font-bold text-slate-400 hover:text-med-jade transition-colors ml-2 opacity-0 group-hover:opacity-100";
-                }
-            });
-        } else { alert("Error al guardar"); }
-    } catch(e) { alert("Error de conexión"); }
+    return `
+        <div class="med-card p-4 sm:p-5 transition-all duration-300 animate-fade-up" id="card-pregunta-${p.id}" style="animation-delay: ${(i * 0.05)}s">
+            <div class="flex items-start gap-3">
+                <span class="font-serif text-med-jade font-bold text-base sm:text-lg shrink-0 mt-1">${i + 1}.</span>
+                
+                <div class="flex-1 space-y-3">
+                    <!-- ENCABEZADO PREGUNTA EDITABLE -->
+                    <div>
+                        <label class="text-[9px] font-extrabold uppercase tracking-wider text-med-subtext block mb-1">Texto del Reactivo / Enunciado</label>
+                        <textarea id="input-pregunta-${p.id}" rows="2" class="w-full bg-med-accent border border-med-border rounded-xl p-2.5 text-xs sm:text-sm font-medium text-med-text focus:border-med-jade focus:ring-1 focus:ring-med-jade outline-none transition-all">${escapeHtml(p.texto_pregunta)}</textarea>
+                    </div>
+
+                    <!-- ALTERNATIVAS EDITABLES COMPACTAS -->
+                    <div>
+                        <label class="text-[9px] font-extrabold uppercase tracking-wider text-med-subtext block mb-1.5">Opciones de Respuesta (Marca la alternativa correcta)</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="grid-alts-${p.id}">
+                            ${alternativas.map((alt, j) => `
+                                <div class="flex items-center gap-2 p-2 rounded-xl border transition-all ${j === p.correcta ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-500 font-semibold' : 'bg-med-accent border-med-border text-med-text'}" id="wrapper-alt-${p.id}-${j}">
+                                    
+                                    <button type="button" onclick="seleccionarRadioCorrecta('${p.id}', ${j})" class="w-6 h-6 rounded-lg flex items-center justify-center shrink-0 border transition-all ${j === p.correcta ? 'bg-emerald-500 border-emerald-500 text-white' : 'border-med-border text-med-subtext hover:border-med-jade'}" title="Marcar como Correcta">
+                                        ${j === p.correcta ? '✓' : String.fromCharCode(65+j)}
+                                    </button>
+
+                                    <input type="text" id="alt-input-${p.id}-${j}" value="${escapeHtml(alt)}" class="flex-1 bg-transparent text-xs outline-none text-med-text" placeholder="Opción ${String.fromCharCode(65+j)}">
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <!-- FOOTER ACCIONES DE GUARDADO / ELIMINAR PREGUNTA -->
+                    <div class="flex justify-between items-center pt-2 border-t border-med-border mt-2">
+                        <button onclick="eliminarPreguntaUnica('${p.id}')" class="text-[10px] font-bold uppercase tracking-wider text-red-500/80 hover:text-red-500 transition-colors flex items-center gap-1">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            Eliminar Reactivo
+                        </button>
+
+                        <button id="btn-save-${p.id}" onclick="guardarCambiosPregunta('${p.id}', ${alternativas.length})" class="bg-med-jade hover:opacity-90 text-white text-[11px] font-bold px-4 py-2 rounded-xl uppercase tracking-wider transition-all duration-300 shadow-sm flex items-center gap-1.5 active:scale-95">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Guardar Cambios
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
 }
 
-// --- MODO SIMULADOR (EXAMEN) ---
-async function abrirSimulador(grupoId) {
-    const res = await fetch(`${URL_SERVIDOR}/api/admin/examenes`);
-    preguntasSimulador = (await res.json()).filter(p => (p.grupo_id || 'antiguo') === grupoId);
+// CAMBIO VISUAL AL MARCAR RADIO BUTTON DE OPCION CORRECTA
+function seleccionarRadioCorrecta(preguntaId, idxCorrecta) {
+    const card = document.getElementById(`grid-alts-${preguntaId}`);
+    const wrappers = card.querySelectorAll('[id^="wrapper-alt-"]');
     
-    if (!preguntasSimulador.length) return alert("No hay preguntas.");
+    wrappers.forEach((w, j) => {
+        const btn = w.querySelector('button');
+        if (j === idxCorrecta) {
+            w.className = 'flex items-center gap-2 p-2 rounded-xl border transition-all bg-emerald-500/10 border-emerald-500/40 text-emerald-500 font-semibold';
+            btn.className = 'w-6 h-6 rounded-lg flex items-center justify-center shrink-0 border transition-all bg-emerald-500 border-emerald-500 text-white';
+            btn.innerText = '✓';
+            w.dataset.correcta = "true";
+        } else {
+            w.className = 'flex items-center gap-2 p-2 rounded-xl border transition-all bg-med-accent border-med-border text-med-text';
+            btn.className = 'w-6 h-6 rounded-lg flex items-center justify-center shrink-0 border border-med-border text-med-subtext hover:border-med-jade';
+            btn.innerText = String.fromCharCode(65 + j);
+            delete w.dataset.correcta;
+        }
+    });
+}
+
+// GUARDAR PREGUNTA COMPLETA (TEXTO + ALTERNATIVAS + CORRECTA) A SUPABASE / REST API
+async function guardarCambiosPregunta(preguntaId, numAlternativas) {
+    const btn = document.getElementById(`btn-save-${preguntaId}`);
+    const textoPregunta = document.getElementById(`input-pregunta-${preguntaId}`).value.trim();
+    
+    // Recolectar alternativas
+    const alternativas = [];
+    let correctaIdx = 0;
+
+    for (let j = 0; j < numAlternativas; j++) {
+        const inputAlt = document.getElementById(`alt-input-${preguntaId}-${j}`);
+        alternativas.push(inputAlt.value.trim());
+        
+        const wrapper = document.getElementById(`wrapper-alt-${preguntaId}-${j}`);
+        if (wrapper.dataset.correcta === "true" || wrapper.classList.contains('bg-emerald-500/10')) {
+            correctaIdx = j;
+        }
+    }
+
+    if (!textoPregunta) return alert("El texto de la pregunta no puede estar vacío.");
+
+    try {
+        btn.disabled = true;
+        btn.innerText = "Guardando...";
+
+        const payload = {
+            texto_pregunta: textoPregunta,
+            alternativas: alternativas,
+            correcta: correctaIdx
+        };
+
+        // Guardado local
+        const idx = examenesGlobales.findIndex(p => p.id === preguntaId);
+        if (idx !== -1) {
+            examenesGlobales[idx].texto_pregunta = textoPregunta;
+            examenesGlobales[idx].alternativas = alternativas;
+            examenesGlobales[idx].correcta = correctaIdx;
+            localStorage.setItem('atlas_examenes_local', JSON.stringify(examenesGlobales));
+        }
+
+        const endpoint = USE_SUPABASE_REST 
+            ? `${URL_SERVIDOR}/rest/v1/examenes?id=eq.${preguntaId}` 
+            : `${URL_SERVIDOR}/api/admin/examenes/pregunta/${preguntaId}`;
+
+        await fetch(endpoint, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        }).catch(() => {});
+
+        btn.className = "bg-emerald-600 text-white text-[11px] font-bold px-4 py-2 rounded-xl uppercase tracking-wider transition-all duration-300 shadow-sm flex items-center gap-1.5";
+        btn.innerText = "✓ ¡Guardado!";
+        setTimeout(() => {
+            btn.className = "bg-med-jade hover:opacity-90 text-white text-[11px] font-bold px-4 py-2 rounded-xl uppercase tracking-wider transition-all duration-300 shadow-sm flex items-center gap-1.5 active:scale-95";
+            btn.innerHTML = `<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Guardar Cambios`;
+            btn.disabled = false;
+        }, 1500);
+
+    } catch(e) {
+        console.error(e);
+        btn.disabled = false;
+        btn.innerText = "Guardar Cambios";
+    }
+}
+
+// ELIMINAR UNA PREGUNTA INDIVIDUAL
+async function eliminarPreguntaUnica(preguntaId) {
+    if (!confirm("¿Eliminar este reactivo del banco de preguntas?")) return;
+    
+    try {
+        examenesGlobales = examenesGlobales.filter(p => p.id !== preguntaId);
+        localStorage.setItem('atlas_examenes_local', JSON.stringify(examenesGlobales));
+
+        const endpoint = USE_SUPABASE_REST 
+            ? `${URL_SERVIDOR}/rest/v1/examenes?id=eq.${preguntaId}` 
+            : `${URL_SERVIDOR}/api/admin/examenes/pregunta/${preguntaId}`;
+
+        await fetch(endpoint, { method: 'DELETE' }).catch(() => {});
+
+        const el = document.getElementById(`card-pregunta-${preguntaId}`);
+        if (el) {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(-10px)';
+            setTimeout(() => el.remove(), 300);
+        }
+    } catch(e) {
+        console.error(e);
+    }
+}
+
+// --- MODO SIMULADOR (INTERFAZ EXAMEN) ---
+async function abrirSimulador(grupoId) {
+    preguntasSimulador = examenesGlobales.filter(p => (p.grupo_id || 'antiguo') === grupoId);
+    
+    if (!preguntasSimulador.length) return alert("No existen preguntas en este simulador.");
     
     indexSimulador = 0;
     puntajeSimulador = 0;
-    document.getElementById('sim-titulo').innerText = preguntasSimulador[0].nombre_personalizado || 'Examen';
+    document.getElementById('sim-titulo').innerText = preguntasSimulador[0].nombre_personalizado || 'Examen Simulado';
     document.getElementById('modo-simulador').classList.add('activo');
     document.body.style.overflow = 'hidden';
     cargarPreguntaSimulador();
@@ -428,20 +811,24 @@ async function abrirSimulador(grupoId) {
 function cerrarSimulador() {
     document.getElementById('modo-simulador').classList.remove('activo');
     document.body.style.overflow = 'auto';
-    cargarExamenes(); // Recargar por si acaso
+    cargarExamenes();
 }
 
 function cargarPreguntaSimulador() {
     respondidaSimulador = false;
     const p = preguntasSimulador[indexSimulador];
+    const alternativas = Array.isArray(p.alternativas) ? p.alternativas : JSON.parse(p.alternativas || '[]');
     
     document.getElementById('sim-progreso').innerText = `${indexSimulador + 1} / ${preguntasSimulador.length}`;
     document.getElementById('sim-pregunta').innerText = p.texto_pregunta;
     
     const altsCont = document.getElementById('sim-alternativas');
-    altsCont.innerHTML = p.alternativas.map((alt, j) => `
+    altsCont.innerHTML = alternativas.map((alt, j) => `
         <div class="alternativa w-full" onclick="responderSimulador(this, ${j}, ${p.correcta})">
-            <span class="font-serif text-med-blue font-bold mr-3">${String.fromCharCode(65+j)}.</span> ${alt}
+            <span class="w-7 h-7 rounded-lg bg-med-accent border border-med-border font-serif text-med-blue font-bold flex items-center justify-center mr-3 text-sm shrink-0">
+                ${String.fromCharCode(65+j)}
+            </span> 
+            <span class="flex-1">${escapeHtml(alt)}</span>
         </div>
     `).join('');
     
@@ -463,7 +850,9 @@ function responderSimulador(el, elegida, correcta) {
     if (elegida === correcta) puntajeSimulador++;
     
     const p = preguntasSimulador[indexSimulador];
-    document.getElementById('sim-texto-correcta').innerText = p.alternativas[correcta];
+    const alternativas = Array.isArray(p.alternativas) ? p.alternativas : JSON.parse(p.alternativas || '[]');
+    document.getElementById('sim-texto-correcta').innerText = alternativas[correcta];
+    
     document.getElementById('sim-panel-respuesta').classList.add('abierto');
     document.getElementById('btn-siguiente').classList.remove('hidden');
 }
@@ -482,18 +871,29 @@ function mostrarResultadoFinal() {
     const porcentaje = Math.round((puntajeSimulador / total) * 100);
     
     document.querySelector('#modo-simulador .max-w-3xl').innerHTML = `
-        <div class="flex-1 flex flex-col justify-center items-center text-center animate-fade-up">
-            <div class="w-32 h-32 rounded-full border-4 border-med-jade flex items-center justify-center mb-8 bg-emerald-50">
-                <span class="text-5xl font-bold text-med-jade">${porcentaje}%</span>
+        <div class="flex-1 flex flex-col justify-center items-center text-center animate-fade-up my-auto py-8">
+            <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full border-4 border-med-jade flex items-center justify-center mb-6 bg-med-accent shadow-xl relative">
+                <span class="text-4xl sm:text-5xl font-bold font-serif text-med-jade">${porcentaje}%</span>
             </div>
-            <h2 class="text-3xl font-serif text-med-blue font-bold mb-4">Examen Completado</h2>
-            <p class="text-slate-500 mb-8">Has acertado ${puntajeSimulador} de ${total} preguntas.</p>
+            <h2 class="text-2xl sm:text-3xl font-serif text-med-blue font-bold mb-2">Simulación Finalizada</h2>
+            <p class="text-med-subtext text-sm sm:text-base mb-8 max-w-md">Has respondido correctamente <strong class="text-med-text">${puntajeSimulador}</strong> de <strong class="text-med-text">${total}</strong> reactivos evaluados.</p>
             
-            <div class="flex gap-4">
-                <button onclick="cerrarSimulador()" class="bg-med-blue text-white px-8 py-3 rounded-xl hover:bg-slate-800 transition-colors">Volver al Archivo</button>
-            </div>
+            <button onclick="cerrarSimulador()" class="bg-med-blue hover:opacity-90 text-white font-bold px-8 py-3.5 rounded-xl uppercase tracking-wider text-xs transition-all shadow-lg hover:-translate-y-0.5 active:scale-95">
+                Volver al Archivo
+            </button>
         </div>
     `;
+}
+
+// UTILIDAD ESCAPE HTML
+function escapeHtml(text) {
+    if (!text) return '';
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
 </script>
 </body>
