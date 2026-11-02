@@ -386,11 +386,11 @@
                         <span id="label-test-texto" class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">CARGANDO...</span>
                     </div>
                 </div>
-                <div class="text-[9px] text-neutral-600 font-terminal hidden sm:block">
+                                <div class="text-[9px] text-neutral-600 font-terminal hidden sm:block">
                     // ON_OFF
                 </div>
             </div>
-    
+        </div>
 
         <!-- SECCIÓN DE USUARIOS ACTIVOS EN TIEMPO REAL -->
         <div class="bg-black/90 border-2 border-green-600 p-6 shadow-[4px_4px_0px_0px_#16a34a] motor-afectado backdrop-blur-sm">
@@ -533,9 +533,14 @@ let listaUsuariosCache = [];
         let estadoDeseadoSwitch = false; 
         let adminToken = null;
         let pendingAction = null;
+        let timersIniciados = false;
+        let intervaloLogs = null;
+        let intervaloActivos = null;
+        let intervaloEstadoServidor = null;
+        let intervaloEstadoTestSim = null;
 
         // INTERCEPTOR DE FETCH: adjunta la cabecera Authorization cuando exista token
-        const rawFetch = window.fetch.bind(window);
+                const rawFetch = window.fetch.bind(window);
         window.fetch = async (input, init = {}) => {
             const url = typeof input === 'string' ? input : input.url;
             if (url.startsWith(`${URL_SERVIDOR}/api/admin`)) {
@@ -543,20 +548,40 @@ let listaUsuariosCache = [];
                 if (adminToken) {
                     headers.set('Authorization', `Bearer ${adminToken}`);
                 }
-                return rawFetch(input, { ...init, headers });
+                const respuesta = await rawFetch(input, { ...init, headers });
+
+                if (respuesta.status === 401 && adminToken) {
+                    adminToken = null;
+                    timersIniciados = false;
+                    clearInterval(intervaloLogs);
+                    clearInterval(intervaloActivos);
+                    clearInterval(intervaloEstadoServidor);
+                    clearInterval(intervaloEstadoTestSim);
+                    alert("La sesión ha caducado. Vuelve a introducir la contraseña.");
+                    location.reload();
+                }
+
+                return respuesta;
             }
             return rawFetch(input, init);
         };
 
+                function iniciarPollings() {
+            if (timersIniciados) return;
+            timersIniciados = true;
+
+            intervaloLogs = setInterval(cargarLogsPreguntas, 2000);
+            intervaloActivos = setInterval(cargarUsuariosActivos, 5000);
+            intervaloEstadoServidor = setInterval(verificarEstadoServidorSwitch, 10000);
+            intervaloEstadoTestSim = setInterval(verificarEstadoTestSim, 10000);
+        }
+
         // INICIALIZACIÓN
-        window.onload = function() {
+                window.onload = function() {
     abrirModal('Introduce la contraseña de administrador para acceder al panel:', async () => {
         actualizarTodo();
         notificarServidorPanel(); 
-        setInterval(cargarLogsPreguntas, 2000);
-        setInterval(cargarUsuariosActivos, 5000);
-        setInterval(verificarEstadoServidorSwitch, 10000); 
-        setInterval(verificarEstadoTestSim, 10000); // 👈 AGREGA ESTE TEMPORIZADOR AQUÍ
+        iniciarPollings();
     });
 
     document.body.style.visibility = 'visible';
@@ -596,14 +621,12 @@ let listaUsuariosCache = [];
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
 
-    abrirModal(
+        abrirModal(
         'Introduce la contraseña de administrador para acceder al panel:',
         async () => {
             actualizarTodo();
             notificarServidorPanel();
-            setInterval(cargarLogsPreguntas, 2000);
-            setInterval(cargarUsuariosActivos, 5000);
-            setInterval(verificarEstadoServidorSwitch, 10000);
+            iniciarPollings();
         }
     );
 }
@@ -1331,8 +1354,10 @@ async function verificarEstadoTestSim() {
 }
 
 async function intentarCambiarTestSim(event) {
+    event.preventDefault();
+
     const checkbox = document.getElementById('test-simulation-switch');
-const nuevoEstadoDeseado = checkbox.checked;
+    const nuevoEstadoDeseado = !checkbox.checked;
 
     const labelTexto = document.getElementById('label-test-texto');
     if (labelTexto) {
