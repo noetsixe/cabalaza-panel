@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atlas Clínico | Premium Archive</title>
     
+    <!-- Favicon SVG: Caduceo de Hermes (Símbolo de Medicina) en Base64 -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230f172a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 2v20M18 8s-4-4-6-4-6 4-6 4M18 16s-4 4-6 4-6-4-6-4M12 2a4 4 0 0 0-4 4c0 4 8 4 8 0a4 4 0 0 0-4-4zM12 22a4 4 0 0 0 4-4c0-4-8-4-8 0a4 4 0 0 0 4 4z'/%3E%3C/svg%3E">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,400&family=Noto+Serif+JP:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Noto+Serif+JP:wght@300;400;600&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -16,11 +19,11 @@
             theme: {
                 extend: {
                     colors: {
-                        'zen-bg': '#f8fafc',       // Blanco puro con un toque de gris
-                        'zen-text': '#1e293b',     // Azul oscuro profundo
-                        'zen-cyan': '#0284c7',     // Celeste médico
-                        'zen-line': '#e2e8f0',     // Gris claro para líneas
-                        'zen-accent': '#f0f9ff',   // Fondo celeste muy suave
+                        'lux-bg': '#f8f6f0',       // Blanco marfil
+                        'lux-navy': '#0f172a',     // Azul marino profundo
+                        'lux-blue': '#1e3a8a',     // Azul clínico
+                        'lux-gold': '#b49a67',     // Dorado envejecido
+                        'lux-line': '#e5e5e5',     // Gris cálido
                     },
                     fontFamily: {
                         'sans': ['Plus Jakarta Sans', 'sans-serif'],
@@ -34,24 +37,22 @@
 
     <style>
         body {
-            background-color: #f8fafc;
-            background-image: 
-                linear-gradient(90deg, rgba(226, 232, 240, 0.3) 1px, transparent 1px),
-                linear-gradient(rgba(226, 232, 240, 0.3) 1px, transparent 1px);
-            background-size: 40px 40px;
-            color: #1e293b;
+            background-color: #f8f6f0;
+            background-image: radial-gradient(#e5e5e5 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+            color: #0f172a;
             font-family: 'Plus Jakarta Sans', sans-serif;
             -webkit-font-smoothing: antialiased;
             min-height: 100vh;
         }
 
-        /* Animación de levitación para el símbolo médico */
+        /* Animación del Caduceo flotante */
         @keyframes float-slow {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-12px); }
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(2deg); }
         }
         .animate-float {
-            animation: float-slow 5s ease-in-out infinite;
+            animation: float-slow 6s ease-in-out infinite;
         }
 
         /* Animación de entrada escalonada */
@@ -64,42 +65,28 @@
             opacity: 0;
         }
 
-        /* Tarjetas estilo japonés: bordes ultra finos, sin sombras toscas */
-        .zen-card {
+        /* Tarjetas con presencia clínica */
+        .lux-card {
             background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 4px; /* Bordes sutiles */
-            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            border: 1px solid #e5e5e5;
+            border-top: 4px solid #0f172a; /* Detalle superior azul marino */
+            border-radius: 8px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
-            overflow: hidden;
-            box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 4px 15px -5px rgba(15, 23, 42, 0.05);
         }
 
-        .zen-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 3px; height: 100%;
-            background: #0284c7;
-            transform: scaleY(0);
-            transform-origin: bottom;
-            transition: transform 0.5s ease;
-        }
-
-        .zen-card:hover {
-            border-color: #cbd5e1;
-            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.08);
-            transform: translateY(-3px);
-        }
-
-        .zen-card:hover::before {
-            transform: scaleY(1);
+        .lux-card:hover {
+            border-top-color: #b49a67; /* Cambia a dorado en hover */
+            box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.1);
+            transform: translateY(-4px);
         }
 
         /* Alternativas */
         .alternativa {
             background: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-radius: 4px;
+            border: 1px solid #e5e5e5;
+            border-radius: 6px;
             padding: 18px 24px;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -109,10 +96,9 @@
         }
 
         .alternativa:hover:not(.bloqueada) {
-            background: #f0f9ff;
-            border-color: #0284c7;
-            color: #0284c7;
-            padding-left: 32px; /* Pequeño efecto de desplazamiento */
+            background: #f1f5f9;
+            border-color: #1e3a8a;
+            color: #0f172a;
         }
 
         .alternativa.correcta {
@@ -130,27 +116,27 @@
 
         .alternativa.bloqueada { cursor: default; }
 
-        /* Inputs estilo expediente */
-        .input-zen {
+        /* Inputs */
+        .input-lux {
             background: transparent;
-            border-bottom: 1px solid transparent;
-            color: #1e293b;
+            border-bottom: 2px dashed transparent;
+            color: #0f172a;
             font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
-            font-weight: 600;
+            font-size: 1.3rem;
+            font-weight: 700;
             outline: none;
             width: 100%;
             transition: all 0.3s;
         }
 
-        .input-zen:hover, .input-zen:focus {
-            border-bottom: 1px solid #0284c7;
+        .input-lux:hover, .input-lux:focus {
+            border-bottom: 2px dashed #b49a67; /* Dorado al editar */
         }
 
-        .input-zen-sub {
+        .input-lux-sub {
             background: transparent;
             border-bottom: 1px solid transparent;
-            color: #0284c7;
+            color: #1e3a8a;
             font-family: 'Plus Jakarta Sans', sans-serif;
             font-size: 0.75rem;
             font-weight: 700;
@@ -161,8 +147,8 @@
             transition: all 0.3s;
         }
 
-        .input-zen-sub:hover, .input-zen-sub:focus {
-            border-bottom: 1px solid #0284c7;
+        .input-lux-sub:hover, .input-lux-sub:focus {
+            border-bottom: 1px solid #b49a67;
         }
 
         .panel-correcta {
@@ -180,46 +166,49 @@
 </head>
 <body class="p-6 md:p-12">
 
-<div class="max-w-6xl mx-auto space-y-12">
+<div class="max-w-6xl mx-auto space-y-10">
     
-    <!-- HEADER ESTILO JAPONÉS/MÉDICO -->
-    <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 pb-8 border-b border-zen-line animate-fade-up">
+    <!-- HEADER CON CADUCEO -->
+    <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 pb-8 border-b border-lux-line animate-fade-up">
         <div class="flex items-center gap-6">
-            <!-- Símbolo Médico Flotante -->
-            <div class="w-20 h-20 rounded-full bg-white border border-zen-line flex items-center justify-center shadow-sm animate-float relative">
-                <div class="absolute inset-0 rounded-full border border-zen-cyan/20 animate-ping opacity-20"></div>
-                <svg class="w-8 h-8 text-zen-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4"></path></svg>
+            <!-- Símbolo del Caduceo de Hermes -->
+            <div class="w-20 h-20 rounded-2xl bg-lux-navy flex items-center justify-center shadow-lg animate-float relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-tr from-lux-blue to-transparent opacity-50"></div>
+                <svg class="w-10 h-10 text-lux-gold relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                    <!-- Caduceo -->
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 2v20M18 8s-4-4-6-4-6 4-6 4M18 16s-4 4-6 4-6-4-6-4M12 2a4 4 0 0 0-4 4c0 4 8 4 8 0a4 4 0 0 0-4-4zM12 22a4 4 0 0 0 4-4c0-4-8-4-8 0a4 4 0 0 0 4 4z" />
+                </svg>
             </div>
             <div>
-                <div class="flex items-center gap-3 mb-2">
-                    <span class="text-zen-cyan tracking-[0.2em] text-[10px] font-bold uppercase">Clinical Archive</span>
-                    <span class="h-px w-8 bg-zen-cyan"></span>
-                    <span class="text-slate-400 tracking-[0.2em] text-[10px] font-bold uppercase font-jp">記録</span>
+                <div class="flex items-center gap-3 mb-1">
+                    <span class="text-lux-gold tracking-[0.2em] text-[10px] font-bold uppercase">Departamento Médico</span>
+                    <span class="h-px w-8 bg-lux-gold"></span>
+                    <span class="text-slate-400 tracking-[0.2em] text-[10px] font-bold uppercase font-jp">医学</span>
                 </div>
-                <h1 class="text-4xl md:text-5xl font-serif text-zen-text tracking-tight">Atlas Médico</h1>
-                <p class="text-slate-500 text-sm mt-2 font-medium">Repositorio de exámenes y prácticas clínicas.</p>
+                <h1 class="text-4xl md:text-5xl font-serif text-lux-navy tracking-tight font-bold">Atlas Clínico</h1>
+                <p class="text-slate-500 text-sm mt-1 font-medium">Repositorio Oficial de Exámenes y Evaluaciones.</p>
             </div>
         </div>
-        <a href="index.html" class="bg-white hover:bg-slate-50 text-zen-text text-sm font-semibold px-6 py-3 rounded-sm border border-zen-line transition-all flex items-center gap-2 shadow-sm">
+        <a href="index.html" class="bg-white hover:bg-slate-50 text-lux-navy text-xs font-bold uppercase tracking-wider px-6 py-3 rounded-lg border border-lux-line transition-all flex items-center gap-2 shadow-sm">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
             Volver al Panel
         </a>
     </header>
 
-    <!-- DASHBOARD (Para que no se sienta vacío) -->
+    <!-- DASHBOARD -->
     <div id="dashboard-stats" class="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-up" style="animation-delay: 0.1s">
         <!-- Se llena con JS -->
     </div>
 
     <!-- TÍTULO DE SECCIÓN -->
-    <div class="flex items-center justify-between mt-12 mb-6 animate-fade-up" style="animation-delay: 0.2s">
-        <h2 class="text-xl font-serif text-zen-text">Expedientes Registrados</h2>
-        <span class="text-xs font-bold tracking-widest text-slate-400 uppercase">Archivos Recientes</span>
+    <div class="flex items-center justify-between mt-10 mb-2 animate-fade-up" style="animation-delay: 0.2s">
+        <h2 class="text-xl font-serif text-lux-navy font-bold">Expedientes Registrados</h2>
+        <span class="text-[10px] font-bold tracking-widest text-slate-400 uppercase bg-white px-3 py-1 border border-lux-line rounded-full">Historial Reciente</span>
     </div>
 
     <!-- GRID DE EXÁMENES -->
     <div id="vista-examenes" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="col-span-full text-center py-20 text-zen-cyan font-serif italic text-lg animate-pulse">
+        <div class="col-span-full text-center py-20 text-lux-blue font-serif italic text-lg animate-pulse">
             Cargando expedientes...
         </div>
     </div>
@@ -243,12 +232,11 @@ async function cargarExamenes() {
         const preguntas = await res.json();
         
         if (!preguntas.length) {
-            cont.innerHTML = '<div class="col-span-full text-center py-20 text-slate-400 font-serif italic text-lg">El archivo está vacío. Realiza un examen para comenzar.</div>';
+            cont.innerHTML = '<div class="col-span-full text-center py-20 text-slate-400 font-serif italic text-lg bg-white border border-lux-line rounded-lg">El archivo está vacío. Realiza un examen para comenzar.</div>';
             document.getElementById('dashboard-stats').innerHTML = '';
             return;
         }
 
-        // Agrupar
         const grupos = {};
         preguntas.forEach(p => {
             const id = p.grupo_id || 'antiguo';
@@ -264,17 +252,17 @@ async function cargarExamenes() {
             grupos[id].total++;
         });
 
-        // Rellenar Dashboard
+        // Dashboard
         document.getElementById('dashboard-stats').innerHTML = `
-            <div class="zen-card p-6 flex flex-col justify-center">
+            <div class="lux-card p-6 flex flex-col justify-center">
                 <span class="text-[10px] font-bold tracking-widest text-slate-400 uppercase mb-2">Total Preguntas</span>
-                <span class="text-3xl font-serif text-zen-text">${preguntas.length}</span>
+                <span class="text-3xl font-serif text-lux-navy font-bold">${preguntas.length}</span>
             </div>
-            <div class="zen-card p-6 flex flex-col justify-center">
+            <div class="lux-card p-6 flex flex-col justify-center">
                 <span class="text-[10px] font-bold tracking-widest text-slate-400 uppercase mb-2">Expedientes</span>
-                <span class="text-3xl font-serif text-zen-text">${Object.keys(grupos).length}</span>
+                <span class="text-3xl font-serif text-lux-navy font-bold">${Object.keys(grupos).length}</span>
             </div>
-            <div class="zen-card p-6 flex flex-col justify-center">
+            <div class="lux-card p-6 flex flex-col justify-center">
                 <span class="text-[10px] font-bold tracking-widest text-slate-400 uppercase mb-2">Estado del Sistema</span>
                 <div class="flex items-center gap-2 mt-1">
                     <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -283,32 +271,32 @@ async function cargarExamenes() {
             </div>
         `;
 
-        // Rellenar Grid
+        // Grid
         cont.innerHTML = Object.entries(grupos).map(([id, data], index) => `
-            <div class="zen-card p-6 flex flex-col justify-between h-56 group animate-fade-up" style="animation-delay: ${(index * 0.1) + 0.3}s">
+            <div class="lux-card p-6 flex flex-col justify-between h-60 group animate-fade-up" style="animation-delay: ${(index * 0.1) + 0.3}s">
                 
-                <div class="flex justify-between items-start mb-4">
-                    <div class="text-zen-cyan">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                <div class="flex justify-between items-start mb-4 border-b border-slate-100 pb-4">
+                    <div class="w-10 h-10 rounded-full bg-lux-blue/5 flex items-center justify-center text-lux-blue">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                     </div>
-                    <span class="text-[10px] font-bold tracking-widest text-slate-400 uppercase border border-zen-line px-2 py-1 rounded-sm bg-slate-50">${data.total} Preguntas</span>
+                    <span class="text-[10px] font-bold tracking-widest text-lux-navy bg-slate-50 border border-slate-200 px-3 py-1 rounded-sm">${data.total} PREGUNTAS</span>
                 </div>
 
                 <div class="flex-1">
-                    <div class="flex items-center gap-2 mb-1">
+                    <div class="flex items-center gap-2 mb-2">
                         <input type="text" id="nombre-${id}" value="${data.nombre}" 
-                            class="input-zen" placeholder="Nombre del examen"
+                            class="input-lux" placeholder="Nombre del examen"
                             onchange="guardarTitulo('${id}', this.value, 'nombre')">
                     </div>
                     <div class="flex items-center gap-2">
                         <input type="text" id="materia-${id}" value="${data.materia}" 
-                            class="input-zen-sub" placeholder="Especialidad"
+                            class="input-lux-sub" placeholder="Especialidad"
                             onchange="guardarTitulo('${id}', this.value, 'materia')">
                     </div>
-                    <p class="text-[10px] font-medium text-slate-400 mt-4 uppercase tracking-widest">${data.fecha}</p>
+                    <p class="text-[10px] font-medium text-slate-400 mt-4 uppercase tracking-widest">Registrado: ${data.fecha}</p>
                 </div>
                 
-                <button onclick="abrirExamen('${id}')" class="w-full bg-zen-text hover:bg-zen-cyan text-white text-xs font-bold py-3 rounded-sm tracking-widest uppercase transition-colors">
+                <button onclick="abrirExamen('${id}')" class="w-full mt-4 bg-lux-navy hover:bg-lux-gold text-white text-xs font-bold py-3 rounded-md tracking-widest uppercase transition-all duration-300">
                     Revisar Expediente
                 </button>
             </div>
@@ -338,59 +326,58 @@ async function guardarTitulo(grupoId, nuevoTexto, tipo) {
 async function abrirExamen(grupoId) {
     document.getElementById('vista-examenes').classList.add('hidden');
     document.getElementById('dashboard-stats').classList.add('hidden');
-    // Ocultar el título de sección
-    document.querySelectorAll('.flex.items-center.justify-between.mt-12.mb-6')[0].classList.add('hidden');
+    document.querySelectorAll('.flex.items-center.justify-between.mt-10.mb-2')[0].classList.add('hidden');
     
     const cont = document.getElementById('vista-preguntas');
     cont.classList.remove('hidden');
-    cont.innerHTML = '<div class="text-center py-20 text-zen-cyan font-serif italic text-lg animate-pulse">Abriendo expediente clínico...</div>';
+    cont.innerHTML = '<div class="text-center py-20 text-lux-blue font-serif italic text-lg animate-pulse">Abriendo expediente clínico...</div>';
 
     const res = await fetch(`${URL_SERVIDOR}/api/admin/examenes`);
     const preguntas = (await res.json()).filter(p => (p.grupo_id || 'antiguo') === grupoId);
 
     cont.innerHTML = `
         <div class="flex items-center gap-4 mb-10 animate-fade-up">
-            <button onclick="location.reload()" class="bg-white hover:bg-slate-50 text-zen-text text-xs font-bold uppercase tracking-widest px-6 py-3 rounded-sm border border-zen-line transition-all flex items-center gap-2 shadow-sm">
+            <button onclick="location.reload()" class="bg-white hover:bg-slate-50 text-lux-navy text-[10px] font-bold uppercase tracking-widest px-6 py-3 rounded-md border border-lux-line transition-all flex items-center gap-2 shadow-sm">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                 Volver al Archivo
             </button>
         </div>
         
-        <div class="mb-12 border-l-2 border-zen-cyan pl-6 animate-fade-up">
-            <h2 class="text-4xl font-serif text-zen-text">${preguntas[0].nombre_personalizado || 'Detalle del Examen'}</h2>
-            <p class="text-slate-500 mt-3 text-sm font-medium tracking-wide">${preguntas[0].materia_personalizada || preguntas[0].materia} • ${preguntas.length} preguntas documentadas</p>
+        <div class="mb-12 border-l-4 border-lux-gold pl-6 animate-fade-up bg-white p-6 rounded-r-lg shadow-sm">
+            <h2 class="text-3xl md:text-4xl font-serif text-lux-navy font-bold">${preguntas[0].nombre_personalizado || 'Detalle del Examen'}</h2>
+            <p class="text-slate-500 mt-2 text-xs font-bold tracking-widest uppercase">${preguntas[0].materia_personalizada || preguntas[0].materia} • ${preguntas.length} preguntas documentadas</p>
         </div>
         
         <div class="space-y-8">
             ${preguntas.map((p, i) => `
-                <div class="zen-card p-8 md:p-10 animate-fade-up" id="p${i}" style="animation-delay: ${i * 0.05}s">
+                <div class="bg-white border border-lux-line rounded-lg p-8 md:p-10 animate-fade-up shadow-sm" id="p${i}" style="animation-delay: ${i * 0.05}s">
                     <div class="mb-6 flex gap-4">
-                        <span class="text-zen-cyan font-serif italic text-2xl mt-1">Q${i + 1}.</span>
-                        <h3 class="text-lg md:text-xl text-zen-text font-medium leading-relaxed">${p.texto_pregunta}</h3>
+                        <span class="text-lux-gold font-serif italic text-2xl mt-1 font-bold">${i + 1}.</span>
+                        <h3 class="text-lg md:text-xl text-lux-navy font-semibold leading-relaxed">${p.texto_pregunta}</h3>
                     </div>
                     
                     <div class="space-y-3 mt-8 pl-0 md:pl-12">
                         ${p.alternativas.map((alt, j) => `
                             <div class="alternativa flex items-start gap-4" data-idx="${j}" data-c="${p.correcta}" onclick="responder(this)">
-                                <span class="font-serif text-zen-cyan font-bold mt-0.5">${String.fromCharCode(65+j)}.</span>
+                                <span class="font-serif text-lux-blue font-bold mt-0.5">${String.fromCharCode(65+j)}.</span>
                                 <span>${alt}</span>
                             </div>
                         `).join('')}
                     </div>
                     
-                    <div class="mt-8 pt-6 border-t border-zen-line flex justify-end pl-0 md:pl-12">
-                        <button onclick="verCorrecta('p${i}')" class="text-[10px] font-bold tracking-widest text-zen-cyan hover:text-white uppercase transition-colors flex items-center gap-2 bg-transparent hover:bg-zen-cyan px-4 py-2 rounded-sm border border-zen-cyan">
+                    <div class="mt-8 pt-6 border-t border-lux-line flex justify-end pl-0 md:pl-12">
+                        <button onclick="verCorrecta('p${i}')" class="text-[10px] font-bold tracking-widest text-lux-navy hover:text-white uppercase transition-colors flex items-center gap-2 bg-transparent hover:bg-lux-navy px-4 py-2 rounded border border-lux-navy">
                             <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                             Revelar Respuesta
                         </button>
                     </div>
                     
                     <div class="panel-correcta pl-0 md:pl-12" id="panel-p${i}">
-                        <div class="bg-emerald-50 border border-emerald-100 p-6 rounded-sm flex items-start gap-4">
-                            <svg class="w-5 h-5 text-emerald-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <div class="bg-emerald-50 border border-emerald-200 p-6 rounded-lg flex items-start gap-4">
+                            <svg class="w-5 h-5 text-emerald-600 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             <div>
-                                <h4 class="text-emerald-700 font-bold text-xs tracking-widest uppercase mb-1">Respuesta Correcta</h4>
-                                <p class="text-emerald-900 font-serif text-lg">${p.alternativas[p.correcta]}</p>
+                                <h4 class="text-emerald-800 font-bold text-[10px] tracking-widest uppercase mb-1">Respuesta Correcta</h4>
+                                <p class="text-emerald-950 font-serif text-lg font-semibold">${p.alternativas[p.correcta]}</p>
                             </div>
                         </div>
                     </div>
