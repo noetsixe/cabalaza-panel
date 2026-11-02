@@ -1358,10 +1358,8 @@ async function verificarEstadoTestSim() {
 }
 
 async function intentarCambiarTestSim(event) {
-    event.preventDefault();
-
     const checkbox = document.getElementById('test-simulation-switch');
-    const nuevoEstadoDeseado = !checkbox.checked;
+    const nuevoEstadoDeseado = checkbox.checked;
 
     const labelTexto = document.getElementById('label-test-texto');
     if (labelTexto) {
@@ -1380,9 +1378,8 @@ async function intentarCambiarTestSim(event) {
         });
 
         const data = await res.json();
-        
+
         if (res.ok && data.success) {
-            // Forzamos el switch al estado exacto que devolvió el servidor
             checkbox.checked = data.active;
             actualizarLabelTestSim(data.active);
             console.log("--> [PANEL] Estado actualizado con éxito a:", data.active);
