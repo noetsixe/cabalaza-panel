@@ -337,20 +337,19 @@
             background: #dc2626;
         }
 
-                /* Estilo para la barra de scroll de la tabla de usuarios */
+                        /* Estilo para la barra de scroll de la tabla de usuarios (NEGRA) */
         .overflow-x-auto::-webkit-scrollbar {
-            height: 8px;
+            height: 8px; /* Grosor de la barra */
         }
         .overflow-x-auto::-webkit-scrollbar-track {
-            background: #0a0a0a;
-            border-top: 1px solid #262626;
+            background: #000000; /* Fondo negro */
         }
         .overflow-x-auto::-webkit-scrollbar-thumb {
-            background: #dc2626;
-            border: 1px solid #ef4444;
+            background: #171717; /* El thumb (la barrita que se mueve) en gris muy oscuro */
+            border: 1px solid #262626;
         }
         .overflow-x-auto::-webkit-scrollbar-thumb:hover {
-            background: #f87171;
+            background: #333333; /* Un gris un poquito más claro al pasar el mouse */
         }
         
     </style>
@@ -1008,7 +1007,7 @@ document.body.style.overflow = '';
                     root.classList.remove('modo-invertido');
                     document.body.classList.remove('temblor-pantalla');
                 }
-            }, 600);
+            }, 500);
         }
 
         function actualizarEfectosVisuales(activo, reproducirAnimacion = false) {
