@@ -126,7 +126,9 @@ const URL_SERVIDOR = "https://api.nova-sync.xyz";
 let adminToken = null;
 
 // Iniciar sesión automáticamente si ya hay token o pedir contraseña
-window.onload = async () => {
+window.onload = () => {
+    cargarMaterias();
+};
     const pass = prompt("🔒 Autenticación Médica\n\nIntroduce la contraseña de administrador:");
     if (!pass) return location.href = 'index.html';
     
@@ -152,9 +154,7 @@ window.onload = async () => {
 async function cargarMaterias() {
     const cont = document.getElementById('vista-materias');
     try {
-        const res = await fetch(`${URL_SERVIDOR}/api/admin/examenes`, {
-            headers: { 'Authorization': `Bearer ${adminToken}` }
-        });
+         const res = await fetch(`${URL_SERVIDOR}/api/admin/examenes`);
         const preguntas = await res.json();
         
         if (!preguntas.length) {
@@ -189,9 +189,7 @@ async function abrirMateria(materia) {
     cont.classList.remove('hidden');
     cont.innerHTML = '<div class="text-center py-10 text-slate-500 animate-pulse-soft">Cargando expediente...</div>';
 
-    const res = await fetch(`${URL_SERVIDOR}/api/admin/examenes`, {
-        headers: { 'Authorization': `Bearer ${adminToken}` }
-    });
+            const res = await fetch(`${URL_SERVIDOR}/api/admin/examenes`);
     const preguntas = (await res.json()).filter(p => p.materia === materia);
 
     cont.innerHTML = `
