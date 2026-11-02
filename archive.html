@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atlas Clínico | Premium Archive</title>
     
-    <!-- Fuentes Premium -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
@@ -17,9 +16,8 @@
             theme: {
                 extend: {
                     colors: {
-                        'brand-dark': '#0a0f1c', // Azul profundo
-                        'brand-panel': '#111827',
-                        'brand-gold': '#d4af37', // Dorado
+                        'brand-dark': '#0a0f1c',
+                        'brand-gold': '#d4af37',
                         'brand-cyan': '#06b6d4',
                     },
                     fontFamily: {
@@ -42,7 +40,6 @@
             min-height: 100vh;
         }
 
-        /* Efecto Cristal (Glassmorphism) */
         .glass-card {
             background: rgba(17, 24, 39, 0.7);
             backdrop-filter: blur(12px);
@@ -58,7 +55,6 @@
             transform: translateY(-4px);
         }
 
-        /* Alternativas */
         .alternativa {
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -91,7 +87,6 @@
 
         .alternativa.bloqueada { cursor: default; }
 
-        /* Panel de respuesta */
         .panel-correcta {
             max-height: 0;
             overflow: hidden;
@@ -104,20 +99,6 @@
             margin-top: 20px;
         }
 
-        /* Texto con gradiente para títulos */
-        .text-gradient-gold {
-            background: linear-gradient(to right, #fcd34d, #d4af37);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .text-gradient-cyan {
-            background: linear-gradient(to right, #22d3ee, #06b6d4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Animación */
         @keyframes fadeUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -132,14 +113,13 @@
 
 <div class="max-w-6xl mx-auto space-y-12">
     
-    <!-- Header Premium -->
     <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-white/10 pb-8 animate-fade-up">
         <div>
             <div class="flex items-center gap-3 mb-2">
                 <div class="w-2 h-2 rounded-full bg-brand-gold animate-pulse"></div>
                 <p class="text-brand-gold tracking-[0.2em] text-xs font-bold uppercase">Atlas Médico Premium</p>
             </div>
-            <h1 class="text-4xl md:text-5xl font-serif text-white">Archivo Clínico</h1>
+            <h1 class="text-4xl md:text-5xl font-serif text-white">Archivo de Exámenes</h1>
         </div>
         <a href="index.html" class="bg-white/5 hover:bg-white/10 text-white text-sm font-medium px-6 py-3 rounded-lg border border-white/10 transition-all flex items-center gap-2 backdrop-blur-md">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
@@ -147,15 +127,9 @@
         </a>
     </header>
 
-    <!-- Dashboard de Estadísticas -->
-    <div id="dashboard-stats" class="grid grid-cols-1 md:grid-cols-3 gap-6 animate-fade-up" style="animation-delay: 0.1s">
-        <!-- Se llena por JS -->
-    </div>
-
-    <!-- Vistas -->
-    <div id="vista-materias" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div id="vista-examenes" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div class="col-span-full text-center py-20 text-brand-cyan/50 font-serif italic text-xl animate-pulse">
-            Cargando registros médicos...
+            Cargando exámenes...
         </div>
     </div>
 
@@ -167,55 +141,46 @@
 const URL_SERVIDOR = "https://api.nova-sync.xyz";
 
 window.onload = () => {
-    cargarMaterias();
+    cargarExamenes();
 };
 
-async function cargarMaterias() {
-    const cont = document.getElementById('vista-materias');
+async function cargarExamenes() {
+    const cont = document.getElementById('vista-examenes');
     try {
         const res = await fetch(`${URL_SERVIDOR}/api/admin/examenes`);
         const preguntas = await res.json();
         
         if (!preguntas.length) {
-            cont.innerHTML = '<div class="col-span-full text-center py-20 text-slate-500 font-serif italic text-xl">No hay exámenes en el archivo todavía.</div>';
+            cont.innerHTML = '<div class="col-span-full text-center py-20 text-slate-500 font-serif italic text-xl">No hay exámenes guardados todavía.</div>';
             return;
         }
 
-        const materias = {};
-        preguntas.forEach(p => { materias[p.materia] = (materias[p.materia] || 0) + 1; });
+        // Agrupar por grupo_id (sesión de examen)
+        const grupos = {};
+        preguntas.forEach(p => {
+            const id = p.grupo_id || 'antiguo';
+            if (!grupos[id]) {
+                grupos[id] = { 
+                    id: id, 
+                    total: 0, 
+                    materia: p.materia || 'General',
+                    fecha: new Date().toLocaleDateString()
+                };
+            }
+            grupos[id].total++;
+        });
 
-        // Renderizar Dashboard
-        document.getElementById('dashboard-stats').innerHTML = `
-            <div class="glass-card p-6 flex flex-col justify-between">
-                <span class="text-slate-400 text-sm font-medium">Total Preguntas</span>
-                <span class="text-4xl font-serif text-white mt-2">${preguntas.length}</span>
-            </div>
-            <div class="glass-card p-6 flex flex-col justify-between">
-                <span class="text-slate-400 text-sm font-medium">Especialidades</span>
-                <span class="text-4xl font-serif text-white mt-2">${Object.keys(materias).length}</span>
-            </div>
-            <div class="glass-card p-6 flex flex-col justify-between">
-                <span class="text-slate-400 text-sm font-medium">Estado del Sistema</span>
-                <span class="text-lg font-medium text-emerald-400 mt-2 flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> Sincronizado
-                </span>
-            </div>
-        `;
-
-        // Renderizar Materias
-        cont.innerHTML = Object.entries(materias).map(([mat, count], index) => `
-            <div onclick="abrirMateria('${mat}')" class="glass-card p-8 cursor-pointer flex flex-col justify-between h-48 group animate-fade-up" style="animation-delay: ${index * 0.1 + 0.2}s">
+        cont.innerHTML = Object.entries(grupos).map(([id, data], index) => `
+            <div onclick="abrirExamen('${id}')" class="glass-card p-8 cursor-pointer flex flex-col justify-between h-48 group animate-fade-up" style="animation-delay: ${index * 0.1}s">
                 <div class="flex justify-between items-start">
-                    <div class="w-10 h-10 rounded-lg bg-brand-gold/10 flex items-center justify-center border border-brand-gold/20 group-hover:bg-brand-gold/20 transition-colors">
-                        <svg class="w-5 h-5 text-brand-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                    <div class="w-10 h-10 rounded-lg bg-brand-cyan/10 flex items-center justify-center border border-brand-cyan/20 group-hover:bg-brand-cyan/20 transition-colors">
+                        <svg class="w-5 h-5 text-brand-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                     </div>
-                    <span class="bg-white/5 text-slate-300 text-xs font-medium px-3 py-1 rounded-full border border-white/10">${count} preguntas</span>
+                    <span class="bg-white/5 text-slate-300 text-xs font-medium px-3 py-1 rounded-full border border-white/10">${data.total} preguntas</span>
                 </div>
                 <div>
-                    <h3 class="text-xl font-serif text-white group-hover:text-brand-gold transition-colors">${mat}</h3>
-                    <div class="mt-2 text-sm text-slate-500 group-hover:text-brand-cyan transition-colors flex items-center gap-1">
-                        Ver expediente <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                    </div>
+                    <h3 class="text-xl font-serif text-white group-hover:text-brand-cyan transition-colors">Examen #${index + 1}</h3>
+                    <p class="text-sm text-slate-400 mt-1">${data.materia} • ${data.fecha}</p>
                 </div>
             </div>
         `).join('');
@@ -224,48 +189,47 @@ async function cargarMaterias() {
     }
 }
 
-async function abrirMateria(materia) {
-    document.getElementById('vista-materias').classList.add('hidden');
-    document.getElementById('dashboard-stats').classList.add('hidden');
+async function abrirExamen(grupoId) {
+    document.getElementById('vista-examenes').classList.add('hidden');
     const cont = document.getElementById('vista-preguntas');
     cont.classList.remove('hidden');
-    cont.innerHTML = '<div class="text-center py-20 text-brand-cyan/50 font-serif italic text-xl">Abriendo expediente clínico...</div>';
+    cont.innerHTML = '<div class="text-center py-20 text-brand-cyan/50 font-serif italic text-xl">Abriendo examen...</div>';
 
     const res = await fetch(`${URL_SERVIDOR}/api/admin/examenes`);
-    const preguntas = (await res.json()).filter(p => p.materia === materia);
+    const preguntas = (await res.json()).filter(p => (p.grupo_id || 'antiguo') === grupoId);
 
     cont.innerHTML = `
         <div class="flex items-center gap-4 mb-8 animate-fade-up">
             <button onclick="location.reload()" class="bg-white/5 hover:bg-white/10 text-slate-300 text-sm font-medium px-5 py-2.5 rounded-lg border border-white/10 transition-all flex items-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                Volver al inicio
+                Volver a los exámenes
             </button>
         </div>
         
         <div class="mb-10 animate-fade-up">
-            <h2 class="text-3xl md:text-4xl font-serif text-white">${materia}</h2>
-            <p class="text-slate-400 mt-2 text-sm font-medium tracking-wide uppercase">${preguntas.length} preguntas documentadas en este expediente.</p>
+            <h2 class="text-3xl md:text-4xl font-serif text-white">Detalle del Examen</h2>
+            <p class="text-slate-400 mt-2 text-sm font-medium tracking-wide uppercase">${preguntas.length} preguntas en esta sesión.</p>
         </div>
         
         <div class="space-y-8">
             ${preguntas.map((p, i) => `
                 <div class="glass-card p-8 md:p-10 animate-fade-up" id="p${i}" style="animation-delay: ${i * 0.05}s">
                     <div class="mb-6 flex gap-4">
-                        <span class="text-brand-gold font-serif italic text-2xl mt-1">Q${i + 1}.</span>
+                        <span class="text-brand-cyan font-serif italic text-2xl mt-1">Q${i + 1}.</span>
                         <h3 class="text-lg md:text-xl text-slate-200 font-medium leading-relaxed">${p.texto_pregunta}</h3>
                     </div>
                     
                     <div class="space-y-3 mt-8 pl-0 md:pl-12">
                         ${p.alternativas.map((alt, j) => `
                             <div class="alternativa flex items-start gap-4" data-idx="${j}" data-c="${p.correcta}" onclick="responder(this)">
-                                <span class="font-serif text-brand-gold/70 font-bold mt-0.5">${String.fromCharCode(65+j)}.</span>
+                                <span class="font-serif text-brand-cyan/70 font-bold mt-0.5">${String.fromCharCode(65+j)}.</span>
                                 <span>${alt}</span>
                             </div>
                         `).join('')}
                     </div>
                     
                     <div class="mt-8 pt-6 border-t border-white/10 flex justify-end pl-0 md:pl-12">
-                        <button onclick="verCorrecta('p${i}')" class="text-xs font-bold tracking-widest text-brand-cyan hover:text-white uppercase transition-colors flex items-center gap-2 bg-brand-cyan/10 hover:bg-brand-cyan/20 px-4 py-2 rounded border border-brand-cyan/20">
+                        <button onclick="verCorrecta('p${i}')" class="text-xs font-bold tracking-widest text-brand-gold hover:text-white uppercase transition-colors flex items-center gap-2 bg-brand-gold/10 hover:bg-brand-gold/20 px-4 py-2 rounded border border-brand-gold/20">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                             Revelar respuesta
                         </button>
