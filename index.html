@@ -9,22 +9,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
     <style>
         body {
-    background-color: #000000;
-    color: #b91c1c;
-    font-family: 'Press Start 2P', monospace, sans-serif;
-    font-size: 11px;
-    -webkit-font-smoothing: none;
-    -moz-osx-font-smoothing: grayscale;
-    transition: background-color 0.05s ease;
-    position: relative;
-
-    overscroll-behavior: none;
-    overscroll-behavior-y: none;
-}
+            background-color: #000000;
+            color: #b91c1c;
+            font-family: 'Press Start 2P', monospace, sans-serif;
+            font-size: 11px;
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: grayscale;
+            transition: background-color 0.2s ease, filter 0.3s ease;
+            position: relative;
+            overscroll-behavior: none;
+            overscroll-behavior-y: none;
+        }
         html {
-    overscroll-behavior: none;
-    overscroll-behavior-y: none;
-}
+            overscroll-behavior: none;
+            overscroll-behavior-y: none;
+        }
         /* CANVAS DE MATRIX EN EL FONDO */
         #canvas-matrix {
             position: fixed;
@@ -34,12 +33,14 @@
             height: 100vh;
             z-index: -1;
             pointer-events: none;
-            opacity: 0.45;
+            opacity: 0.35;
         }
 
         .font-terminal {
             font-family: 'Press Start 2P', monospace;
         }
+        
+        /* SCROLLBAR SUAVE */
         #contenedor-logs::-webkit-scrollbar {
             width: 8px;
         }
@@ -50,12 +51,13 @@
         #contenedor-logs::-webkit-scrollbar-thumb {
             background: #dc2626;
             border: 1px solid #ef4444;
+            transition: background 0.3s ease;
         }
         #contenedor-logs::-webkit-scrollbar-thumb:hover {
             background: #f87171;
         }
 
-        /* Switch de encendido/apagado */
+        /* SWITCH SUAVE */
         .switch {
             position: relative;
             display: inline-block;
@@ -73,7 +75,7 @@
             top: 0; left: 0; right: 0; bottom: 0;
             background-color: #171717;
             border: 1px solid #404040;
-            transition: .2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .slider:before {
             position: absolute;
@@ -83,7 +85,7 @@
             left: 3px;
             bottom: 3px;
             background-color: #737373;
-            transition: .2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         input:checked + .slider {
             background-color: #991b1b;
@@ -94,16 +96,16 @@
             background-color: #ef4444;
         }
 
-        /* FILTROS Y EFECTOS */
+        /* FILTROS Y EFECTOS GLOBALES SUAVES */
         .filtro-gris {
             filter: grayscale(100%) brightness(70%);
-            transition: filter 0.4s ease;
+            transition: filter 0.5s ease;
         }
         .motor-afectado {
-            transition: filter 0.4s ease;
+            transition: filter 0.5s ease, opacity 0.3s ease;
         }
 
-        /* OVERLAY OLA MYSTIQUE / ARCADE COMPLETO */
+        /* OVERLAY FLASH ARCADE */
         #pixel-flash-overlay {
             position: fixed;
             top: 0; left: 0; width: 100vw; height: 100vh;
@@ -116,99 +118,52 @@
             -webkit-mask-size: 6px 6px;
         }
 
-        /* ANIMACIÓN EN OLA DE UN SOLO COLOR SÓLIDO (AMARILLO / ROJO) */
+        /* ANIMACIONES DE OLA (Manteniendo el estilo arcade) */
         @keyframes olaArcadeAmarillo {
-            0% {
-                opacity: 1;
-                background: linear-gradient(to top, #eab308 0%, transparent 10%);
-            }
-            30% {
-                opacity: 1;
-                background: linear-gradient(to top, #eab308 80%, transparent 100%);
-            }
-            40%, 60% {
-                opacity: 1;
-                background: #eab308;
-            }
-            70% {
-                opacity: 1;
-                background: linear-gradient(to top, transparent 0%, #eab308 20%);
-            }
-            100% {
-                opacity: 0;
-                background: linear-gradient(to top, transparent 90%, #eab308 100%);
-            }
+            0% { opacity: 1; background: linear-gradient(to top, #eab308 0%, transparent 10%); }
+            30% { opacity: 1; background: linear-gradient(to top, #eab308 80%, transparent 100%); }
+            40%, 60% { opacity: 1; background: #eab308; }
+            70% { opacity: 1; background: linear-gradient(to top, transparent 0%, #eab308 20%); }
+            100% { opacity: 0; background: linear-gradient(to top, transparent 90%, #eab308 100%); }
         }
 
         @keyframes olaArcadeRojo {
-            0% {
-                opacity: 1;
-                background: linear-gradient(to top, #dc2626 0%, transparent 10%);
-            }
-            30% {
-                opacity: 1;
-                background: linear-gradient(to top, #dc2626 80%, transparent 100%);
-            }
-            40%, 60% {
-                opacity: 1;
-                background: #dc2626;
-            }
-            70% {
-                opacity: 1;
-                background: linear-gradient(to top, transparent 0%, #dc2626 20%);
-            }
-            100% {
-                opacity: 0;
-                background: linear-gradient(to top, transparent 90%, #dc2626 100%);
-            }
+            0% { opacity: 1; background: linear-gradient(to top, #dc2626 0%, transparent 10%); }
+            30% { opacity: 1; background: linear-gradient(to top, #dc2626 80%, transparent 100%); }
+            40%, 60% { opacity: 1; background: #dc2626; }
+            70% { opacity: 1; background: linear-gradient(to top, transparent 0%, #dc2626 20%); }
+            100% { opacity: 0; background: linear-gradient(to top, transparent 90%, #dc2626 100%); }
         }
 
-        .flash-anim-on {
-            animation: olaArcadeAmarillo 0.5s steps(10, end) forwards;
-        }
-        .flash-anim-off {
-            animation: olaArcadeRojo 0.5s steps(10, end) forwards;
-        }
+        .flash-anim-on { animation: olaArcadeAmarillo 0.5s steps(10, end) forwards; }
+        .flash-anim-off { animation: olaArcadeRojo 0.5s steps(10, end) forwards; }
 
-        /* EFECTO DE VIBRACIÓN PARA LA CALABAZA */
+        /* VIBRACIÓN Y TEMBLOR SUAVIZADOS */
         @keyframes vibrar {
             0% { transform: translate(0, 0) rotate(0deg); }
-            20% { transform: translate(-6px, 4px) rotate(-4deg); }
-            40% { transform: translate(6px, -4px) rotate(4deg); }
-            60% { transform: translate(-4px, -2px) rotate(-2deg); }
-            80% { transform: translate(4px, 2px) rotate(2deg); }
+            25% { transform: translate(-3px, 2px) rotate(-2deg); }
+            50% { transform: translate(3px, -2px) rotate(2deg); }
+            75% { transform: translate(-2px, -1px) rotate(-1deg); }
             100% { transform: translate(0, 0) rotate(0deg); }
         }
+        .vibrar-calabaza { animation: vibrar 0.1s infinite linear; }
 
-        .vibrar-calabaza {
-            animation: vibrar 0.08s infinite linear;
-        }
-
-        /* EFECTO DE TEMBLOR GLOBAL */
         @keyframes tiembleGeneral {
             0% { transform: translate(0px, 0px) rotate(0deg); }
-            10% { transform: translate(-8px, -6px) rotate(-1deg); }
-            20% { transform: translate(8px, 6px) rotate(1deg); }
-            30% { transform: translate(-6px, 4px) rotate(0deg); }
-            40% { transform: translate(6px, -4px) rotate(1deg); }
-            50% { transform: translate(-8px, 6px) rotate(-1deg); }
-            60% { transform: translate(8px, -6px) rotate(0deg); }
-            70% { transform: translate(-4px, -4px) rotate(1deg); }
-            80% { transform: translate(4px, 4px) rotate(-1deg); }
-            90% { transform: translate(-2px, 2px) rotate(0deg); }
+            20% { transform: translate(-3px, -3px) rotate(-0.5deg); }
+            40% { transform: translate(3px, 3px) rotate(0.5deg); }
+            60% { transform: translate(-2px, 2px) rotate(0deg); }
+            80% { transform: translate(2px, -2px) rotate(0.5deg); }
             100% { transform: translate(0px, 0px) rotate(0deg); }
         }
+        .temblor-pantalla { animation: tiembleGeneral 0.3s linear infinite; }
 
-        .temblor-pantalla {
-            animation: tiembleGeneral 0.25s linear infinite;
-        }
-
-        /* INVERSIÓN TOTAL DE COLORES */
         .modo-invertido {
             filter: invert(100%) hue-rotate(180deg);
-            transition: filter 0.05s ease;
+            transition: filter 0.2s ease;
         }
-                /* LIVE FEED — JETBRAINS MONO / VS CODE DARK+ */
+
+        /* LIVE FEED */
         #contenedor-logs {
             font-family: 'JetBrains Mono', monospace;
             font-size: 12px;
@@ -218,75 +173,99 @@
             background: #000000;
             border: 1px solid #21262d;
             padding: 12px;
+            border-radius: 4px;
         }
-
         #contenedor-logs > div {
             font-family: 'JetBrains Mono', monospace;
             font-size: 12px;
             font-weight: 400;
             line-height: 1.65;
             border-bottom: 1px solid #161b22;
-            padding: 2px 0;
+            padding: 4px 0;
+            transition: background 0.2s ease;
         }
-
+        #contenedor-logs > div:hover {
+            background: rgba(255,255,255,0.03);
+        }
         #contenedor-logs pre {
             font-family: 'JetBrains Mono', monospace;
             font-size: 12px;
             line-height: 1.65;
         }
-        /* PANTALLA "NENA" - ESTÉTICA BLUE SCREEN */
-#pantalla-nena {
-    position: fixed;
-    inset: 0;
-    z-index: 100000;
-    background: #0000aa;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    text-align: center;
-    color: #ffffff;
-}
 
-#pantalla-nena.activa {
-    display: flex;
-}
+        /* PANTALLA "NENA" */
+        #pantalla-nena {
+            position: fixed;
+            inset: 0;
+            z-index: 100000;
+            background: #0000aa;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            color: #ffffff;
+        }
+        #pantalla-nena.activa { display: flex; }
+        #pantalla-nena .nena-texto {
+            font-family: 'VT323', monospace;
+            font-size: 32px;
+            font-weight: 400;
+            line-height: 1;
+            letter-spacing: 0;
+            color: #0000aa;
+            background: #c0c0c0;
+            padding: 1px 7px 2px 7px;
+            margin-bottom: 22px;
+            text-transform: lowercase;
+            box-shadow: 2px 2px 0px #ffffff, -1px -1px 0px #555555;
+        }
+        #pantalla-nena .volver-nena {
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            font-weight: 400;
+            color: #ffffff;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+            letter-spacing: 0;
+            transition: color 0.2s ease;
+        }
+        #pantalla-nena .volver-nena:hover {
+            color: #c0c0c0;
+        }
 
-#pantalla-nena .nena-texto {
-    font-family: 'VT323', monospace;
-    font-size: 32px;
-    font-weight: 400;
-    line-height: 1;
-    letter-spacing: 0;
-    color: #0000aa;
-    background: #c0c0c0;
-    padding: 1px 7px 2px 7px;
-    margin-bottom: 22px;
-    text-transform: lowercase;
-
-    /* efecto de resaltado/sombra tipo pantalla antigua */
-    box-shadow:
-        2px 2px 0px #ffffff,
-        -1px -1px 0px #555555;
-}
-
-#pantalla-nena .volver-nena {
-    font-family: 'VT323', monospace;
-    font-size: 18px;
-    font-weight: 400;
-    color: #ffffff;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    margin: 0;
-    letter-spacing: 0;
-}
-
-#pantalla-nena .volver-nena:hover {
-    color: #c0c0c0;
-}
+        /* BOTONES Y ELEMENTOS SUAVES */
+        button, a {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
         
+        button:hover, a:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.1);
+        }
+
+        button:active, a:active {
+            transform: translateY(1px);
+        }
+
+        input {
+            transition: all 0.3s ease;
+        }
+        input:focus {
+            background: #050505;
+            box-shadow: 0 0 10px rgba(220, 38, 38, 0.2);
+        }
+
+        /* TARJETAS CON BORDES SUAVES Y HOVER */
+        .bg-black\/90 {
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .bg-black\/90:hover {
+            box-shadow: 0 0 15px rgba(220, 38, 38, 0.1);
+        }
     </style>
 </head>
 <body id="body-principal" class="min-h-screen p-4 md:p-8 selection:bg-red-950 selection:text-red-300" style="visibility: hidden;" onclick="cerrarTodosLosMenus(event)">
@@ -332,10 +311,10 @@
     <div class="max-w-4xl mx-auto space-y-6">
         
         <div class="flex justify-center mb-2 motor-afectado">
-            <img id="img-calabaza" src="cabalaza-logo.png" alt="Logo Cabalaza" onclick="efectoCalabazaVibrar(event)" class="w-40 h-40 md:w-48 md:h-48 object-contain filter drop-shadow-[0_0_15px_rgba(234,179,8,0.7)] cursor-pointer active:scale-95 transition-transform">
+            <img id="img-calabaza" src="cabalaza-logo.png" alt="Logo Cabalaza" onclick="efectoCalabazaVibrar(event)" class="w-40 h-40 md:w-48 md:h-48 object-contain filter drop-shadow-[0_0_15px_rgba(234,179,8,0.7)] cursor-pointer active:scale-95 transition-transform duration-300 hover:scale-105">
         </div>
 
-                <header class="bg-black/90 border-2 border-red-600 p-6 shadow-[4px_4px_0px_0px_#dc2626] flex flex-col md:flex-row justify-between items-start md:items-center gap-4 motor-afectado backdrop-blur-sm">
+        <header class="bg-black/90 border-2 border-red-600 p-6 shadow-[4px_4px_0px_0px_#dc2626] flex flex-col md:flex-row justify-between items-start md:items-center gap-4 motor-afectado backdrop-blur-sm transition-all duration-300">
             <div>
                 <h1 class="text-xl md:text-2xl font-bold tracking-widest text-red-600 uppercase flex items-center gap-2">
                     <span class="inline-block w-3 h-3 bg-red-600 animate-pulse"></span>
@@ -344,27 +323,26 @@
                 <p class="text-[10px] text-pink-400 font-terminal tracking-wider mt-1">// GESTIÓN DE ACCESOS Y REGISTRO EN VIVO</p>
             </div>
             <div class="flex flex-wrap gap-2">
-                <button onclick="actualizarTodo()" class="bg-red-600 hover:bg-red-700 text-black font-bold text-[10px] px-4 py-2 border border-red-500 shadow-[2px_2px_0px_0px_#ffffff] transition uppercase tracking-widest cursor-pointer">
+                <button onclick="actualizarTodo()" class="bg-red-600 hover:bg-red-700 text-black font-bold text-[10px] px-4 py-2 border border-red-500 shadow-[2px_2px_0px_0px_#ffffff] transition-all duration-300 uppercase tracking-widest cursor-pointer hover:shadow-[2px_2px_0px_0px_#ef4444]">
                     Sincronizar Todo
                 </button>
-                <a href="archive.html" target="_blank" class="bg-green-700 hover:bg-green-600 text-white font-bold text-[10px] px-4 py-2 border border-green-500 shadow-[2px_2px_0px_0px_#22c55e] transition uppercase tracking-widest cursor-pointer flex items-center gap-2">
-    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
-    Archivo Clínico
-</a>
+                <a href="archive.html" target="_blank" class="bg-green-700 hover:bg-green-600 text-white font-bold text-[10px] px-4 py-2 border border-green-500 shadow-[2px_2px_0px_0px_#22c55e] transition-all duration-300 uppercase tracking-widest cursor-pointer flex items-center gap-2 hover:shadow-[2px_2px_0px_0px_#4ade80]">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    Archivo Clínico
+                </a>
             </div>
         </header>
             <!-- CAJA DE ESTADO DE CONEXIÓN -->
-            <div id="caja-estado" class="bg-black/90 border-2 border-neutral-700 p-3 text-neutral-300 text-xs flex items-center gap-3 motor-afectado backdrop-blur-sm flex-1">
+            <div id="caja-estado" class="bg-black/90 border-2 border-neutral-700 p-3 text-neutral-300 text-xs flex items-center gap-3 motor-afectado backdrop-blur-sm flex-1 transition-all duration-300">
                 <span class="w-2.5 h-2.5 bg-yellow-500 animate-ping"></span>
                 Comprobando conexión con el servidor...
             </div>
         </div>
 
-    <!-- BARRA SUPERIOR: SWITCH A LA IZQUIERDA Y ESTADO ONLINE A LA DERECHA -->
-        <!-- BARRA SUPERIOR: SWITCHES UNO DEBAJO DE OTRO -->
+    <!-- BARRA SUPERIOR: SWITCHES -->
         <div class="flex flex-col gap-4 items-stretch">
             <!-- INTERRUPTOR GENERAL -->
-            <div class="flex items-center justify-between bg-black/90 border border-neutral-800 px-4 py-2.5 shadow-[2px_2px_0px_0px_#171717] motor-afectado backdrop-blur-sm flex-1">
+            <div class="flex items-center justify-between bg-black/90 border border-neutral-800 px-4 py-2.5 shadow-[2px_2px_0px_0px_#171717] motor-afectado backdrop-blur-sm flex-1 transition-all duration-300 hover:border-neutral-600">
                 <div class="flex items-center gap-3">
                     <label class="switch">
                         <input type="checkbox" id="main-server-switch" onclick="intentarCambiarEstado(event)">
@@ -372,7 +350,7 @@
                     </label>
                     <div class="flex flex-col">
                         <span class="text-[9px] text-neutral-400 tracking-wider">ESTADO DEL MOTOR DE IA</span>
-                        <span id="label-estado-texto" class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">DESCONECTADO</span>
+                        <span id="label-estado-texto" class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest transition-colors duration-300">DESCONECTADO</span>
                     </div>
                 </div>
                 <div class="text-[9px] text-neutral-600 font-terminal hidden sm:block">
@@ -381,7 +359,7 @@
             </div>
 
             <!-- INTERRUPTOR TEST SIMULATION -->
-            <div class="flex items-center justify-between bg-black/90 border border-neutral-800 px-4 py-2.5 shadow-[2px_2px_0px_0px_#171717] motor-afectado backdrop-blur-sm flex-1">
+            <div class="flex items-center justify-between bg-black/90 border border-neutral-800 px-4 py-2.5 shadow-[2px_2px_0px_0px_#171717] motor-afectado backdrop-blur-sm flex-1 transition-all duration-300 hover:border-neutral-600">
                 <div class="flex items-center gap-3">
                     <label class="switch">
                         <input type="checkbox" id="test-simulation-switch" onclick="intentarCambiarTestSim(event)">
@@ -389,17 +367,17 @@
                     </label>
                     <div class="flex flex-col">
                         <span class="text-[9px] text-neutral-400 tracking-wider">TEST SIMULATION</span>
-                        <span id="label-test-texto" class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest">CARGANDO...</span>
+                        <span id="label-test-texto" class="text-[10px] font-bold text-neutral-500 uppercase tracking-widest transition-colors duration-300">CARGANDO...</span>
                     </div>
                 </div>
-                                <div class="text-[9px] text-neutral-600 font-terminal hidden sm:block">
+                <div class="text-[9px] text-neutral-600 font-terminal hidden sm:block">
                     // ON_OFF
                 </div>
             </div>
         </div>
 
         <!-- SECCIÓN DE USUARIOS ACTIVOS EN TIEMPO REAL -->
-        <div class="bg-black/90 border-2 border-green-600 p-6 shadow-[4px_4px_0px_0px_#16a34a] motor-afectado backdrop-blur-sm">
+        <div class="bg-black/90 border-2 border-green-600 p-6 shadow-[4px_4px_0px_0px_#16a34a] motor-afectado backdrop-blur-sm transition-all duration-300 hover:shadow-[4px_4px_0px_0px_#22c55e]">
             <div class="flex justify-between items-center mb-4 border-b border-green-900 pb-2">
                 <h2 class="text-[10px] font-bold uppercase tracking-widest text-green-500">
                     &gt;&gt; USUARIOS ACTIVOS EN LA PÁGINA [PRESENCIA_EN_VIVO]
@@ -412,7 +390,7 @@
         </div>
 
         <!-- SECCIÓN DE PREGUNTAS EN TIEMPO REAL -->
-        <div class="bg-black/90 border-2 border-red-600 p-6 shadow-[4px_4px_0px_0px_#dc2626] motor-afectado backdrop-blur-sm">
+        <div class="bg-black/90 border-2 border-red-600 p-6 shadow-[4px_4px_0px_0px_#dc2626] motor-afectado backdrop-blur-sm transition-all duration-300 hover:shadow-[4px_4px_0px_0px_#ef4444]">
             <div class="flex justify-between items-center mb-4 border-b border-red-900 pb-2">
                 <h2 class="text-[10px] font-bold uppercase tracking-widest text-red-500">
                     &gt;&gt; MONITOR DE PREGUNTAS Y RESPUESTAS [LIVE_FEED]
@@ -425,23 +403,23 @@
         </div>
 
         <!-- SECCIÓN DE GESTIÓN DE USUARIOS -->
-        <div class="bg-black/90 border-2 border-neutral-700 p-6 shadow-[4px_4px_0px_0px_#262626] space-y-6 backdrop-blur-sm">
+        <div class="bg-black/90 border-2 border-neutral-700 p-6 shadow-[4px_4px_0px_0px_#262626] space-y-6 backdrop-blur-sm transition-all duration-300 hover:border-neutral-500">
             <h2 class="text-[10px] font-bold uppercase tracking-widest text-red-500 border-b border-neutral-800 pb-2">
                 &gt;&gt; ADMINISTRACIÓN DE USUARIOS [DATABASE]
             </h2>
 
-            <div class="bg-neutral-950/80 border border-neutral-800 p-4 space-y-3">
+            <div class="bg-neutral-950/80 border border-neutral-800 p-4 space-y-3 transition-colors duration-300">
                 <div class="text-[10px] text-cyan-400 font-terminal">// REGISTRAR NUEVO USUARIO</div>
                 <form id="form-crear-usuario" onsubmit="crearUsuario(event)" class="flex flex-col md:flex-row gap-3">
                     <input type="text" id="nuevo-usuario-id" placeholder="ID o Nombre de Usuario..." required 
-                        class="flex-1 bg-black border border-neutral-700 px-3 py-2 text-xs text-red-500 focus:outline-none focus:border-red-600 font-terminal">
-                    <button type="submit" class="bg-red-950 hover:bg-red-600 text-red-400 hover:text-black font-bold text-[10px] px-4 py-2 border border-red-800 transition uppercase tracking-widest cursor-pointer">
+                        class="flex-1 bg-black border border-neutral-700 px-3 py-2 text-xs text-red-500 focus:outline-none focus:border-red-600 font-terminal rounded-sm">
+                    <button type="submit" class="bg-red-950 hover:bg-red-600 text-red-400 hover:text-black font-bold text-[10px] px-4 py-2 border border-red-800 transition-all duration-300 uppercase tracking-widest cursor-pointer hover:shadow-[0_0_10px_rgba(220,38,38,0.3)]">
                         + Crear Usuario
                     </button>
                 </form>
             </div>
 
-            <div class="flex items-center gap-2 bg-black border border-neutral-800 px-3 py-2">
+            <div class="flex items-center gap-2 bg-black border border-neutral-800 px-3 py-2 rounded-sm transition-colors duration-300 focus-within:border-red-800">
                 <span class="text-neutral-500 text-[10px]">&gt; FILTRAR:</span>
                 <input type="text" id="buscador-usuarios" onkeyup="filtrarUsuarios()" placeholder="Buscar usuario por ID..." 
                     class="w-full bg-transparent text-xs text-neutral-300 focus:outline-none font-terminal">
@@ -534,8 +512,8 @@
         })();
 
         // VARIABLES GLOBALES
-const URL_SERVIDOR = "https://api.nova-sync.xyz";
-let listaUsuariosCache = []; 
+        const URL_SERVIDOR = "https://api.nova-sync.xyz";
+        let listaUsuariosCache = []; 
         let estadoDeseadoSwitch = false; 
         let adminToken = null;
         let pendingAction = null;
@@ -546,8 +524,8 @@ let listaUsuariosCache = [];
         let intervaloEstadoTestSim = null;
         let sesionExpirada = false;
 
-        // INTERCEPTOR DE FETCH: adjunta la cabecera Authorization cuando exista token
-                const rawFetch = window.fetch.bind(window);
+        // INTERCEPTOR DE FETCH
+        const rawFetch = window.fetch.bind(window);
         window.fetch = async (input, init = {}) => {
             const url = typeof input === 'string' ? input : input.url;
             if (url.startsWith(`${URL_SERVIDOR}/api/admin`)) {
@@ -557,7 +535,7 @@ let listaUsuariosCache = [];
                 }
                 const respuesta = await rawFetch(input, { ...init, headers });
 
-                    if (respuesta.status === 401 && adminToken && !url.endsWith('/api/admin/login')) {
+                if (respuesta.status === 401 && adminToken && !url.endsWith('/api/admin/login')) {
                     if (!sesionExpirada) {
                         sesionExpirada = true;
                         adminToken = null;
@@ -576,7 +554,7 @@ let listaUsuariosCache = [];
             return rawFetch(input, init);
         };
 
-                function iniciarPollings() {
+        function iniciarPollings() {
             if (timersIniciados) return;
             timersIniciados = true;
 
@@ -587,295 +565,240 @@ let listaUsuariosCache = [];
         }
 
         // INICIALIZACIÓN
-                window.onload = function() {
-    abrirModal('Introduce la contraseña de administrador para acceder al panel:', async () => {
-        actualizarTodo();
-        notificarServidorPanel(); 
-        iniciarPollings();
-    });
+        window.onload = function() {
+            abrirModal('Introduce la contraseña de administrador para acceder al panel:', async () => {
+                actualizarTodo();
+                notificarServidorPanel(); 
+                iniciarPollings();
+            });
 
-    document.body.style.visibility = 'visible';
-};
+            document.body.style.visibility = 'visible';
+        };
 
         // MODAL Y AUTENTICACIÓN
         function abrirModal(texto, accion) {
-    pendingAction = accion;
+            pendingAction = accion;
 
-    const pModal = document.querySelector('#modal-password p');
-    if (pModal) pModal.textContent = texto;
+            const pModal = document.querySelector('#modal-password p');
+            if (pModal) pModal.textContent = texto;
 
-    const input = document.getElementById('input-admin-pass');
-    input.value = '';
+            const input = document.getElementById('input-admin-pass');
+            input.value = '';
 
-    document.getElementById('modal-password').classList.remove('hidden');
+            document.getElementById('modal-password').classList.remove('hidden');
 
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';
 
-    input.focus();
-}
+            input.focus();
+        }
 
         function cerrarModalPassword() {
-    document.getElementById('modal-password').classList.add('hidden');
+            document.getElementById('modal-password').classList.add('hidden');
+            pendingAction = null;
 
-    pendingAction = null;
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';
 
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
-
-    document.getElementById('pantalla-nena').classList.add('activa');
-}
-        function volverDesdeNena() {
-    document.getElementById('pantalla-nena').classList.remove('activa');
-
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
-
-        abrirModal(
-        'Introduce la contraseña de administrador para acceder al panel:',
-        async () => {
-            actualizarTodo();
-            notificarServidorPanel();
-            iniciarPollings();
+            document.getElementById('pantalla-nena').classList.add('activa');
         }
-    );
-}
-        
+
+        function volverDesdeNena() {
+            document.getElementById('pantalla-nena').classList.remove('activa');
+
+            document.documentElement.style.overflow = 'hidden';
+            document.body.style.overflow = 'hidden';
+
+            abrirModal(
+                'Introduce la contraseña de administrador para acceder al panel:',
+                async () => {
+                    actualizarTodo();
+                    notificarServidorPanel();
+                    iniciarPollings();
+                }
+            );
+        }
 
         async function ejecutarCambioServidor() {
-    const passwordIngresada = document.getElementById('input-admin-pass').value;
+            const passwordIngresada = document.getElementById('input-admin-pass').value;
 
-    if (!passwordIngresada) {
-        return alert("Debes introducir la contraseña.");
-    }
+            if (!passwordIngresada) {
+                return alert("Debes introducir la contraseña.");
+            }
 
-    // Mostrar pantalla de carga estilo Windows antiguo
-    let pantallaCarga = document.getElementById('pantalla-carga-admin');
+            let pantallaCarga = document.getElementById('pantalla-carga-admin');
 
-    if (!pantallaCarga) {
-        pantallaCarga = document.createElement('div');
-        pantallaCarga.id = 'pantalla-carga-admin';
+            if (!pantallaCarga) {
+                pantallaCarga = document.createElement('div');
+                pantallaCarga.id = 'pantalla-carga-admin';
 
-        pantallaCarga.innerHTML = `
+                pantallaCarga.innerHTML = `
     <div class="ventana-carga-admin">
-
         <div class="barra-titulo-carga">
             servidor CABALAZA
         </div>
-
         <div class="contenido-carga-admin">
-
             <div class="texto-carga-principal">
                 Conectando con el servidor...
             </div>
-
             <div class="texto-carga-secundario">
                 Espere mientras se establece la conexión.<br>
                 El servidor puede estar iniciándose.
             </div>
-
             <div class="barra-progreso-admin">
                 <div class="progreso-admin"></div>
             </div>
-
         </div>
-
     </div>
 `;
 
-        document.body.appendChild(pantallaCarga);
+                document.body.appendChild(pantallaCarga);
 
-        const estilo = document.createElement('style');
+                const estilo = document.createElement('style');
 
-        estilo.textContent = `
+                estilo.textContent = `
             #pantalla-carga-admin {
     position: fixed;
     inset: 0;
     z-index: 999999;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     background: #0000AA;
     color: #FFFFFF;
-
     font-family: "Lucida Console", "Courier New", monospace;
 }
-
 .ventana-carga-admin {
     width: min(760px, 90vw);
-
     background: #0000AA;
     color: #FFFFFF;
-
     border: none;
     box-shadow: none;
 }
-
 .barra-titulo-carga {
     display: inline-block;
-
     padding: 1px 7px 2px 7px;
     margin-bottom: 22px;
-
     background: #C0C0C0;
     color: #0000AA;
-
     font-family: "Lucida Console", "Courier New", monospace;
     font-size: 18px;
     font-weight: bold;
 }
-
 .contenido-carga-admin {
     display: block;
     padding: 0;
     text-align: left;
 }
-
 .texto-carga-principal {
     margin-bottom: 18px;
-
     color: #FFFFFF;
-
     font-family: "Lucida Console", "Courier New", monospace;
     font-size: 20px;
     font-weight: bold;
     line-height: 1.5;
 }
-
 .texto-carga-secundario {
     margin-bottom: 22px;
-
     color: #FFFFFF;
-
     font-family: "Lucida Console", "Courier New", monospace;
     font-size: 16px;
     line-height: 1.6;
 }
-
-/* BARRA DE CARGA */
 .barra-progreso-admin {
     position: relative;
-
     width: 100%;
     max-width: 600px;
     height: 22px;
-
     background: #0000AA;
-
     border: 2px solid #C0C0C0;
-
     box-sizing: border-box;
     overflow: hidden;
 }
-
 .progreso-admin {
     position: absolute;
-
     top: 2px;
     bottom: 2px;
-
     width: 120px;
-
     background: #C0C0C0;
-
     animation: cargarBSOD 1.4s linear infinite;
 }
-
 @keyframes cargarBSOD {
-    from {
-        left: -120px;
-    }
-
-    to {
-        left: 100%;
-    }
+    from { left: -120px; }
+    to { left: 100%; }
 }
-
-/* Cursor */
 .texto-carga-principal::after {
     content: "_";
-
     animation: cursorBSOD 0.8s steps(1) infinite;
 }
-
 @keyframes cursorBSOD {
-    0%, 49% {
-        opacity: 1;
-    }
-
-    50%, 100% {
-        opacity: 0;
-    }
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
 }
         `;
 
-        document.head.appendChild(estilo);
-    }
+                document.head.appendChild(estilo);
+            }
 
-    pantallaCarga.style.display = 'flex';
+            pantallaCarga.style.display = 'flex';
 
-    const input = document.getElementById('input-admin-pass');
-    input.disabled = true;
+            const input = document.getElementById('input-admin-pass');
+            input.disabled = true;
 
-    try {
-        if (!adminToken) {
+            try {
+                if (!adminToken) {
+                    const res = await rawFetch(`${URL_SERVIDOR}/api/admin/login`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            password: passwordIngresada
+                        })
+                    });
 
-            const res = await rawFetch(`${URL_SERVIDOR}/api/admin/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    password: passwordIngresada
-                })
-            });
+                    const data = await res.json();
 
-            const data = await res.json();
+                    if (res.status === 401) {
+                        pantallaCarga.style.display = 'none';
+                        input.disabled = false;
+                        input.value = '';
+                        input.focus();
+                        return alert(data.error || "Contraseña incorrecta.");
+                    }
 
-            if (res.status === 401) {
+                    if (!res.ok || !data.token) {
+                        throw new Error(data.error || "Error de conexión.");
+                    }
+
+                    adminToken = data.token;
+                }
+
                 pantallaCarga.style.display = 'none';
-
                 input.disabled = false;
-                input.value = '';
-                input.focus();
 
-                return alert(data.error || "Contraseña incorrecta.");
+                document.getElementById('modal-password').classList.add('hidden');
+                document.documentElement.style.overflow = '';
+                document.body.style.overflow = '';
+
+                const accion = pendingAction;
+                pendingAction = null;
+
+                if (accion) {
+                    await accion();
+                }
+
+            } catch (e) {
+                pantallaCarga.style.display = 'none';
+                input.disabled = false;
+
+                alert(
+                    "No se pudo conectar con el servidor. " +
+                    "Comprueba tu conexión e inténtalo nuevamente."
+                );
             }
-
-            if (!res.ok || !data.token) {
-                throw new Error(data.error || "Error de conexión.");
-            }
-
-            adminToken = data.token;
         }
 
-        pantallaCarga.style.display = 'none';
-        input.disabled = false;
-
-        document.getElementById('modal-password').classList.add('hidden');
-        document.documentElement.style.overflow = '';
-document.body.style.overflow = '';
-
-        const accion = pendingAction;
-        pendingAction = null;
-
-        if (accion) {
-            await accion();
-        }
-
-    } catch (e) {
-
-        pantallaCarga.style.display = 'none';
-        input.disabled = false;
-
-        alert(
-            "No se pudo conectar con el servidor. " +
-            "Comprueba tu conexión e inténtalo nuevamente."
-        );
-    }
-}
         function intentarCambiarEstado(event) {
             event.preventDefault(); 
             const checkbox = document.getElementById('main-server-switch');
@@ -903,10 +826,10 @@ document.body.style.overflow = '';
 
                     if (data.active) {
                         labelTexto.innerText = "ENCENDIDO 🟢";
-                        labelTexto.className = "text-[10px] font-bold text-green-400 uppercase tracking-widest animate-pulse";
+                        labelTexto.className = "text-[10px] font-bold text-green-400 uppercase tracking-widest animate-pulse transition-colors duration-300";
                     } else {
                         labelTexto.innerText = "APAGADO 🔴";
-                        labelTexto.className = "text-[10px] font-bold text-red-500 uppercase tracking-widest";
+                        labelTexto.className = "text-[10px] font-bold text-red-500 uppercase tracking-widest transition-colors duration-300";
                     }
                 } else {
                     alert(data.error || "No se pudo cambiar el estado del servidor.");
@@ -918,7 +841,6 @@ document.body.style.overflow = '';
             }
         }
 
-        // EFECTOS VISUALES Y BOTONES
         function efectoCalabazaVibrar(e) {
             e.stopPropagation();
             const calabaza = document.getElementById('img-calabaza');
@@ -939,7 +861,7 @@ document.body.style.overflow = '';
                     root.classList.remove('modo-invertido');
                     document.body.classList.remove('temblor-pantalla');
                 }
-            }, 250);
+            }, 300);
         }
 
         function actualizarEfectosVisuales(activo, reproducirAnimacion = false) {
@@ -968,13 +890,12 @@ document.body.style.overflow = '';
         function actualizarTodo() {
             verificarEstado();
             verificarEstadoServidorSwitch();
-            verificarEstadoTestSim(); // 👈 AGREGA ESTA LÍNEA AQUÍ
+            verificarEstadoTestSim();
             cargarUsuarios();
             cargarUsuariosActivos();
             cargarLogsPreguntas();
         }
 
-        // COMUNICACIÓN CON EL SERVER
         async function notificarServidorPanel() {
             try {
                 await fetch(`${URL_SERVIDOR}/api/admin/ping`, {
@@ -1002,7 +923,7 @@ document.body.style.overflow = '';
                             else if (u.ubicacion.includes("Test")) badgeColor = "border-yellow-500 text-yellow-400 bg-yellow-950/40";
 
                             contenedor.innerHTML += `
-                                <div class="bg-black border border-neutral-800 p-3 flex justify-between items-center font-terminal text-[10px]">
+                                <div class="bg-black border border-neutral-800 p-3 flex justify-between items-center font-terminal text-[10px] transition-colors duration-300 hover:bg-neutral-900">
                                     <div class="flex items-center gap-2">
                                         <span class="w-2 h-2 bg-green-500 animate-ping rounded-full"></span>
                                         <span class="text-pink-400 font-bold">${u.usuario}</span>
@@ -1037,10 +958,10 @@ document.body.style.overflow = '';
 
                     if (data.active) {
                         labelTexto.innerText = "ENCENDIDO 🟢";
-                        labelTexto.className = "text-[10px] font-bold text-green-400 uppercase tracking-widest animate-pulse";
+                        labelTexto.className = "text-[10px] font-bold text-green-400 uppercase tracking-widest animate-pulse transition-colors duration-300";
                     } else {
                         labelTexto.innerText = "APAGADO 🔴";
-                        labelTexto.className = "text-[10px] font-bold text-red-500 uppercase tracking-widest";
+                        labelTexto.className = "text-[10px] font-bold text-red-500 uppercase tracking-widest transition-colors duration-300";
                     }
                 }
             } catch (e) {
@@ -1053,7 +974,7 @@ document.body.style.overflow = '';
             const caja = document.getElementById('caja-estado');
             let clasesBase = "motor-afectado backdrop-blur-sm " + (caja.classList.contains('filtro-gris') ? 'filtro-gris ' : '');
             
-            caja.className = clasesBase + "bg-black/90 border-2 border-neutral-700 p-3 text-neutral-300 text-xs flex items-center gap-3 flex-1";
+            caja.className = clasesBase + "bg-black/90 border-2 border-neutral-700 p-3 text-neutral-300 text-xs flex items-center gap-3 flex-1 transition-all duration-300";
             caja.innerHTML = `<span class="w-2.5 h-2.5 bg-yellow-500 animate-ping"></span> Comprobando servidor...`;
 
             try {
@@ -1063,18 +984,18 @@ document.body.style.overflow = '';
                 });
 
                 if (res.ok) {
-                    caja.className = clasesBase + "bg-black/90 border-2 border-red-600 p-3 text-red-500 text-xs flex items-center gap-3 flex-1";
+                    caja.className = clasesBase + "bg-black/90 border-2 border-red-600 p-3 text-red-500 text-xs flex items-center gap-3 flex-1 transition-all duration-300";
                     caja.innerHTML = `<span class="w-2.5 h-2.5 bg-red-600"></span> <strong class="text-cyan-400">SISTEMA ONLINE:</strong> <span class="text-green-400">Servidor operando correctamente.</span>`;
                 } else {
                     throw new Error();
                 }
             } catch (e) {
-                caja.className = clasesBase + "bg-black/90 border-2 border-neutral-800 p-3 text-neutral-500 text-xs flex items-center gap-3 flex-1";
+                caja.className = clasesBase + "bg-black/90 border-2 border-neutral-800 p-3 text-neutral-500 text-xs flex items-center gap-3 flex-1 transition-all duration-300";
                 caja.innerHTML = `<span class="w-2.5 h-2.5 bg-neutral-600"></span> <strong>SISTEMA OFFLINE:</strong> Esperando respuesta del servidor...`;
             }
         }
 
-                function escapeHTML(texto) {
+        function escapeHTML(texto) {
             return String(texto)
                 .replace(/&/g, '&amp;')
                 .replace(/</g, '&lt;')
@@ -1083,7 +1004,7 @@ document.body.style.overflow = '';
                 .replace(/'/g, '&#039;');
         }
 
-             async function cargarLogsPreguntas() {
+        async function cargarLogsPreguntas() {
             if (!adminToken) return;
 
             const contenedor = document.getElementById('contenedor-logs');
@@ -1119,62 +1040,25 @@ document.body.style.overflow = '';
 
                     let textoResaltado = escapeHTML(texto);
 
-                    // RESALTADO DE INFORMACIÓN IMPORTANTE
                     textoResaltado = textoResaltado
-                        .replace(
-                            /(Pregunta recibida|PREGUNTA RECIBIDA|Pregunta|PREGUNTA)/gi,
-                            '<span class="text-pink-400 font-bold">$1</span>'
-                        )
-                        .replace(
-                            /(CONSENSO|consenso)/g,
-                            '<span class="text-green-400 font-bold">$1</span>'
-                        )
-                        .replace(
-                            /(RESPUESTA FINAL|Respuesta final|respuesta final)/gi,
-                            '<span class="text-yellow-400 font-bold">$1</span>'
-                        )
-                        .replace(
-                            /(OPENAI|OpenAI)/g,
-                            '<span class="text-cyan-400 font-bold">$1</span>'
-                        )
-                        .replace(
-                            /(GEMINI|Gemini)/g,
-                            '<span class="text-blue-400 font-bold">$1</span>'
-                        )
-                        .replace(
-                            /(GROQ|Groq)/g,
-                            '<span class="text-purple-400 font-bold">$1</span>'
-                        )
-                        .replace(
-                            /(ERROR|Error|error)/g,
-                            '<span class="text-red-500 font-bold">$1</span>'
-                        )
-                        .replace(
-                            /(429)/g,
-                            '<span class="text-orange-400 font-bold">$1</span>'
-                        );
+                        .replace(/(Pregunta recibida|PREGUNTA RECIBIDA|Pregunta|PREGUNTA)/gi, '<span class="text-pink-400 font-bold">$1</span>')
+                        .replace(/(CONSENSO|consenso)/g, '<span class="text-green-400 font-bold">$1</span>')
+                        .replace(/(RESPUESTA FINAL|Respuesta final|respuesta final)/gi, '<span class="text-yellow-400 font-bold">$1</span>')
+                        .replace(/(OPENAI|OpenAI)/g, '<span class="text-cyan-400 font-bold">$1</span>')
+                        .replace(/(GEMINI|Gemini)/g, '<span class="text-blue-400 font-bold">$1</span>')
+                        .replace(/(GROQ|Groq)/g, '<span class="text-purple-400 font-bold">$1</span>')
+                        .replace(/(ERROR|Error|error)/g, '<span class="text-red-500 font-bold">$1</span>')
+                        .replace(/(429)/g, '<span class="text-orange-400 font-bold">$1</span>');
 
                     let colorFecha = 'text-neutral-600';
-
-                    if (log.tipo === 'ERROR') {
-                        colorFecha = 'text-red-500';
-                    } else if (log.tipo === 'WARN') {
-                        colorFecha = 'text-yellow-400';
-                    }
+                    if (log.tipo === 'ERROR') colorFecha = 'text-red-500';
+                    else if (log.tipo === 'WARN') colorFecha = 'text-yellow-400';
 
                     htmlLogs += `
-                        <div class="font-terminal text-[10px] leading-relaxed py-0.5 border-b border-neutral-950">
-
-                            <span class="${colorFecha}">
-                                [${escapeHTML(log.fecha || '')}]
-                            </span>
-
+                        <div class="font-terminal text-[10px] leading-relaxed py-1 border-b border-neutral-950">
+                            <span class="${colorFecha}">[${escapeHTML(log.fecha || '')}]</span>
                             <span class="text-neutral-700 mx-1">|</span>
-
-                            <span class="${log.tipo === 'ERROR' ? 'text-red-500' : log.tipo === 'WARN' ? 'text-yellow-400' : 'text-neutral-300'}">
-                                ${textoResaltado}
-                            </span>
-
+                            <span class="${log.tipo === 'ERROR' ? 'text-red-500' : log.tipo === 'WARN' ? 'text-yellow-400' : 'text-neutral-300'}">${textoResaltado}</span>
                         </div>
                     `;
                 });
@@ -1182,7 +1066,6 @@ document.body.style.overflow = '';
                 contenedor.innerHTML = htmlLogs;
 
             } catch (e) {
-
                 contenedor.innerHTML = `
                     <div class="text-red-500 font-terminal text-[10px]">
                         &gt; ERROR: no se pudieron obtener los logs del servidor.
@@ -1192,6 +1075,7 @@ document.body.style.overflow = '';
                 `;
             }
         }
+
         async function cargarUsuarios() {
             if (!adminToken) return;
             try {
@@ -1223,27 +1107,27 @@ document.body.style.overflow = '';
 
             usuarios.forEach(u => {
                 tabla.innerHTML += `
-                    <tr class="hover:bg-neutral-900 transition relative">
+                    <tr class="hover:bg-neutral-900 transition-colors duration-200 relative">
                         <td class="py-4 px-2 font-terminal text-xs tracking-wider text-pink-400">${u.id}</td>
                         <td class="py-4 px-2">
-                            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-terminal tracking-wider ${u.activo ? 'text-red-500 bg-red-950 border border-red-800' : 'text-neutral-500 bg-black border border-neutral-800'}">
+                            <span class="inline-flex items-center gap-1.5 px-2 py-0.5 text-[10px] font-terminal tracking-wider ${u.activo ? 'text-red-500 bg-red-950 border border-red-800' : 'text-neutral-500 bg-black border border-neutral-800'} transition-colors duration-300">
                                 <span class="w-1.5 h-1.5 ${u.activo ? 'bg-red-600 animate-pulse' : 'bg-neutral-600'}"></span>
                                 ${u.activo ? 'ACTIVO (🩸)' : 'INACTIVO'}
                             </span>
                         </td>
                         <td class="py-4 px-2 text-right relative">
                             <div class="flex items-center justify-end gap-2">
-                                <button onclick="toggleUsuario('${u.id}')" class="px-3 py-1 text-[10px] font-terminal tracking-wider ${u.activo ? 'text-neutral-300 bg-black hover:bg-red-600 hover:text-black border border-neutral-700' : 'text-red-500 bg-red-950 hover:bg-red-600 hover:text-black border border-red-800'} transition uppercase cursor-pointer">
+                                <button onclick="toggleUsuario('${u.id}')" class="px-3 py-1 text-[10px] font-terminal tracking-wider ${u.activo ? 'text-neutral-300 bg-black hover:bg-red-600 hover:text-black border border-neutral-700' : 'text-red-500 bg-red-950 hover:bg-red-600 hover:text-black border border-red-800'} transition-all duration-300 uppercase cursor-pointer">
                                     ${u.activo ? 'Desactivar' : 'Activar'}
                                 </button>
                                 
                                 <div class="relative inline-block text-left">
-                                    <button onclick="toggleMenuPuntitos(event, '${u.id}')" class="p-1.5 text-neutral-400 hover:text-red-500 bg-neutral-900 hover:bg-black border border-neutral-700 font-bold cursor-pointer text-xs">
+                                    <button onclick="toggleMenuPuntitos(event, '${u.id}')" class="p-1.5 text-neutral-400 hover:text-red-500 bg-neutral-900 hover:bg-black border border-neutral-700 font-bold cursor-pointer text-xs transition-colors duration-200">
                                         ⋮
                                     </button>
                                     
                                     <div id="menu-${u.id}" class="hidden absolute right-0 mt-1 w-32 bg-black border-2 border-red-600 shadow-[4px_4px_0px_0px_#dc2626] z-30 text-left">
-                                        <button onclick="eliminarUsuario('${u.id}')" class="w-full text-left px-3 py-2 text-[10px] text-red-500 hover:bg-red-950 hover:text-red-300 font-terminal transition flex items-center gap-1.5 cursor-pointer">
+                                        <button onclick="eliminarUsuario('${u.id}')" class="w-full text-left px-3 py-2 text-[10px] text-red-500 hover:bg-red-950 hover:text-red-300 font-terminal transition-colors duration-200 flex items-center gap-1.5 cursor-pointer">
                                             <span>🗑️</span> Eliminar
                                         </button>
                                     </div>
@@ -1344,73 +1228,69 @@ document.body.style.overflow = '';
             }
         }
 
-// ==========================================
-// CONTROL INDEPENDIENTE: TEST SIMULATION
-// ==========================================
+        async function verificarEstadoTestSim() {
+            try {
+                const res = await fetch(`${URL_SERVIDOR}/api/test-sim-status?t=${Date.now()}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    console.log("--> [PANEL] Estado leído de Supabase (Test Sim):", data.active);
+                    const checkbox = document.getElementById('test-simulation-switch');
+                    if (checkbox) checkbox.checked = data.active;
+                    actualizarLabelTestSim(data.active);
+                }
+            } catch (e) {
+                console.error("Error al obtener estado de Test Simulation:", e);
+            }
+        }
 
-async function verificarEstadoTestSim() {
-    try {
-        const res = await fetch(`${URL_SERVIDOR}/api/test-sim-status?t=${Date.now()}`);
-        if (res.ok) {
-            const data = await res.json();
-            console.log("--> [PANEL] Estado leído de Supabase (Test Sim):", data.active);
+        async function intentarCambiarTestSim(event) {
             const checkbox = document.getElementById('test-simulation-switch');
-            if (checkbox) checkbox.checked = data.active;
-            actualizarLabelTestSim(data.active);
+            const nuevoEstadoDeseado = checkbox.checked;
+
+            const labelTexto = document.getElementById('label-test-texto');
+            if (labelTexto) {
+                labelTexto.innerText = "GUARDANDO...";
+                labelTexto.className = "text-[10px] font-bold text-yellow-400 uppercase tracking-widest animate-pulse transition-colors duration-300";
+            }
+
+            try {
+                const res = await fetch(`${URL_SERVIDOR}/api/admin/toggle-test-sim`, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${adminToken}`
+                    },
+                    body: JSON.stringify({ active: nuevoEstadoDeseado })
+                });
+
+                const data = await res.json();
+
+                if (res.ok && data.success) {
+                    checkbox.checked = data.active;
+                    actualizarLabelTestSim(data.active);
+                    console.log("--> [PANEL] Estado actualizado con éxito a:", data.active);
+                } else {
+                    alert("No se pudo actualizar el estado del simulador.");
+                    verificarEstadoTestSim();
+                }
+            } catch (e) {
+                console.error("Error de conexión:", e);
+                alert("Error de conexión con el servidor.");
+                verificarEstadoTestSim();
+            }
         }
-    } catch (e) {
-        console.error("Error al obtener estado de Test Simulation:", e);
-    }
-}
-
-async function intentarCambiarTestSim(event) {
-    const checkbox = document.getElementById('test-simulation-switch');
-    const nuevoEstadoDeseado = checkbox.checked;
-
-    const labelTexto = document.getElementById('label-test-texto');
-    if (labelTexto) {
-        labelTexto.innerText = "GUARDANDO...";
-        labelTexto.className = "text-[10px] font-bold text-yellow-400 uppercase tracking-widest animate-pulse";
-    }
-
-    try {
-        const res = await fetch(`${URL_SERVIDOR}/api/admin/toggle-test-sim`, {
-            method: 'POST',
-            headers: { 
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${adminToken}`
-            },
-            body: JSON.stringify({ active: nuevoEstadoDeseado })
-        });
-
-        const data = await res.json();
-
-        if (res.ok && data.success) {
-            checkbox.checked = data.active;
-            actualizarLabelTestSim(data.active);
-            console.log("--> [PANEL] Estado actualizado con éxito a:", data.active);
-        } else {
-            alert("No se pudo actualizar el estado del simulador.");
-            verificarEstadoTestSim();
+                
+        function actualizarLabelTestSim(activo) {
+            const labelTexto = document.getElementById('label-test-texto');
+            if (!labelTexto) return;
+            if (activo) {
+                labelTexto.innerText = "ENCENDIDO 🟢";
+                labelTexto.className = "text-[10px] font-bold text-green-400 uppercase tracking-widest animate-pulse transition-colors duration-300";
+            } else {
+                labelTexto.innerText = "APAGADO 🔴";
+                labelTexto.className = "text-[10px] font-bold text-red-500 uppercase tracking-widest transition-colors duration-300";
+            }
         }
-    } catch (e) {
-        console.error("Error de conexión:", e);
-        alert("Error de conexión con el servidor.");
-        verificarEstadoTestSim();
-    }
-}
-        
-function actualizarLabelTestSim(activo) {
-    const labelTexto = document.getElementById('label-test-texto');
-    if (!labelTexto) return;
-    if (activo) {
-        labelTexto.innerText = "ENCENDIDO 🟢";
-        labelTexto.className = "text-[10px] font-bold text-green-400 uppercase tracking-widest animate-pulse";
-    } else {
-        labelTexto.innerText = "APAGADO 🔴";
-        labelTexto.className = "text-[10px] font-bold text-red-500 uppercase tracking-widest";
-    }
-}
     </script>
 </body>
 </html>
