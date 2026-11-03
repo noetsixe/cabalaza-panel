@@ -527,8 +527,10 @@ async function cargarExamenes() {
 
                 <div class="flex-1">
                     <div class="mb-1">
-                        <input type="text" id="nombre-${id}" value="${escapeHtml(data.nombre)}" class="input-med" placeholder="Nombre del examen" onchange="guardarTitulo('${id}', this.value, 'nombre')">
-                    </div>
+                        <input type="text" id="nombre-${id}" value="${escapeHtml(data.nombre)}" class="input-med" placeholder="Nombre del examen" 
+    onblur="guardarTitulo('${id}', this.value, 'nombre')" 
+    onkeypress="if(event.key === 'Enter') this.blur()">
+    </div>
                     <div>
                         <input type="text" id="materia-${id}" value="${escapeHtml(data.materia)}" class="input-med-sub" placeholder="Especialidad" onchange="guardarTitulo('${id}', this.value, 'materia')">
                     </div>
@@ -570,13 +572,25 @@ async function guardarTitulo(grupoId, nuevoTexto, tipo) {
             ? `${URL_SERVIDOR}/rest/v1/examenes?grupo_id=eq.${grupoId}` 
             : `${URL_SERVIDOR}/api/admin/examenes/${grupoId}`;
 
-        await fetch(endpoint, {
+        console.log("--> Enviando petición a:", endpoint); // 👈 VER EN CONSOLA
+
+        const res = await fetch(endpoint, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(body)
-        }).catch(() => {});
+        });
+
+        if (!res.ok) {
+            const errorTexto = await res.text();
+            console.error("--> ERROR DEL SERVIDOR:", errorTexto); // 👈 VER EN CONSOLA
+            alert("El servidor rechazó el cambio: " + errorTexto);
+        } else {
+            console.log("--> Guardado exitoso");
+        }
+
     } catch (e) { 
-        console.error("Error al actualizar título:", e); 
+        console.error("Error de red al guardar título:", e); 
+        alert("No se pudo conectar con el servidor.");
     }
 }
 
