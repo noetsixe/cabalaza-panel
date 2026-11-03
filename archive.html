@@ -437,7 +437,8 @@ function volverAlPanel() {
 async function cargarExamenes() {
     const cont = document.getElementById('vista-examenes');
     try {
-        const endpoint = USE_SUPABASE_REST ? `${URL_SERVIDOR}/rest/v1/examenes?select=*` : `${URL_SERVIDOR}/api/admin/examenes`;
+        const timestamp = Date.now();
+const endpoint = USE_SUPABASE_REST ? `${URL_SERVIDOR}/rest/v1/examenes?select=*&t=${timestamp}` : `${URL_SERVIDOR}/api/admin/examenes?t=${timestamp}`;
         
         let preguntas = [];
         try {
